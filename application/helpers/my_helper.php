@@ -145,10 +145,10 @@ function islogin(){
 }
 
 function userid2(){
-    return $_SESSION['userids'];
+    return @$_SESSION['userids'];
 }
 function userrole(){
-    return $_SESSION['u_type'];
+    return @$_SESSION['u_type'];
 }
 function isprologin(){
     return isset($_SESSION['userids']) && $_SESSION['userids'] > 0;

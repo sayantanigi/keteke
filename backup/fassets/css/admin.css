@@ -1,0 +1,25 @@
+.form-body{
+  color: black;
+  background: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%); 
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 0px 6px !important;
+  padding: 5rem 3rem;
+  max-width: 300px;
+  width: 100%;
+  text-align: left;
+}
+.form-head{
+    margin:0.5rem;
+}
+.form-input-all{
+    width:80%;
+    margin:0.5rem;
+}
+.form-input-submit{
+    margin:0.5rem;
+}

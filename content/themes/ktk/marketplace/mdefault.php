@@ -28,11 +28,7 @@
 
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-      <link
-
-         rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
-
-         />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
 
       <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
 
@@ -169,7 +165,7 @@
                        <?php
 
                            $cartItems = $this->cart->contents();
-
+                           
                           if($cartItems){
 
                           $total  = count($cartItems);
@@ -200,7 +196,7 @@
 
                              ?>
 
-                 <li class="black"><a href="<?=site_url('shop')?>"> Home </a></li>
+                 <li class="black"><a href="<?= site_url('userdashboard')?>"> Home </a></li>
 
                   <!-- <li class="black"><a href="<?=site_url('shop')?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Marketplace </a></li> -->
 
@@ -220,7 +216,7 @@
 
                 <?php } elseif($userrl==3) { ?>
 
-                 <li class="black"> <a href="<?=site_url('shop')?>">Home </a></li>
+                 <li class="black"> <a href="<?=site_url('userdashboard')?>">Home  </a></li>
                  <li class="black"><a href="<?=site_url('list-your-business')?>"> List your business</a></li>
 
                <li class="black"><a href="<?=site_url('seller-dashboard')?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Sell My Product </a></li> 
@@ -241,7 +237,7 @@
 
                  <?php } elseif($userrl==4) { ?>
 
-                 <li class="black"><a href="<?=site_url('shop')?>"> Home </a></li>
+                 <li class="black"><a href="<?=site_url('userdashboard')?>"> Home  </a></li>
 
                   <!-- <li class="black"><a href="<?=site_url('shop')?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Marketplace </a></li> -->
 
@@ -261,7 +257,7 @@
 
                  <li class="black"><a href="<?=site_url('shop')?>"> Home </a></li>
 
-                  <li class="black"><a href="<?=site_url('login')?>"> Login/Signup </a></li>
+                  <li class="black"><a href="<?=site_url('login')?>"> Sell My Product </a></li>
 
                   <!-- <li class="black"><a href="<?=site_url('shop')?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Marketplace </a></li> -->
 
@@ -270,7 +266,7 @@
                 
 
                 <?php } ?>
-
+Login/Signup
                              
 
                           </ul>

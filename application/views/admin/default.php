@@ -344,7 +344,7 @@
                 </div>
 
     <footer class="main-footer">
-    <strong>Copyright &copy; 2020 <a href="https://keteke.net">keteke.net</a>.</strong>
+    <strong>Copyright &copy; <?= date('Y')?> <a href="https://keteke.net">keteke.net</a>.</strong>
     All rights reserved.
   </footer>
 

@@ -9,13 +9,13 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="<?= admin_url('products/editproduct/'.$product->productId) ?>" method="post" enctype="multipart/form-data">
+              <form action="<?= admin_url('products/editproduct/'.@$product->productId) ?>" method="post" enctype="multipart/form-data">
                 <div class="card-body">
           <div class="form-row row">
             <div class="col-lg-6 col-12">
               <div class="form-group">
                  <label>Select Category</label>
-                  <select class="form-control" name="frm[category]">
+                  <select class="form-control" name="frm[category]" required>
                    <option value="">Select</option>
                    <?php if(is_array($mcategoty) && count($mcategoty)>0){
                      foreach ($mcategoty as $mcat) {
@@ -29,17 +29,17 @@
              <div class="col-lg-6 col-12">
                <div class="form-group">
             <label>Product Name</label>
-            <input placeholder="Product Name" value="<?=$product->productName?>" class="form-control" name="frm[productName]" type="text">
+            <input placeholder="Product Name" value="<?=$product->productName?>" class="form-control" name="frm[productName]" type="text" required>
           </div>
           </div>
           </div>
           <div class="form-row row">
-            <div class="col-lg-6 col-12">
+            <!-- <div class="col-lg-6 col-12">
               <div class="form-group">
                 <label>Product Code</label>
                   <input class="form-control" placeholder="Product Code" name="frm[prcode]" value="<?=$product->prcode?>" type="text">
               </div>
-            </div>
+            </div> -->
              <div class="col-lg-6 col-12">
               <div class="form-group">
                 <label>Product Type</label>
@@ -57,7 +57,7 @@
              <div class="col-lg-6 col-12">
               <div class="form-group">
                 <label>Regular Price</label>
-                <input class="form-control" placeholder="Regular Price" name="frm[maxPrice]" value="<?=$product->maxPrice?>" id="maxPrice" type="number">
+                <input class="form-control" placeholder="Regular Price" name="frm[maxPrice]" value="<?=$product->maxPrice?>" id="maxPrice" type="number" required>
               </div>
             </div>
           </div>
@@ -72,7 +72,7 @@
              <div class="col-lg-6 col-12">
               <div class="form-group">
                 <label>Offered Price</label>
-                <input class="form-control" placeholder="Offred Price" name="frm[offprice]" value="<?=$product->offprice?>" id="offedprice" type="number" readonly> 
+                <input class="form-control" placeholder="Offred Price" name="frm[offprice]" value="<?=$product->offprice?>" id="offedprice" type="number" readonly required> 
               </div>
             </div>
           </div>
@@ -97,12 +97,12 @@
               <input class="form-control" placeholder="Collections" value="<?=$product->collections?>" name="frm[collections]" type="text"  >
               </div>
             </div>
-             <div class="col-lg-6 col-12">
+             <!-- <div class="col-lg-6 col-12">
               <div class="form-group">
                 <label>SKU</label>
                 <input class="form-control" placeholder="SKU" name="frm[sku]" value="<?=$product->sku?>" type="text" > 
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="form-row row">
              <div class="col-lg-6 col-12">
@@ -133,12 +133,12 @@
             </div>
           </div>
           <div class="form-row row">
-             <div class="col-lg-6 col-12">
+            <!--  <div class="col-lg-6 col-12">
               <div class="form-group">
                 <label>Variants</label>
                 <input  class="form-control" placeholder="Enter Variants using TAB" name="frm[variants]" type="text" value="<?=$product->variants?>"  data-role="tagsinput">
               </div>
-            </div>
+            </div> -->
              <div class="col-lg-6 col-12">
               <div class="form-group">
                <label>SEO Title</label>
@@ -164,7 +164,7 @@
              <div class="col-lg-12 col-12">
               <div class="form-group">
                 <label>Upload Product Images</label><br>
-                  <input type="file" name="files[]" multiple><br/>
+                  <input type="file" name="files[]" class="form-control" multiple><br/>
                   <?php foreach ($mindprdctimg as $mprdimg) { ?> 
                     <div class="boxuploadImg">
                       <img src="<?= site_url('assets/images/products/'.$mprdimg->productImage)?>" class="img-responsive">

@@ -21,7 +21,7 @@ class Setting_model extends Master_model{
             return $d;
         }else{
             $m['option_name'] = $option_name;
-            $m['option_value'] = $this -> _global[$option_name];
+            $m['option_value'] =  $data['option_value'] = isset($this-> _global[$option_name]) ? $this-> _global[$option_name] : null;
             return $m;
         }
     }

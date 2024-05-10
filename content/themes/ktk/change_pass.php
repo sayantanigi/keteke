@@ -107,7 +107,14 @@
             </div> 						
             <br>
             <input type="submit" value="Change">
-            <input type="submit" onclick="goBack()" value="Cancel">
+            <a href="<?=site_url('change-password')?>" style="background: red;
+  color: white !important;
+  outline: none;
+  padding: 2% 8%;
+  width: auto;
+  border: none;
+  border-radius: 50px;">Cancel</a>
+            <!-- <input type="submit" onclick="goBack()" value="Cancel"> -->
           </form>
         </div>
       </div>

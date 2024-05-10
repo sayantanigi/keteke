@@ -65,7 +65,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix">
-              <?=$paginate?>
+              <?=@$paginate?>
             </div>
           </div>
         </div>

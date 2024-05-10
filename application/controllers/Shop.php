@@ -452,6 +452,7 @@ function addtocart(){
         
         if($this->cart->insert($data))
         {
+          
             redirect(site_url("shop/pr_cart"));
         }
     } 
@@ -461,6 +462,7 @@ public function pr_cart() {
     $this->data['title'] = 'Keteke | Marketplace';
     $this->data['load'] = 'marketplace/pr_cart';
     $this->data['cartItems'] = $this->cart->contents();
+
     $this->load->front_view('marketplace/mdefault', $this->data);
 }
 public function removeItem($rowid=false)
@@ -534,6 +536,7 @@ public function check_coupon_ajax()
     $amt = $this->input->post('amt');
     
     $check=$this->db->query("SELECT * FROM `coupon_details` WHERE coupon_code='".$cpn."' AND CURDATE() between created_date and expiry_date AND coupon_status=1");
+   
     $count=$check->num_rows();
     $rowdetl=$check->row();
     $couamnt=@$rowdetl->coupon_amount;

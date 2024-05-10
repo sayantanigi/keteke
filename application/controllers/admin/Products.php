@@ -49,7 +49,10 @@ public function add()
         $frm['slug'] = $this->Cms_model->get_unique_url($slug, $id);
         $res = $this->db->insert('products',$frm);
 
-        $productId = $this->db->insert_id();
+         $productId = $this->db->insert_id();
+         $frm['prcode'] ='promocode'.rand(1111,9999).$productId;
+         $frm['sku'] ='sku'.rand(1111,9999).$productId;
+        $this->db->update('products',$frm,array('productId'=>$productId));
         if(!empty($_FILES['files']['name']) && count(array_filter($_FILES['files']['name'])) > 0){ 
             $filesCount = count($_FILES['files']['name']); 
             for($i = 0; $i < $filesCount; $i++){ 
@@ -118,7 +121,6 @@ public function editproduct($prodId=false) {
         $frm['slug'] = $this->Cms_model->get_unique_url($slug, $prodId);
        
         $res = $this->db->update('products',$frm,array('productId'=>$prodId));
-           echo $this->db->last_query();die;
 
         if(!empty($_FILES['files']['name']) && count(array_filter($_FILES['files']['name'])) > 0){ 
             $filesCount = count($_FILES['files']['name']); 
@@ -145,13 +147,13 @@ public function editproduct($prodId=false) {
             $insert = $this->db->insert_batch('product_images',$uploadData); 
         }
         if(!empty($res) || !empty($insert)){ 
-             echo "jii"; exit;
+            
           $this->session->set_flashdata('success', 'Product details updated successfully!');
           redirect(admin_url('products'));
       }
   
       else{
-        echo "hello"; exit;
+      
        $this->session->set_flashdata('error', 'Some error has occured');
        redirect(admin_url('products/editproduct/'.$prodId));
    }
