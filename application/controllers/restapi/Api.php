@@ -1,6 +1,5 @@
 <?php
-if (!defined('BASEPATH'))
-	exit('No direct script access allowed');
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
 class Api extends REST_Controller
 {
@@ -162,134 +161,61 @@ class Api extends REST_Controller
 		$this->form_validation->set_rules('email', 'email', 'trim|required');
 		if ($this->form_validation->run() === false) {
 			if (form_error('email')) {
-				$this->response([
-					'status' => "0",
-					'error' => strip_tags(form_error('email'))
-				], 400);
+				$this->response(['status' => "error", 'result' => strip_tags(form_error('email'))], 400);
 			}
 		} else {
 			$where = "user_emailid = '" . $userData['email'] . "'";
 			if (!$this->Apimodel->get_cond('user_accounts', $where)) {
-				$this->response([
-					'status' => "0",
-					'error' => "Invalid Email"
-				], 400);
+				$this->response(['status' => "error",'result' => "Invalid Email"], 400);
 			} else {
+				$frmemail=theme_option('email');
 				$user = $this->Apimodel->get_cond('user_accounts', $where);
 				$rand = rand(111111, 999999);
-				$subject = 'Your Password has been reset by Keteke';
-				$imagePath = base_url('fassets/images/logos/headertransparentlogo.png');
-				$message = "
-                <table width='100%' border='0' align='center' cellpadding='0' cellspacing='0'>
-                <tbody>
-                <tr>
-                <td align='center'>
-                <table class='col-600' width='600' border='0' align='center' cellpadding='0' cellspacing='0' style='margin-left:20px; margin-right:20px; border-left: 1px solid #dbd9d9; border-right: 1px solid #dbd9d9; border-top:2px solid #232323'>
-                <tbody>
-                <tr>
-                <td height='35'></td>
-                </tr>
-                <tr>
-                <td align='left' style='padding:5px 10px;font-family: Raleway, sans-serif; font-size:16px; font-weight: bold; color:#2a3a4b;'><img src='" . $imagePath . "'/></td>
-                </tr>
-                <tr>
-                <td height='35'></td>
-                </tr>
-                <tr>
-                <td align='left' style='padding:5px 10px;font-family: Raleway, sans-serif; font-size:16px; font-weight: bold; color:#2a3a4b;'>Hello " . $user->user_fname . "&nbsp;" . $user->user_lname . ",</td>
-                </tr>
-                <tr>
-                <td height='10'></td>
-                </tr>
-                <tr>
-                <td align='left' style='padding:5px 10px;font-family: Lato, sans-serif; font-size:16px; color:#444; line-height:24px; font-weight: 400;'>
-                We have successfully generated a new password upon your request.
-                </td>
-                </tr>
-                </tbody>
-                </table>
-                </td>
-                </tr>
-                <tr>
-                <td align='center'>
-                <table class='col-600' width='600' border='0' align='center' cellpadding='0' cellspacing='0' style='margin-left:20px; margin-right:20px; border-left: 1px solid #dbd9d9; border-right: 1px solid #dbd9d9; border-bottom:2px solid #232323'>
-                <tbody>
-                <tr>
-                <td height='10'></td>
-                </tr>
-                <tr>
-                <td align='left' style='padding:5px 10px;font-family: Lato, sans-serif; font-size:16px; color:#444; line-height:24px; font-weight: 400;'>
-                Your new generated password is: <strong style='font-weight:bold;'>" . $rand . "</strong>
-                </td>
-                </tr>
-                <tr>
-                <td height='10'></td>
-                </tr>
-                <tr>
-                <td height='10'></td>
-                </tr>
-                <tr>
-                <td align='left' style='padding:5px 10px;font-family: Lato, sans-serif; font-size:16px; color:#444; line-height:24px; font-weight: bold;'>
-                Email: " . $user->user_emailid . "<br/>
-                </td>
-                </tr>
-                <tr>
-                <td height='30'></td>
-                </tr>
-                <tr>
-                <td align='left' style='padding:0 10px;font-family: Lato, sans-serif; font-size:16px; color:#232323; line-height:24px; font-weight: 700;'>
-                Thank you!
-                </td>
-                </tr>
-                <tr>
-                <td align='left' style='padding:0 10px;font-family: Lato, sans-serif; font-size:14px; color:#232323; line-height:24px; font-weight: 700;'>
-                Sincerely
-                </td>
-                </tr>
-                <tr>
-                <td align='left' style='padding:0 10px;font-family: Lato, sans-serif; font-size:14px; color:#232323; line-height:24px; font-weight: 700;'>
-                Team Keteke
-                </td>
-                </tr>
-                </tbody>
-                </table>
-                </td>
-                </tr>
-                </tbody>
-                </table>";
-				$config = array(
-					'protocol' => 'ssmtp',
-					'smtp_host' => 'mail.mentorpark.com',
-					'smtp_port' => 587,
-					'smtp_user' => 'no-reply@mentorpark.com',
-					'smtp_pass' => 'b(#x8Cn;PEWu',
-					'smtp_crypto' => 'security',
-					'mailtype' => 'html',
-					'smtp_timeout' => '4',
-					'charset' => 'iso-8859-1',
-					'wordwrap' => TRUE
-				);
-				$this->email->initialize($config);
-				$this->email->from('no-reply@mentorpark.com', 'Keteke');
-				$this->email->to($userData['email']);
-				$this->email->subject($subject);
-				$this->email->message($message);
-				if ($this->email->send()) {
+				$subject = 'Forgot password recovery';
+				$headers = "From: KETEKE <".$frmemail.">\r\n"; 
+		        //$headers .= "Reply-To: ".strip_tags($frmemail) . "\r\n"; 
+		        $headers .= "MIME-Version: 1.0\r\n";
+		        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+				//$imagePath = base_url('fassets/images/logos/headertransparentlogo.png');
+				$message = "<table align='center' style='width:650px; text-align:center; background:#F9F9F9;'>
+		        <tbody>
+		        <tr style='height:50px;background-color:#f2f2f2;'><td valign='middle' style='color:white;'><img src='" . site_url(). "fassets/images/logos/headertransparentlogo.png' alt='KETEKE' title='Keteke'  style='width:210px;height:auto' /></td></tr>
+		        <tr>
+		        <td valign='top' align='center' colspan='2'>
+		        <table align='' style='height:380px; color:#000; width:600px;'>
+		        <tbody>
+		        <td valign='top' align='' colspan='2'>
+		        <table align='' style='color:#000; width:600px;'>
+		        <tbody>
+		        <br>
+		        <p>Dear ".$user->user_fname.", <br>
+		        <p>You are requesting for forgot password.<br><br>
+		        Please click below link to update your password:<br><br>
+		        <a href=".base_url('update-forgot-password/'.$user->user_id)." target='blank'><b>click here</b></a><br><br>
+		        Thank You,<br><br>
+		        Keteke Team </p><br>
+		        </tbody>
+		        </table>     
+		        <strong>Email: </strong>".$frmemail."<br><br>
+		        This is an automated response, please <b>DO NOT</b> reply.
+		        </td>
+		        </tr>
+		        </tbody>
+		        </table>
+		        </td>
+		        </tr>
+		        </tbody>
+		        </table>";
+				if (mail($userData['email'], $subject, $message, $headers)) {
 					$data = array(
 						'user_pasword' => base64_encode($rand),
 					);
 					$update = $this->Apimodel->update_cond('user_accounts', "user_id='" . @$user->user_id . "'", $data);
 					if ($update) {
-						$this->response([
-							'status' => "1",
-							'message' => 'Email sent successfully.',
-						], 200);
+						$this->response(['status' => "success", 'result' => 'Email sent successfully.', 'Link' => base_url('update-forgot-password/'.$user->user_id)], 200);
 					}
 				} else {
-					$this->response([
-						'status' => "0",
-						'error' => "Some problems occurred, please try again."
-					], 400);
+					$this->response(['status' => "error",'result' => "Some problems occurred, please try again."], 400);
 				}
 			}
 		}
@@ -464,6 +390,7 @@ class Api extends REST_Controller
 				$review = $this->db->query("SELECT * FROM product_review WHERE product_id='".$prodetail->productId."'")->result_array();
 				if(!empty($review)) {
 					foreach ($review as $key => $rw) {
+						$reviewList[$key]['id'] = $rw['id'];
 						$reviewList[$key]['name'] = $rw['name'];
 						$reviewList[$key]['subject'] = $rw['subject'];
 						$reviewList[$key]['message'] = $rw['message'];

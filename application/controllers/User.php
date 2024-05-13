@@ -398,7 +398,7 @@ public function up_pass($id)
         $up_pass = $this->db->update('user_accounts',$passch,array('user_id'=>$user_id));
         if($up_pass) {
            $this->session->set_flashdata("success", "Password Updated successfully!");
-           redirect('update-forgot-password/'.$id);
+           redirect('login');
        }else{
            $this->session->set_flashdata("error", "Something went wrong!");
            redirect('update-forgot-password/'.$id);
