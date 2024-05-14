@@ -58,7 +58,40 @@ class Products extends Admin_Controller {
         $data['main'] = admin_view('product/add_brand');
         $this->load->view(admin_view('default'), $data);
     }
-    public function edit_brand($prodId = false) {
+    public function edit_brand($brand_id = false) {
+        if(!empty($this->input->post())) {
+            if (!empty($_FILES['brand_image']['name'])) {
+                $_FILES['file']['name'] = $_FILES['brand_image']['name'];
+                $_FILES['file']['type'] = $_FILES['brand_image']['type'];
+                $_FILES['file']['tmp_name'] = $_FILES['brand_image']['tmp_name'];
+                $_FILES['file']['error'] = $_FILES['brand_image']['error'];
+                $_FILES['file']['size'] = $_FILES['brand_image']['size'];
+                // File upload configuration
+                $uploadPath = './assets/images/products/brand/';
+                $config['upload_path'] = $uploadPath;
+                $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+                if ($this->upload->do_upload('file')) {
+                    $fileData = $this->upload->data();
+                    $uploadData['brand_image'] = $fileData['file_name'];
+                    $uploadData['brand_name'] = $this->input->post('brand_name');
+                    $uploadData['id'] = $brand_id;
+                }
+                $update = $this->db->update('product_brand', $uploadData, array('id' => $brand_id));
+            } else {
+                $uploadData['brand_name'] = $this->input->post('brand_name');
+                $update = $this->db->update('product_brand', $uploadData, array('id' => $brand_id));
+            }
+            if (!empty($uploadData)) {
+                $this->session->set_flashdata('success', 'Product Brand Submitted successfully!');
+                redirect(admin_url('products/brand_list/'));
+            } else {
+                $this->session->set_flashdata('error', 'Some error has occured');
+                redirect(admin_url('products/edit_brand/'.$brand_id));
+            }
+        }
+        $data['getbrand'] = $this->db->get_where('product_brand', array('status' => 1, 'id' => $brand_id))->row();
         $data['title'] = 'Edit Product Brand';
         $data['tab'] = 'brand';
         $data['main'] = admin_view('product/edit_brand');
@@ -77,6 +110,15 @@ class Products extends Admin_Controller {
             $this->session->set_flashdata("success", "Product Brand Activated");
         }
         redirect($redirect);
+    }
+    public function delete_brand($id) {
+        if ($id > 0) {
+            $d['is_delete'] = 2;
+            //$this->db->delete('product_brand', array('id' => $id));
+            $this->db->update('product_brand', $d, array('id' => $id));
+            $this->session->set_flashdata('success', 'Product brand deleted successfully.. ');
+        }
+        redirect(admin_url('products/brand_list'));
     }
     public function add() {
         $this->data['title'] = 'Add a product';

@@ -1197,7 +1197,7 @@ class Api extends REST_Controller
 		try {
 			$formdata = json_decode(file_get_contents('php://input'), true);
 			$user_id = $formdata['user_id'];
-			$getProductDetails = $this->db->query("SELECT products.productId as prod_id, product_images.productImage, products.productName, category.name, add_to_cart.id as cart_id, add_to_cart.mrp, add_to_cart.quantity, add_to_cart.final_price, add_to_cart.discount FROM products JOIN category ON products.category = category.id LEFT JOIN product_images ON product_images.productId = products.productId JOIN add_to_cart ON add_to_cart.product_id = products.productId WHERE add_to_cart.user_id = '" . $user_id . "' GROUP BY products.productId")->result_array();
+			$getProductDetails = $this->db->query("SELECT products.productId as prod_id, product_images.productImage, products.productName, category.name as cat_name, product_brand.brand_name, add_to_cart.id as cart_id, add_to_cart.mrp, add_to_cart.quantity, add_to_cart.final_price, add_to_cart.discount FROM products LEFT JOIN category ON products.category = category.id LEFT JOIN product_images ON product_images.productId = products.productId LEFT JOIN add_to_cart ON add_to_cart.product_id = products.productId LEFT JOIN product_brand ON product_brand.id = products.brand_name WHERE add_to_cart.user_id = '" . $user_id . "' GROUP BY products.productId")->result_array();
 			if (!empty($getProductDetails)) {
 				$getList['cartList'] = array();
 				$saved['total_saved'] = array();
@@ -1211,7 +1211,8 @@ class Api extends REST_Controller
 						$getList['cartList'][$key]['pro_image'] = base_url() . 'uploads/no_image.png';
 					}
 					$getList['cartList'][$key]['pro_name'] = $value['productImage'];
-					$getList['cartList'][$key]['category_name'] = $value['name'];
+					$getList['cartList'][$key]['category_name'] = $value['cat_name'];
+					$getList['cartList'][$key]['brand_name'] = $value['brand_name'];	
 					$getList['cartList'][$key]['quantity'] = $value['quantity'];
 					$getList['cartList'][$key]['final_price'] = sprintf("%0.2f", $value['final_price']);
 					$getList['cartList'][$key]['actual_price'] = sprintf("%0.2f", $value['mrp']);

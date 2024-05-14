@@ -46,8 +46,8 @@
                                     </td>
                                     <td>
                                         <div class="action-button">
-                                            <a href="<?= admin_url('products/editproduct/' . $brandList_v['id']) ?>" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
-                                            <a href="<?= admin_url('products/delete/' . $brandList_v['id']) ?>" class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></a>
+                                            <a href="<?= admin_url('products/edit_brand/' . $brandList_v['id']) ?>" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
+                                            <a href="<?= admin_url('products/delete_brand/' . $brandList_v['id']) ?>" class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>
