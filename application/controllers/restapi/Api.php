@@ -1214,16 +1214,18 @@ class Api extends REST_Controller
 					$getList['cartList'][$key]['category_name'] = $value['name'];
 					$getList['cartList'][$key]['quantity'] = $value['quantity'];
 					$getList['cartList'][$key]['final_price'] = sprintf("%0.2f", $value['final_price']);
-					$saved['total_saved'][$key] = sprintf("%0.2f", ($value['mrp'] - $value['final_price']));
+					$getList['cartList'][$key]['actual_price'] = sprintf("%0.2f", $value['mrp']);
 					$saved['total_amount'][$key] = sprintf("%0.2f", $value['final_price']);
+					$saved['total_saved'][$key] = sprintf("%0.2f", ($value['mrp'] - $value['final_price']));
 				}
 				$ts = sizeof($saved['total_saved']);
 				$ta = sizeof($saved['total_amount']);
 				$total_saved = $this->sum($saved['total_saved'], $ts);
 				$total_amount = $this->sum($saved['total_amount'], $ta);
+				$actual_price = array('actual_price' => sprintf("%0.2f", $total_saved+$total_amount));
 				$total_saved = array('total_saved' => sprintf("%0.2f", $total_saved));
-				$total_amount = array('total_amount' => sprintf("%0.2f", $total_amount));
-				$res = array_merge($getList, $total_saved, $total_amount);
+				$total_amount = array('discounted_amount' => sprintf("%0.2f", $total_amount));
+				$res = array_merge($getList, $actual_price, $total_saved, $total_amount);
 				$response = array('status' => 'success', 'result' => $res);
 			} else {
 				$response = array('status' => 'error', 'result' => 'No data found');

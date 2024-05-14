@@ -10,7 +10,7 @@ class Cms_model extends Master_Model {
 	}
 
 	function getPage($slug){
-		return $this -> db -> get_where($this -> table, array('slug' => $slug)) -> row();
+		return $this-> db->get_where($this->table, array('slug' => $slug)) -> row();
 	}
 
 }
