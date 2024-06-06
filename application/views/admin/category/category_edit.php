@@ -25,8 +25,8 @@
               <div class="form-group">
                  <label>Status</label>
                   <select name="frm[status]" class="form-control">
-                    <option value="1" <?= ($pages->status==1)?'selected':'';?>>Active</option>
-                    <option value="0" <?= ($pages->status==0)?'selected':'';?>>Inactive</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
                   </select>
               </div>
             </div>

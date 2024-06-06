@@ -46,8 +46,8 @@
                         </td>
                         <td>
                           <div class="action-button">
-                            <a href="<?= admin_url('categories/category_edit/'.$pr->id)?>" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>
-                            <a href="<?= admin_url('categories/categorydelete/'.$pr->id)?>" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></a>
+                            <a href="<?=admin_url('categories/category_edit/'.$pr->id)?>" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>
+                            <a href="<?=admin_url('categories/categorydelete/'.$pr->id)?>" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></a>
                           </div>
                         </td>
                       </tr>

@@ -211,7 +211,7 @@ class Welcome extends AI_Controller {
 
     public function newsletter() {
         $email=$this->input->post('email');
-        $arr = array('email'=>$email,'created'=>date('Y-m-d H:i:s'));
+        $arr = array('email'=>$email);
         $rows = $this->db->get_where('newsletter',array('email'=>$email))->num_rows();
         if($rows >0){
             echo 1;
@@ -401,7 +401,8 @@ class Welcome extends AI_Controller {
 
                     </tbody>
                     </table>
-                    </body> ";
+                    </body>
+                    ";
 
                     $headers = "MIME-Version: 1.0" . "\r\n";
                     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";

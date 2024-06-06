@@ -392,18 +392,16 @@ public function up_pass($id)
     $this->form_validation->set_rules('password', 'New Password', 'trim|required');
     $this->form_validation->set_rules('cpassword', 'Confirm Password', 'trim|required|matches[password]');
     if($this->form_validation->run() != false){
-
         $password = $this->input->post("password");
         $passch=array('user_pasword'=>base64_encode($password));
         $up_pass = $this->db->update('user_accounts',$passch,array('user_id'=>$user_id));
-        if($up_pass) {
+        if($up_pass > 0) {
            $this->session->set_flashdata("success", "Password Updated successfully!");
            redirect('login');
        }else{
            $this->session->set_flashdata("error", "Something went wrong!");
            redirect('update-forgot-password/'.$id);
        }
-
    }
 
 }

@@ -27,32 +27,6 @@ class Categories extends Admin_Controller {
     }
      public function category_add($id=false)
     {
-
-        $this->data['title'] = 'Add/Edit Business Category';
-        $this->data['tab'] = 'add_subcat';
-        $this->data['main'] = admin_view('category/category_edit');
-        $this->data['category'] = $this->db->get_where('category',array('status'=>1))->result();
-        if ($id) {
-            $this->data['pages'] = $pages = $this->Master_model->getRow($id,'category');
-            if(!isset($pages)){
-               redirect(site_url('404_override'));
-               exit();
-            }
-        }
-       
-        $this->form_validation->set_rules('frm[name]', 'Category Name', 'required');
-        if($this->form_validation->run()) {
-            $formdata = $this->input->post('frm');
-            $formdata['id'] = $id;   
-            $id = $this->Master_model->save($formdata,'category');
-            $this->session->set_flashdata("success", "Category updated");
-            redirect(admin_url('categories/categoryIndex'));
-        }       
-        $this->load->view(admin_view('default'),$this->data);
-    }
-     public function category_edit($id=false)
-    {
-       
         $this->data['title'] = 'Add/Edit Business Category';
         $this->data['tab'] = 'add_subcat';
         $this->data['main'] = admin_view('category/category_edit');

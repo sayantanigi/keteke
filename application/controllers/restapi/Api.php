@@ -1,16 +1,13 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
-class Api extends REST_Controller
-{
-	public function __construct()
-	{
+class Api extends REST_Controller {
+	public function __construct() {
 		parent::__construct();
 		$this->load->model('Apimodel');
 		$this->load->library('cart');
 	}
-	public function signup_post()
-	{
+	public function signup_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -89,8 +86,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	public function login_post()
-	{
+	public function login_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -148,8 +144,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	public function forgotPassword_post()
-	{
+	public function forgotPassword_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -191,7 +186,7 @@ class Api extends REST_Controller
 		        <p>Dear ".$user->user_fname.", <br>
 		        <p>You are requesting for forgot password.<br><br>
 		        Please click below link to update your password:<br><br>
-		        <a href=".base_url('update-forgot-password/'.$user->user_id)." target='blank'><b>click here</b></a><br><br>
+		        <a href=".base_url('update-forgot-password/'.base64_encode($user->user_id))." target='blank'><b>click here</b></a><br><br>
 		        Thank You,<br><br>
 		        Keteke Team </p><br>
 		        </tbody>
@@ -220,8 +215,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	public function productList_get()
-	{
+	public function productList_get() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -268,8 +262,7 @@ class Api extends REST_Controller
 			], 400);
 		}
 	}
-	public function searchProductList_post()
-	{
+	public function searchProductList_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -323,8 +316,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	public function productDetail_post()
-	{
+	public function productDetail_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -450,8 +442,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	public function bannerList_get()
-	{
+	public function bannerList_get() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -498,8 +489,7 @@ class Api extends REST_Controller
 			], 400);
 		}
 	}
-	public function profile_post()
-	{
+	public function profile_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -520,7 +510,7 @@ class Api extends REST_Controller
 			$user = $this->Apimodel->get_cond('user_accounts', "user_id='" . $userData['userId'] . "'");
 			if (!empty($user)) {
 				if ($user->image != "") {
-					$profileImage = base_url() . 'assets/images/products/' . $user->image;
+					$profileImage = base_url() . 'assets/images/profile/' . $user->image;
 				} else {
 					$profileImage = '';
 				}
@@ -547,8 +537,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	public function editProfile_post()
-	{
+	public function editProfile_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -649,8 +638,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	public function updateProfileImage_post()
-	{
+	public function updateProfileImage_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -719,8 +707,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	public function changePassword_post()
-	{
+	public function changePassword_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -790,8 +777,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	public function categoryList_get()
-	{
+	public function categoryList_get() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -819,8 +805,7 @@ class Api extends REST_Controller
 			], 400);
 		}
 	}
-	public function subcategoryList_post()
-	{
+	public function subcategoryList_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -880,8 +865,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	function addReview_post()
-	{
+	function addReview_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -955,8 +939,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	function addtoCart_post()
-	{
+	function addtoCart_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -1028,8 +1011,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	public function cartList_post()
-	{
+	public function cartList_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -1088,8 +1070,7 @@ class Api extends REST_Controller
 			}
 		}
 	}
-	public function generate_url_slug($string, $table, $field = 'link', $key = NULL, $value = NULL)
-	{
+	public function generate_url_slug($string, $table, $field = 'link', $key = NULL, $value = NULL) {
 		$t =& get_instance();
 		$slug = url_title($string);
 		$slug = strtolower($slug);
@@ -1107,16 +1088,14 @@ class Api extends REST_Controller
 		}
 		return $slug;
 	}
-	public function generate_numbers($start, $count, $digits)
-	{
+	public function generate_numbers($start, $count, $digits) {
 		$result = array();
 		for ($n = $start; $n < $start + $count; $n++) {
 			$result[] = str_pad($n, $digits, "0", STR_PAD_LEFT);
 		}
 		return $result;
 	}
-	public function generate_otp($length)
-	{
+	public function generate_otp($length) {
 		$characters = '123456789';
 		$charactersLength = strlen($characters);
 		$randomString = '';
@@ -1125,25 +1104,21 @@ class Api extends REST_Controller
 		}
 		return $randomString;
 	}
-	public function arrcheck($array)
-	{
+	public function arrcheck($array) {
 		array_walk_recursive($array, function (&$array, $key) {
 			$array = (null === $array) ? '' : $array;
 		});
 		return $array;
 	}
-	public function hash($string)
-	{
+	public function hash($string) {
 		return hash('sha512', $string . config_item('encryption_key'));
 	}
-	public function enc_password($password)
-	{
+	public function enc_password($password) {
 		$encrypted_password = password_hash($password, PASSWORD_DEFAULT);
 		return $encrypted_password;
 	}
 	/* 13th MAy 2023 Sayantan Bhakta */
-	public function add_to_cart_post()
-	{
+	public function add_to_cart_post() {
 		try {
 			$formdata = json_decode(file_get_contents('php://input'), true);
 			$checkCartData = $this->db->query("SELECT * FROM add_to_cart WHERE product_id = '" . $formdata['product_id'] . "' AND user_id = '" . $formdata['user_id'] . "'")->result_array();
@@ -1180,8 +1155,7 @@ class Api extends REST_Controller
 		}
 		echo json_encode($response);
 	}
-	public function cart_total_post()
-	{
+	public function cart_total_post() {
 		try {
 			$formdata = json_decode(file_get_contents('php://input'), true);
 			$user_id = $formdata['user_id'];
@@ -1192,8 +1166,7 @@ class Api extends REST_Controller
 		}
 		echo json_encode($response);
 	}
-	public function cart_list_post()
-	{
+	public function cart_list_post() {
 		try {
 			$formdata = json_decode(file_get_contents('php://input'), true);
 			$user_id = $formdata['user_id'];
@@ -1236,16 +1209,14 @@ class Api extends REST_Controller
 		}
 		echo json_encode($response);
 	}
-	function sum($arr, $n)
-	{
+	function sum($arr, $n) {
 		$sum = 0;
 		for ($i = 0; $i < $n; $i++) {
 			$sum += $arr[$i];
 		}
 		return $sum;
 	}
-	public function update_cart_list_post()
-	{
+	public function update_cart_list_post() {
 		try {
 			$formdata = json_decode(file_get_contents('php://input'), true);
 			$checkCartData = $this->db->query("SELECT * FROM add_to_cart WHERE product_id = '" . $formdata['product_id'] . "' AND user_id = '" . $formdata['user_id'] . "'")->result_array();
@@ -1267,8 +1238,7 @@ class Api extends REST_Controller
 		}
 		echo json_encode($response);
 	}
-	public function remove_cart_list_post()
-	{
+	public function remove_cart_list_post() {
 		try {
 			$formdata = json_decode(file_get_contents('php://input'), true);
 			$user_id = $formdata['user_id'];
@@ -1286,8 +1256,7 @@ class Api extends REST_Controller
 		}
 		echo json_encode($response);
 	}
-	public function userAddress_list_post()
-	{
+	public function userAddress_list_post() {
 		try {
 			$formdata = json_decode(file_get_contents('php://input'), true);
 			$user_id = $formdata["user_id"];
@@ -1295,14 +1264,46 @@ class Api extends REST_Controller
 			if (!empty($getuseraddress)) {
 				$addressList = array();
 				foreach ($getuseraddress as $key => $value) {
-					$addressList[$key]['id'] = $value['id'];
-					//$addressList[$key]['user_id'] = $value['user_id'];
-					$addressList[$key]['fullname'] = $value['fullname'];
-					$addressList[$key]['phno'] = $value['phno'];
-					$addressList[$key]['houseno'] = $value['houseno'];
-					$addressList[$key]['landmark'] = $value['landmark'];
-					$addressList[$key]['pincode'] = $value['pincode'];
-					$addressList[$key]['address_type'] = $value['address_type'];
+					if($value['shiptodifferadd'] == '1') {
+						$addressList[$key]['billing_address']['id'] = $value['id'];
+						$addressList[$key]['billing_address']['bfull_name'] = $value['bfull_name'];
+						$addressList[$key]['billing_address']['bemail'] = $value['bemail'];
+						$addressList[$key]['billing_address']['bphno'] = $value['bphno'];
+						$addressList[$key]['billing_address']['baddress'] = $value['baddress'];
+						$addressList[$key]['billing_address']['bcountry'] = $value['bcountry'];
+						$addressList[$key]['billing_address']['bcity'] = $value['bcity'];
+						$addressList[$key]['billing_address']['bstate'] = $value['bstate'];
+						$addressList[$key]['billing_address']['bzip'] = $value['bzip'];
+						$addressList[$key]['billing_address']['shiptodifferadd'] = $value['shiptodifferadd'];
+						$addressList[$key]['shipping_address']['sfull_name'] = $value['sfull_name'];
+						$addressList[$key]['shipping_address']['semail'] = $value['semail'];
+						$addressList[$key]['shipping_address']['sphno'] = $value['sphno'];
+						$addressList[$key]['shipping_address']['saddress'] = $value['saddress'];
+						$addressList[$key]['shipping_address']['scountry'] = $value['scountry'];
+						$addressList[$key]['shipping_address']['scity'] = $value['scity'];
+						$addressList[$key]['shipping_address']['sstate'] = $value['sstate'];
+						$addressList[$key]['shipping_address']['szip'] = $value['szip'];
+					} else {
+						$addressList[$key]['billing_address']['id'] = $value['id'];
+						$addressList[$key]['billing_address']['bfull_name'] = $value['bfull_name'];
+						$addressList[$key]['billing_address']['bemail'] = $value['bemail'];
+						$addressList[$key]['billing_address']['bphno'] = $value['bphno'];
+						$addressList[$key]['billing_address']['baddress'] = $value['baddress'];
+						$addressList[$key]['billing_address']['bcountry'] = $value['bcountry'];
+						$addressList[$key]['billing_address']['bcity'] = $value['bcity'];
+						$addressList[$key]['billing_address']['bstate'] = $value['bstate'];
+						$addressList[$key]['billing_address']['bzip'] = $value['bzip'];
+						$addressList[$key]['billing_address']['shiptodifferadd'] = $value['shiptodifferadd'];
+						$addressList[$key]['shipping_address']['sfull_name'] = $value['bfull_name'];
+						$addressList[$key]['shipping_address']['semail'] = $value['bemail'];
+						$addressList[$key]['shipping_address']['sphno'] = $value['bphno'];
+						$addressList[$key]['shipping_address']['saddress'] = $value['baddress'];
+						$addressList[$key]['shipping_address']['scountry'] = $value['bcountry'];
+						$addressList[$key]['shipping_address']['scity'] = $value['bcity'];
+						$addressList[$key]['shipping_address']['sstate'] = $value['bstate'];
+						$addressList[$key]['shipping_address']['szip'] = $value['bzip'];
+					}
+
 				}
 				$response = array('status' => 'success', 'result' => $addressList);
 			} else {
@@ -1313,19 +1314,52 @@ class Api extends REST_Controller
 		}
 		echo json_encode($response);
 	}
-	public function add_address_post()
-	{
+	public function add_address_post() {
 		try {
 			$formdata = json_decode(file_get_contents('php://input'), true);
-			$data = array(
-				'user_id' => $formdata['user_id'],
-				'fullname' => $formdata['fullname'],
-				'phno' => $formdata['phno'],
-				'houseno' => $formdata['houseno'],
-				'landmark' => $formdata['landmark'],
-				'pincode' => $formdata['pincode'],
-				'address_type' => $formdata['address_type'],
-			);
+			if($formdata['shiptodifferadd'] == '1') {
+				$data = array(
+					'user_id' => $formdata['user_id'],
+					'bfull_name' => $formdata['bfirst_name']." ".$formdata['blast_name'],
+					'bemail' => $formdata['bemail'],
+					'bphno' => $formdata['bphno'],
+					'baddress' => $formdata['baddress'],
+					'bcountry' => $formdata['bcountry'],
+					'bcity' => $formdata['bcity'],
+					'bstate' => $formdata['bstate'],
+					'bzip' => $formdata['bzip'],
+					'shiptodifferadd' => $formdata['shiptodifferadd'],
+					'sfull_name' => $formdata['sfirst_name']." ".$formdata['slast_name'],
+					'semail' => $formdata['semail'],
+					'sphno' => $formdata['sphno'],
+					'saddress' => $formdata['saddress'],
+					'scountry' => $formdata['scountry'],
+					'scity' => $formdata['scity'],
+					'sstate' => $formdata['sstate'],
+					'szip' => $formdata['szip'],
+				);
+			} else {
+				$data = array(
+					'user_id' => $formdata['user_id'],
+					'bfull_name' => $formdata['bfirst_name']." ".$formdata['blast_name'],
+					'bemail' => $formdata['bemail'],
+					'bphno' => $formdata['bphno'],
+					'baddress' => $formdata['baddress'],
+					'bcountry' => $formdata['bcountry'],
+					'bcity' => $formdata['bcity'],
+					'bstate' => $formdata['bstate'],
+					'bzip' => $formdata['bzip'],
+					'shiptodifferadd' => $formdata['shiptodifferadd'],
+					'sfull_name' => $formdata['bfirst_name']." ".$formdata['blast_name'],
+					'semail' => $formdata['bemail'],
+					'sphno' => $formdata['bphno'],
+					'saddress' => $formdata['baddress'],
+					'scountry' => $formdata['bcountry'],
+					'scity' => $formdata['bcity'],
+					'sstate' => $formdata['bstate'],
+					'szip' => $formdata['bzip'],
+				);
+			}
 			$this->Apimodel->SaveData('user_address', $data);
 			$response = array('status' => 'success', 'result' => 'Address Added Successfuly');
 		} catch (\Throwable $th) {
@@ -1333,8 +1367,7 @@ class Api extends REST_Controller
 		}
 		echo json_encode($response);
 	}
-	public function edit_address_post()
-	{
+	public function edit_address_post() {
 		try {
 			$formdata = json_decode(file_get_contents('php://input'), true);
 			$id = $formdata["id"];
@@ -1345,20 +1378,193 @@ class Api extends REST_Controller
 		}
 		echo json_encode($response);
 	}
-	public function update_address_post()
-	{
+	public function update_address_post() {
 		try {
 			$formdata = json_decode(file_get_contents('php://input'), true);
-			$data = array(
-				'fullname' => $formdata['fullname'],
-				'phno' => $formdata['phno'],
-				'houseno' => $formdata['houseno'],
-				'landmark' => $formdata['landmark'],
-				'pincode' => $formdata['pincode'],
-				'address_type' => $formdata['address_type'],
-			);
+			if($formdata['shiptodifferadd'] == '1') {
+				$data = array(
+					'bfull_name' => $formdata['bfirst_name']." ".$formdata['blast_name'],
+					'bemail' => $formdata['bemail'],
+					'bphno' => $formdata['bphno'],
+					'baddress' => $formdata['baddress'],
+					'bcountry' => $formdata['bcountry'],
+					'bcity' => $formdata['bcity'],
+					'bstate' => $formdata['bstate'],
+					'bzip' => $formdata['bzip'],
+					'shiptodifferadd' => $formdata['shiptodifferadd'],
+					'sfull_name' => $formdata['sfirst_name']." ".$formdata['slast_name'],
+					'semail' => $formdata['semail'],
+					'sphno' => $formdata['sphno'],
+					'saddress' => $formdata['saddress'],
+					'scountry' => $formdata['scountry'],
+					'scity' => $formdata['scity'],
+					'sstate' => $formdata['sstate'],
+					'szip' => $formdata['szip'],
+				);
+			} else {
+				$data = array(
+					'bfull_name' => $formdata['bfirst_name']." ".$formdata['blast_name'],
+					'bemail' => $formdata['bemail'],
+					'bphno' => $formdata['bphno'],
+					'baddress' => $formdata['baddress'],
+					'bcountry' => $formdata['bcountry'],
+					'bcity' => $formdata['bcity'],
+					'bstate' => $formdata['bstate'],
+					'bzip' => $formdata['bzip'],
+					'shiptodifferadd' => $formdata['shiptodifferadd'],
+					'sfull_name' => $formdata['bfirst_name']." ".$formdata['blast_name'],
+					'semail' => $formdata['bemail'],
+					'sphno' => $formdata['bphno'],
+					'saddress' => $formdata['baddress'],
+					'scountry' => $formdata['bcountry'],
+					'scity' => $formdata['bcity'],
+					'sstate' => $formdata['bstate'],
+					'szip' => $formdata['bzip'],
+				);
+			}
 			$this->Apimodel->SaveData('user_address', $data, 'id = "' . $formdata['id'] . '"');
 			$response = array('status' => 'success', 'result' => 'Address Updated Successfuly');
+		} catch (\Throwable $th) {
+			$response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+	}
+	public function placeorder_post() {
+		try {
+			$formdata = json_decode(file_get_contents('php://input'), true);
+			if($formdata['chk_guest'] == '1') {
+				$user = 'guest_'.strtotime(date("d-m-y h:i:s"));
+			} else {
+				$user = $formdata['user_id'];
+			}
+			$prid= $formdata['product_id'];
+			if(count(array_filter($prid)) == 0) {
+				$response = array('status' => 'error', 'result' => 'Please add product to cart');
+			} else {
+				$order_id = 'KETEKEPR'.uniqid().date('d-m-Y');
+				$price = $formdata['prd_price'];
+				$prname = $formdata['prd_name'];
+				$qty = $formdata['prd_quan'];
+				$Payth = $formdata['payment_method'];
+				if($formdata['shiptodifferadd'] == '1') {
+					$data = array(
+						'user_id' => $user,
+						'bfull_name' => $formdata['bfirst_name']." ".$formdata['blast_name'],
+						'bemail' => $formdata['bemail'],
+						'bphno' => $formdata['bphno'],
+						'baddress' => $formdata['baddress'],
+						'bcountry' => $formdata['bcountry'],
+						'bcity' => $formdata['bcity'],
+						'bstate' => $formdata['bstate'],
+						'bzip' => $formdata['bzip'],
+						'shiptodifferadd' => $formdata['shiptodifferadd'],
+						'sfull_name' => $formdata['sfirst_name']." ".$formdata['slast_name'],
+						'semail' => $formdata['semail'],
+						'sphno' => $formdata['sphno'],
+						'saddress' => $formdata['saddress'],
+						'scountry' => $formdata['scountry'],
+						'scity' => $formdata['scity'],
+						'sstate' => $formdata['sstate'],
+						'szip' => $formdata['szip'],
+					);
+					$saddrd = array(
+						'order_id'=>$order_id,
+						'user_id'=>$user,
+						'shipping_fname' => $formdata['sfirst_name'],
+						'shipping_lname' => $formdata['slast_name'],
+						'shipping_email' => $formdata['semail'],
+						'shipping_phone' => $formdata['sphno'],
+						'shipping_address' => $formdata['saddress'],
+						'shipping_city' => $formdata['scity'],
+						'shipping_state' => $formdata['sstate'],
+						'shipping_country' => $formdata['scountry'],
+						'shipping_zip' => $formdata['szip'],
+						'created' => date('Y-m-d H:i:s')
+					);
+					$this->db->insert('customer_shipping_addrs', $saddrd);
+					$shipping_addId = $this->db->insert_id();
+					$baddrd = array(
+						'order_id' => $order_id,
+						'user_id' => $user,
+						'billing_fname' => $formdata['bfirst_name'],
+						'billing_lname' => $formdata['blast_name'],
+						'billing_email' => $formdata['bemail'],
+						'billing_phone' => $formdata['bphno'],
+						'billing_address' => $formdata['baddress'],
+						'billing_city' => $formdata['bcity'],
+						'billing_state' => $formdata['bstate'],
+						'billing_country' => $formdata['bcountry'],
+						'billing_zip' => $formdata['bzip'],
+						'created' => date('Y-m-d H:i:s')
+					);
+					$this->db->insert('customer_billing_addrs', $baddrd);
+					$billing_addId = $this->db->insert_id();
+				} else {
+					$data = array(
+						'user_id' => $user,
+						'bfull_name' => $formdata['bfirst_name']." ".$formdata['blast_name'],
+						'bemail' => $formdata['bemail'],
+						'bphno' => $formdata['bphno'],
+						'baddress' => $formdata['baddress'],
+						'bcountry' => $formdata['bcountry'],
+						'bcity' => $formdata['bcity'],
+						'bstate' => $formdata['bstate'],
+						'bzip' => $formdata['bzip'],
+						'shiptodifferadd' => $formdata['shiptodifferadd'],
+						'sfull_name' => $formdata['bfirst_name']." ".$formdata['blast_name'],
+						'semail' => $formdata['bemail'],
+						'sphno' => $formdata['bphno'],
+						'saddress' => $formdata['baddress'],
+						'scountry' => $formdata['bcountry'],
+						'scity' => $formdata['bcity'],
+						'sstate' => $formdata['bstate'],
+						'szip' => $formdata['bzip'],
+					);
+					$baddrd = array(
+						'order_id' => $order_id,
+						'user_id' => $user,
+						'billing_fname' => $formdata['bfirst_name'],
+						'billing_lname' => $formdata['blast_name'],
+						'billing_email' => $formdata['bemail'],
+						'billing_phone' => $formdata['bphno'],
+						'billing_address' => $formdata['baddress'],
+						'billing_city' => $formdata['bcity'],
+						'billing_state' => $formdata['bstate'],
+						'billing_country' => $formdata['bcountry'],
+						'billing_zip' => $formdata['bzip'],
+						'created' => date('Y-m-d H:i:s')
+					);
+					$this->db->insert('customer_billing_addrs', $baddrd);
+					$billing_addId = $this->db->insert_id();
+				}
+				$this->Apimodel->SaveData('user_address', $data);
+				for($i = 0; $i < count($prid); $i++) {
+					$ordersarray = array(
+						'userid' => $user,
+						'orderid' => $order_id,
+						'product_id' => $prid[$i],
+						'prd_title' => $prname[$i],
+						'quantity' => $qty[$i],
+						'amount' => $price[$i],
+						'billing_addr' => $billing_addId,
+						'shipping_addr' => $shipping_addId,
+						'payment_status' => 0,
+						'pay_th' => $Payth
+					);
+					$query = $this->db->insert('productorders', $ordersarray);
+				}
+				if($query) {
+					$paidprice = $formdata['total_paid_price'];
+					$orderdetails = array(
+						'bemail' => $bemail,
+						'userid' => $user,
+						'orderid' => $order_id,
+						'gross_amount' => $paidprice
+					);
+					//$this->stripePayment($orderdetails);
+				}
+			}
+			$response = array('status' => 'success', 'result' => 'Order placed successfully');
 		} catch (\Throwable $th) {
 			$response = array('status' => 'error', 'result' => $th->getMessage());
 		}
