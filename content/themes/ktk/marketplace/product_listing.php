@@ -1,4 +1,3 @@
-
 <div class="breadcrumb-area pt-10 pb-10 border-bottom mb-40">
   <div class="container">
     <div class="row">
@@ -8,15 +7,8 @@
         <div class="breadcrumb-content">
             <h2>Shop</h2>
           <ul>
-            <li class="has-child"><a href="<?=site_url('shop')?>">Shop</a></li>
-            <?php if(!empty($categorydata)){?>
-            <li class="<?= !empty($subcategory->name)?'has-child':'';?>"><?= ucwords($categorydata->name); ?></li>
-          <?php }if(!empty($category)){ ?>
-             <li class="<?= !empty($subcategory->name)?'has-child':'';?>"><?= ucwords($category->name); ?></li>
-          <?php } ?>
-            <?php if(!empty($subcategory->name)){?>
-            <li><?= ucwords($subcategory->name)?></li>
-          <?php } ?>
+            <li class="has-child"><a href="<?=site_url()?>">Home</a></li>
+            <li>Shop</li>
           </ul>
         </div>
 

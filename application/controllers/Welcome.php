@@ -245,6 +245,13 @@ class Welcome extends AI_Controller {
             $check = $this->db->query($sql)->num_rows();
             $user = $this->db->query($sql)->row();
             if($check > 0){
+                $checkorder_details = $this->db->query("SELECT * FROM productorders WHERE userid = '".$mail."'")->result_array();
+                if(!empty($checkorder_details)) {
+                    $update1 = $this->db->query("UPDATE customer_billing_addrs SET user_id = '".$user->user_id."' WHERE user_id = '".$mail."'");
+                    $update2 = $this->db->query("UPDATE customer_shipping_addrs SET user_id = '".$user->user_id."' WHERE user_id = '".$mail."'");
+                    $update3 = $this->db->query("UPDATE user_address SET user_id = '".$user->user_id."' WHERE user_id = '".$mail."'");
+                    $update4 = $this->db->query("UPDATE productorders SET userid = '".$user->user_id."' WHERE userid = '".$mail."'");
+                }
                 $this->session->set_userdata('userids',$user->user_id);
                 $this->session->set_userdata('u_type',$user->u_type);
                 if($user->u_type==1 || $user->u_type==2)

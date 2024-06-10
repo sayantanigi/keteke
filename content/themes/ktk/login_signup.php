@@ -71,8 +71,7 @@
                       
                       <div class="form-item-submit">
                         <input type="submit" value="Login">
-                         
-                        <!-- <input type="submit" onclick="goBack()" value="Cancel"> -->
+                        <input type="submit" onclick="goBack()" value="Cancel">
                       </div>
                     </form>
                   </div>
@@ -111,7 +110,6 @@
                         <p class="almem"><a href="<?php echo base_url();?>login" >Already a member?</a></p>
                           <div class="form-item-submit">
                           <input type="submit" id="subsignup" value="Signup" name="submit">
-
                           <input type="submit" onclick="goBack()" value="Cancel">
                         </div>
                       

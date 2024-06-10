@@ -126,6 +126,13 @@ class Api extends REST_Controller {
 						'error' => "Invalid Password"
 					], 400);
 				} else {
+					$checkorder_details = $this->db->query("SELECT * FROM productorders WHERE userid = '".$userData['email']."'")->result_array();
+	                if(!empty($checkorder_details)) {
+	                    $update1 = $this->db->query("UPDATE customer_billing_addrs SET user_id = '".$user->user_id."' WHERE user_id = '".$userData['email']."'");
+	                    $update2 = $this->db->query("UPDATE customer_shipping_addrs SET user_id = '".$user->user_id."' WHERE user_id = '".$userData['email']."'");
+	                    $update3 = $this->db->query("UPDATE user_address SET user_id = '".$user->user_id."' WHERE user_id = '".$userData['email']."'");
+	                    $update4 = $this->db->query("UPDATE productorders SET userid = '".$user->user_id."' WHERE userid = '".$userData['email']."'");
+	                }
 					$array = [
 						'status' => "1",
 						'personalInfo' => [
@@ -351,6 +358,12 @@ class Api extends REST_Controller {
 				} else {
 					$productImage = '';
 				}
+				if(!empty(@$prodetail->brand_name)) {
+					$query = $this->db->query("SELECT * FROM product_brand WHERE id = '".@$prodetail->brand_name."'")->row();
+					$brand_name = $query->brand_name;
+				} else {
+					$brand_name = 'None';
+				}
 				$productDetail = array(
 					'productImage' => $productImage,
 					'productId' => $prodetail->productId,
@@ -359,7 +372,7 @@ class Api extends REST_Controller {
 					'maxPrice' => @$prodetail->maxPrice,
 					'discount' => @$prodetail->disc_percent,
 					'productCode' => @$prodetail->prcode,
-					'brandName' => @$prodetail->brand_name,
+					'brandName' => @$brand_name,
 					'variants' => @$prodetail->variants,
 					'sku' => @$prodetail->sku,
 					'description' => @$prodetail->description,
@@ -865,7 +878,7 @@ class Api extends REST_Controller {
 			}
 		}
 	}
-	function addReview_post() {
+	public function addReview_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -939,7 +952,7 @@ class Api extends REST_Controller {
 			}
 		}
 	}
-	function addtoCart_post() {
+	public function addtoCart_post() {
 		$json = file_get_contents('php://input');
 		$obj = json_decode($json, true);
 		if (is_array($obj)) {
@@ -1433,7 +1446,8 @@ class Api extends REST_Controller {
 		try {
 			$formdata = json_decode(file_get_contents('php://input'), true);
 			if($formdata['chk_guest'] == '1') {
-				$user = 'guest_'.strtotime(date("d-m-y h:i:s"));
+				//$user = 'guest_'.strtotime(date("d-m-y h:i:s"));
+				$user = $formdata['bemail'];
 			} else {
 				$user = $formdata['user_id'];
 			}
@@ -1442,6 +1456,7 @@ class Api extends REST_Controller {
 				$response = array('status' => 'error', 'result' => 'Please add product to cart');
 			} else {
 				$order_id = 'KETEKEPR'.uniqid().date('d-m-Y');
+				$shipping_charge = $formdata['shipping_charge'];
 				$price = $formdata['prd_price'];
 				$prname = $formdata['prd_name'];
 				$qty = $formdata['prd_quan'];
@@ -1546,6 +1561,7 @@ class Api extends REST_Controller {
 						'prd_title' => $prname[$i],
 						'quantity' => $qty[$i],
 						'amount' => $price[$i],
+						'shipping_charge' => $shipping_charge,
 						'billing_addr' => $billing_addId,
 						'shipping_addr' => $shipping_addId,
 						'payment_status' => 0,
@@ -1566,6 +1582,117 @@ class Api extends REST_Controller {
 			}
 			$response = array('status' => 'success', 'result' => 'Order placed successfully');
 		} catch (\Throwable $th) {
+			$response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+	}
+	public function order_details_post() {
+		try {
+			$formdata = json_decode(file_get_contents('php://input'), true);
+			$user_id = $formdata['user_id'];
+			$order_data = $this->db->query("SELECT * FROM productorders WHERE userid = '".$user_id."'")->result_array();
+			if(!empty($order_data)) {
+				foreach ($order_data as $key => $value) {
+					$order_data1[$key]['id'] = $value['id'];
+					$order_data1[$key]['orderid'] = $value['orderid'];
+					$order_data1[$key]['order_date'] = $value['order_date'];
+					$order_data1[$key]['quantity'] = $value['quantity'];
+					$order_data1[$key]['amount'] = $value['amount'];
+					$order_data1[$key]['shipping_charge'] = $value['shipping_charge'];
+					if(!empty($value['order_status'])) {
+						$order_data1[$key]['order_status'] = $value['order_status'];
+					} else {
+						$order_data1[$key]['order_status'] = "Pending";
+					}
+				}
+				$response = array('status' => 'success', 'result' => $order_data1);
+			} else {
+				$response = array('status' => 'error', 'result' => 'No data found');
+			}
+		} catch (\Throwable $th) {
+			$response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+	}
+	public function filter_content_get(){
+		try {
+			$data = array();
+			$getBrandName = $this->db->query("SELECT * FROM product_brand WHERE status = '1' AND is_delete = '1'")->result_array();
+			if(!empty($getBrandName)) {
+				foreach ($getBrandName as $key => $value) {
+					$data['brand_name'][$key]['id'] = $value['id'];
+					$data['brand_name'][$key]['brand_name'] = $value['brand_name'];
+				}
+				$response = array('status' => 'success', 'result' => $data);
+			} else {
+				$response = array('status' => 'error', 'result' => 'No data found');
+			}
+
+			$price_query = $this->db->query("SELECT MIN(maxPrice) AS min_price, MAX(maxPrice) AS max_price FROM products")->row();
+			if(!empty($price_query)) {
+				$data['price']['min_price'] = @$price_query->min_price;
+				$data['price']['max_price'] = @$price_query->max_price;
+				$response = array('status' => 'success', 'result' => $data);
+			} else {
+				$response = array('status' => 'error', 'result' => 'No data found');
+			}
+		} catch (Exception $th) {
+			$response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+	}
+	public function filter_product_post() {
+		try {
+			$form_data = json_decode(file_get_contents('php://input'), true);
+			$brand_name = $form_data['brand_name'];
+			$from_price = $form_data['from_price'];
+			$to_price = $form_data['to_price'];
+			$rating = $form_data['rating'];
+
+			if(!empty(@$brand_name) || !empty(@$from_price) || !empty(@$rating)) {
+				$query = "SELECT * FROM products WHERE status = '1'";
+				if(isset($brand_name) && !empty($brand_name)) {
+	                $query .= " AND brand_name = '".@$brand_name."'";
+	            }
+	            if(isset($from_price) && !empty($from_price)) {
+	                $query .= " AND maxPrice BETWEEN '".$from_price."' and '".$to_price."'";
+	            }
+	            if(isset($rating) && !empty($rating)) {
+	            	$productRated = $this->db->query("SELECT group_concat(product_id) AS product_id FROM product_review WHERE rating = '".@$rating."'")->row();
+	                $query .= " AND productId IN (".@$productRated->product_id.")";
+	            }
+	            $result = $this->db->query($query)->result_array();
+	            if(!empty($result)) {
+	            	foreach ($result as $key => $value) {
+						$primgs = $this->Apimodel->get_cond('product_images', 'productId="' . @$value['productId'] . '"');
+						if (!empty($primgs->productImage)) {
+							$productImage = base_url() . 'assets/images/products/' . $primgs->productImage;
+						} else {
+							$productImage = '';
+						}
+
+						$avg_rating = $this->Apimodel->fetch_single_join("SELECT AVG(rating) AS rate from product_review WHERE product_id='" . $value['productId'] . "'");
+						if (!empty($avg_rating->rate)) {
+							for ($i = 0; $i < $avg_rating->rate; $i++) {
+								$rating = ' <i class="ion-android-star active"></i>';
+							}
+						} else {
+							$rating = ' <i class="ion-android-star"></i>';
+						}
+						$resultData[$key]['productId'] = @$value['productId'];
+						$resultData[$key]['productImage'] = @$productImage;
+						$resultData[$key]['productName'] = @$value['productName'];
+						$resultData[$key]['offprice'] = @$value['offprice'];
+						$resultData[$key]['maxPrice'] = @$value['maxPrice'];
+						$resultData[$key]['slug'] = @$value['slug'];
+						$resultData[$key]['rating'] = @$rating;
+					}
+					$response = array('status' => 'success', 'result' => $resultData);
+	            } else {
+	            	$response = array('status' => 'error', 'result' => 'No data found');
+	            }
+			}
+		} catch (Exception $th) {
 			$response = array('status' => 'error', 'result' => $th->getMessage());
 		}
 		echo json_encode($response);

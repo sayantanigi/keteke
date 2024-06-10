@@ -1,9 +1,7 @@
-
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
-   
    <head>
 
       <meta charset="UTF-8">
@@ -28,7 +26,11 @@
 
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+      <link
+
+         rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
+
+         />
 
       <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
 
@@ -165,7 +167,7 @@
                        <?php
 
                            $cartItems = $this->cart->contents();
-                           
+
                           if($cartItems){
 
                           $total  = count($cartItems);
@@ -196,7 +198,7 @@
 
                              ?>
 
-                 <li class="black"><a href="<?= site_url('userdashboard')?>"> Home </a></li>
+                 <li class="black"><a href="<?=site_url('shop')?>"> Home </a></li>
 
                   <!-- <li class="black"><a href="<?=site_url('shop')?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Marketplace </a></li> -->
 
@@ -216,7 +218,7 @@
 
                 <?php } elseif($userrl==3) { ?>
 
-                 <li class="black"> <a href="<?=site_url('userdashboard')?>">Home  </a></li>
+                 <li class="black"> <a href="<?=site_url('shop')?>">Home </a></li>
                  <li class="black"><a href="<?=site_url('list-your-business')?>"> List your business</a></li>
 
                <li class="black"><a href="<?=site_url('seller-dashboard')?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Sell My Product </a></li> 
@@ -237,7 +239,7 @@
 
                  <?php } elseif($userrl==4) { ?>
 
-                 <li class="black"><a href="<?=site_url('userdashboard')?>"> Home  </a></li>
+                 <li class="black"><a href="<?=site_url('shop')?>"> Home </a></li>
 
                   <!-- <li class="black"><a href="<?=site_url('shop')?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Marketplace </a></li> -->
 
@@ -257,7 +259,7 @@
 
                  <li class="black"><a href="<?=site_url('shop')?>"> Home </a></li>
 
-                  <li class="black"><a href="<?=site_url('login')?>"> Sell My Product </a></li>
+                  <li class="black"><a href="<?=site_url('login')?>"> Login/Signup </a></li>
 
                   <!-- <li class="black"><a href="<?=site_url('shop')?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Marketplace </a></li> -->
 
@@ -266,7 +268,7 @@
                 
 
                 <?php } ?>
-Login/Signup
+
                              
 
                           </ul>
@@ -294,7 +296,7 @@ Login/Signup
                               </div>
 
                             </li>
-                            
+
                             <li>
 
                               <a href="<?=site_url('shop/pr_cart')?>" class="cartmenuM">
@@ -376,7 +378,10 @@ Login/Signup
                                         foreach ($mgtcat as $mgc) {
 
                                           $submenu=$this->db->get_where('marketplace_submenu',array('cat_id'=>$mgc->id,'status'=>1))->result();
-                                          ?>
+
+
+
+                                         ?>
 
                                        <li <?php if(count($submenu) >0){ ?> class="menu-item-has-children" <?php } ?>>
 
@@ -562,7 +567,7 @@ Login/Signup
 
                <div class="copyright mirmala-semilight">
 
-                  <span style="word-wrap: break-word;">@ <?= date('Y')?> Copyright Keteke. All Rights Reserved </span>
+                  <span style="word-wrap: break-word;">@ 2020 Copyright Keteke. All Rights Reserved </span>
 
                   <a href="<?=site_url('privacy-policy')?>"><span class="nirmala-bold red" style="word-wrap: break-word;" > &bull;Privacy Policy</span></a>
 
@@ -632,7 +637,7 @@ Login/Signup
 
            $.ajax({
 
-             url: '<?= site_url("welcome/newsletter") ?>',
+             url: '<?=site_url("welcome/newsletter")?>',
 
              type: 'POST',
 

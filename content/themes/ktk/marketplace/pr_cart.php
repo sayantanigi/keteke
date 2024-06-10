@@ -144,13 +144,15 @@
 
         $shipchrge=$this->Master_model->getSingleRow('productId',$crt['id'],'products');
 
+       
+
         ?>
 
         <tr>
 
          <td class="pro-thumbnail"> 
 
-          <a href="<?= base_url('product-details/'.@$shipchrge->slug)?>">
+          <a href="#">
 
            <img src="<?=site_url('assets/images/products/'.$crt['image'])?>" class="img-fluid" alt="">
 
@@ -158,7 +160,7 @@
 
        </td>
 
-       <td class="pro-title"><a href="<?= base_url('product-details/'.@$shipchrge->slug)?>"><?=$crt['name']?></a></td>
+       <td class="pro-title"><a href="#"><?=$crt['name']?></a></td>
 
        <td class="pro-price"><span>$ <?=$crt['price']?>.00</span></td>
 
@@ -176,6 +178,8 @@
 
      </td>
 
+       
+
       <td class="pro-subtotal"><span>$ <?= $crt['subtotal']?>.00</span></td>
 
       <td class="pro-remove"> <a href="<?= base_url('shop/removeItem/'.$crt['rowid'])?>" class="icon" ><i class="fa fa-trash-o"></i></a></td>
@@ -183,6 +187,9 @@
     </tr>
 
     <?php 
+
+    
+
     $subtotal += $crt["subtotal"];
 
     //$sfee += $scharge;
@@ -339,6 +346,8 @@
     var cp =  $('#coupon_code').val();
 
     var amt = $('#sv').val();
+
+   
 
     $.ajax({
 

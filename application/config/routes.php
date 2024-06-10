@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | -------------------------------------------------------------------------
 | URI ROUTING
 | -------------------------------------------------------------------------
-| This file lets you re-map URI requests to specific controller functions.
+| This file lets you re-map URI requests to specific controller functions. 
 |
 | Typically there is a one-to-one relationship between a URL string
 | and its corresponding controller class/method. The segments in a
@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'welcome'; 
 $route['404_override'] = 'welcome/error_page';
 $route['translate_uri_dashes'] = TRUE;
 /*------------Marketplace FrontEnd Routes----------*/
@@ -60,17 +60,17 @@ $route['shophome'] = 'shop/index';
 /*------------FrontEnd Routes----------*/
 $route['reach'] = 'welcome/contact';
 $route['about'] = 'welcome/about_us';
-$route['list-your-business'] = 'user/listingcreate';
+$route['list-your-business'] = 'user/listingcreate'; 
 
 $route['how-it-works'] = 'welcome/how_work';
-$route['frequently-asked-questions'] = 'welcome/faq';
+$route['frequently-asked-questions'] = 'welcome/faq';  
 $route['support'] = 'welcome/contact';
 $route['privacy-policy'] = 'welcome/privacy';
 $route['terms'] = 'welcome/terms';
 $route['refund-policy'] = 'welcome/refundpolicy';
 
 $route['login'] = 'welcome/login_ajax';
-$route['signup'] = 'welcome/signin_signup';
+$route['signup'] = 'welcome/signin_signup'; 
 $route['forgot-password'] = 'user/forget_password';
 $route['update-forgot-password/(:any)'] = 'user/update_password/$1';
 
@@ -80,7 +80,7 @@ $route['signout'] = 'welcome/sign_out';
 $route['myprofile'] = 'user/edit_profile';
 $route['mydashboard'] = 'user/edit_profile';
 /*------------userEnd Routes----------*/
-$route['userdashboard']='user/edit_profile';
+$route['userdashboard']='user/edit_profile'; 
 
 $route['mylistings'] = 'user/view_listing';
 $route['remove-list/(:any)'] = 'user/listing_delete/$1';
@@ -114,6 +114,3 @@ $route['pages/(:any)'] = 'pages/index/$1';
 $route['admin'] = 'admin/users';
 $route['dashboard'] = 'admin/dashboard/index';
 
-
-/**API's*/
-$route['restapi/add_to_cart'] = "restapi/Api/add_to_cart";
