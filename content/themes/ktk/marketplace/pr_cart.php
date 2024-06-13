@@ -237,7 +237,23 @@ foreach ($cartItems as $crt) {?>
         });
     })
 <?php $i++; } ?>
-function removeItem(id) {
-    alert(id);
+function removeItem(cart_id) {
+    $.ajax({
+        type:"post",
+        url:"<?php echo base_url()?>shop/removeCartItem",
+        data:{cart_id: cart_id},
+        success:function(returndata) {
+            //alert(returndata);
+            if(returndata == 1) {
+                location.reload();
+            } else {
+                $.alert({
+                    title: '',
+                    content: "Something went wrong. Please try again later.",
+                });
+                return false;
+            }
+        }
+    });
 }
 </script>

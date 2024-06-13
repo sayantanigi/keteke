@@ -7,15 +7,12 @@
                     .cls-1 {
                         fill: red;
                     }
-
                     .cls-2 {
                         filter: url(#Rectangle_22);
                     }
-
                     .cls-3 {
                         filter: url(#Rectangle_21);
                     }
-
                     .cls-4 {
                         filter: url(#Rectangle_20);
                     }
@@ -83,5 +80,4 @@
             </div>
         </div>
     </div>
-
 </main>

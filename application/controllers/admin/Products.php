@@ -299,7 +299,7 @@ class Products extends Admin_Controller {
         $this->data['title'] = 'Order Details';
         $this->data['tab'] = 'trans';
         $this->data['main'] = admin_view('product/order_index');
-        $this->data['ordrs'] = $this->db->query("SELECT * FROM products AS pd JOIN productorders AS prod ON prod.product_id=pd.productId WHERE prod.orderid='" . $orderId . "'")->result();
+        $this->data['ordrs'] = $this->db->query("SELECT * FROM products AS pd JOIN productorders AS prod ON prod.product_id = pd.productId WHERE prod.orderid='" . $orderId . "'")->result();
         $this->data['payInfo'] = $this->db->get_where('payments', array('order_id' => $orderId))->row();
         $this->load->view(admin_view('default'), $this->data);
     }

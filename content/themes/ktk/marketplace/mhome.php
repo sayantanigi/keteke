@@ -99,6 +99,7 @@
                                 <span class="discounted-price">$<?= $prs->offprice ?></span>
                                 <span class="main-price discounted">$<?= $prs->maxPrice ?></span>
                             </p>
+                            <?php if(!empty($this->session->userdata('userids'))) { ?>
                             <form method="post" action="<?= site_url('shop/addtocart') ?>">
                                 <input type="hidden" value="<?= $prs->productId; ?>" name="product_id">
                                 <input type="hidden" value="<?= $prs->productName; ?>" name="product_name">
@@ -109,14 +110,16 @@
                                 <input type="hidden" value="<?= $this->session->userdata('userids') ?>" name="userids">
                                 <span class="cart-icon"><button type="submit" class="btn btn-primary"><i class="icon-shopping-cart"></i></button></span>
                             </form>
-
+                            <?php } else { ?>
+                                <a href="<?= base_url()?>login"><span class="cart-icon"><button type="submit" class="btn btn-primary"><i class="icon-shopping-cart"></i></button></span></a>
+                                <!-- <div style="color: #e61d25; font-size: 15px" class="login-warning">Please login to add this product in your cart</div> -->
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
 
             <?php }
         } ?>
-
     </div>
 </div>
 <div class="split-banner-area mb-40 mb-sm-30">
@@ -143,3 +146,11 @@
         </div>
     </div>
 </div>
+<style>
+.login-warning{display: none; }
+</style>
+<script>
+$('.login-alert').click(function(){
+    $('.login-warning').show();
+})
+</script>

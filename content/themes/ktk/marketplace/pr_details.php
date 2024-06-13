@@ -153,23 +153,28 @@
                         <div class="pro-qty mr-15 mb-lg-20 mb-md-20 mb-sm-20">
                             <input type="text" value="1">
                         </div>
+                        <?php if(!empty($this->session->userdata('userids'))) { ?>
                         <form method="post" action="<?= site_url('shop/addtocart') ?>">
-                            <input type="hidden" value="<?= $prodetail->productId; ?>" name="product_id">
-                            <input type="hidden" value="<?= $prodetail->productName; ?>" name="product_name">
-                            <input type="hidden" value="<?= $prodetail->offprice ?>" name="price">
-                            <input type="hidden" value="<?= $primgs[0]->productImage ?>" name="image">
+                            <input type="hidden" value="<?= $prs->productId; ?>" name="product_id">
+                            <input type="hidden" value="<?= $prs->productName; ?>" name="product_name">
+                            <input type="hidden" value="<?= $prs->maxPrice; ?>" name="maxPrice">
+                            <input type="hidden" value="<?= $prs->offprice; ?>" name="offprice">
+                            <input type="hidden" value="<?= $prs->maxPrice - $prs->offprice; ?>" name="disc_percent">
+                            <input type="hidden" value="<?= $primgs->productImage; ?>" name="image">
+                            <input type="hidden" value="<?= $this->session->userdata('userids') ?>" name="userids">
                             <button type="submit" class="theme-button product-cart-button">+ Add to Cart</button>
                         </form>
-                        <!-- <a class="theme-button product-cart-button" href="<?= site_url('shop/pr_cart') ?>">+ Add to Cart</a> -->
+                        <?php } else { ?>
+                        <button type="button" class="theme-button product-cart-button login-alert">+ Add to Cart</button>
+                        <div style="color: #e61d25; font-size: 15px" class="login-warning">Please login to add this product in your cart</div>
+                        <?php } ?>
                     </div>
-
                     <!-- <div class="compare-button d-inline-block mr-40">
-                  <a href="#"><i class="icon-sliders"></i> Compare This Product</a>
-               </div>
-               <div class="wishlist-button d-inline-block">
-                  <a href="#"><i class="icon-heart"></i> Add to Wishlist</a>
-               </div>-->
-
+                        <a href="#"><i class="icon-sliders"></i> Compare This Product</a>
+                    </div>
+                    <div class="wishlist-button d-inline-block">
+                        <a href="#"><i class="icon-heart"></i> Add to Wishlist</a>
+                    </div>-->
                 </div>
                 <!--=======  End of product details content  =======-->
             </div>
@@ -296,3 +301,11 @@
         </div>
     </div>
 </div>
+<style>
+.login-warning{display: none; }
+</style>
+<script>
+$('.login-alert').click(function(){
+    $('.login-warning').show();
+})
+</script>

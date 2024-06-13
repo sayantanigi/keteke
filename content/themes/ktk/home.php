@@ -192,6 +192,9 @@
         </div>
     </section>
 </main>
+<style>
+.most-searched-section{ padding: 2px 15px !important;}
+</style>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtg6oeRPEkRL9_CE-us3QdvXjupbgG14A&libraries=places&callback=initMap"></script>
 <script type="text/javascript">
     google.maps.event.addDomListener(window, 'load', function () {

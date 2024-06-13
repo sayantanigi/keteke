@@ -413,32 +413,40 @@ class Shop extends AI_Controller
     }
     function addtocart() {
         if ($this->input->post('product_id')) {
-            // $data = array(
-            //     'id' => $this->input->post('product_id'),
-            //     'qty' => 1,
-            //     'name' => $this->input->post('product_name'),
-            //     'price' => $this->input->post('price'),
-            //     'image' => $this->input->post('image')
-            // );
-            // if ($this->cart->insert($data)) {
-            //     redirect(site_url("shop/pr_cart"));
-            // }
-            $data = array(
-                'user_id' => $this->input->post('userids'),
-                'product_id' => $this->input->post('product_id'),
-                'quantity' => 1,
-                'name' => $this->input->post('product_name'),
-                'mrp' => $this->input->post('maxPrice'),
-                'final_price' => $this->input->post('offprice'),
-                'discount' => $this->input->post('disc_percent'),
-                'image' => $this->input->post('image'),
-                'created_date' => date('Y-m-d h:i')
-            );
-            $this->db->insert('add_to_cart', $data);
-            $insert_id = $this->db->insert_id();
-            if($insert_id > 0) {
+            $checkCartData = $this->db->query("SELECT * FROM add_to_cart WHERE product_id = '".$this->input->post('product_id')."' AND user_id = '".$this->input->post('userids')."'")->result_array();
+            if(!empty($checkCartData)) {
+                $data = array(
+					'quantity' => $checkCartData[0]['quantity'] + 1
+				);
+                $this->db->update('add_to_cart', $data, "product_id = '".$this->input->post('product_id')."' AND user_id = '".$this->input->post('userids')."'");
+                $checkuCartData = $this->db->query("SELECT * FROM add_to_cart WHERE product_id = '".$this->input->post('product_id')."' AND user_id = '".$this->input->post('userids')."'")->result_array();
+                $checkpData = $this->db->query("SELECT * FROM products WHERE productId = '".$this->input->post('product_id')."' AND status = '1'")->result_array();
+                $data1 = array(
+					'mrp' => $checkuCartData[0]['quantity'] * $checkpData[0]['maxPrice'],
+					'discount' => $checkuCartData[0]['quantity'] * ($checkpData[0]['maxPrice'] - $checkpData[0]['offprice']),
+					'final_price' => $checkuCartData[0]['quantity'] * $checkpData[0]['offprice'],
+				);
+				$this->db->update('add_to_cart', $data1, "product_id = '".$this->input->post('product_id')."' AND user_id = '".$this->input->post('userids')."'");
                 redirect(site_url("shop/pr_cart"));
+            } else {
+                $data = array(
+                    'user_id' => $this->input->post('userids'),
+                    'product_id' => $this->input->post('product_id'),
+                    'quantity' => 1,
+                    'name' => $this->input->post('product_name'),
+                    'mrp' => $this->input->post('maxPrice'),
+                    'final_price' => $this->input->post('offprice'),
+                    'discount' => $this->input->post('disc_percent'),
+                    'image' => $this->input->post('image'),
+                    'created_date' => date('Y-m-d h:i')
+                );
+                $this->db->insert('add_to_cart', $data);
+                $insert_id = $this->db->insert_id();
+                if($insert_id > 0) {
+                    redirect(site_url("shop/pr_cart"));
+                }
             }
+
         }
     }
     public function pr_cart() {
@@ -456,6 +464,11 @@ class Shop extends AI_Controller
         );
         $this->cart->update($data);
         redirect(site_url('shop/pr_cart'));
+    }
+    public function removeCartItem() {
+        $cart_id = $this->input->post('cart_id');
+        $result = $this->db->query("DELETE FROM add_to_cart WHERE id = '".$cart_id."'");
+        echo $result;
     }
     /*public function updateItemQty() {
         $update = 0;
