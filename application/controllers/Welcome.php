@@ -377,7 +377,11 @@ class Welcome extends AI_Controller
                     $headers .= 'From: KETEKE Signup Page' . "\r\n";
                     mail($email, $subject, $htmlContent, $headers);
                     $this->session->set_flashdata('success', 'Thank you for Registration!!');
-                    redirect(site_url('signup'));
+                    if($u_type == 4) {
+                        redirect(site_url('/'));
+                    } else {
+                        redirect(site_url('signup'));
+                    }
                 } else {
                     $this->session->set_flashdata('error', 'Registration Failed..Please Try again');
                 }

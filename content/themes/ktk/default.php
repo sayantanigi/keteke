@@ -85,7 +85,7 @@
                                     $ud = $this->db->get_where('user_accounts', array('user_id' => $user))->row();
                                     if ($userrl == 1 || $userrl == 2) { ?>
                                         <li class="black"><a href="<?= site_url() ?>"> Home </a></li>
-                                        <li class="black dorpmenu"><a href="<?= site_url('myprofile') ?>"><i class="fa fa-user" aria-hidden="true"></i> <?= $ud->user_fname ?> <span class="caret"></span></a>
+                                        <li class="black dorpmenu"><a href="<?= site_url('myprofile') ?>"><i class="fa fa-user" aria-hidden="true"></i> <?= $ud->user_fname." ".$ud->user_lname ?> <span class="caret"></span></a>
                                             <ul class="dropdownmenu">
                                                 <li><a href="<?= site_url('signout') ?>">Signout</a></li>
                                             </ul>
@@ -97,7 +97,7 @@
                                         <li class="black"><a href="<?= site_url() ?>"> Home </a></li>
                                         <li class="black"><a href="<?= site_url('list-your-business') ?>"> List your business</a></li>
                                         <!-- <li class="black"><a href="<?= site_url('userdashboard') ?>"><i class="fa fa-user" aria-hidden="true"></i> My Dashboard</a></li> -->
-                                        <li class="black dorpmenu"><a href="<?= site_url('seller-dashboard') ?>"><i class="fa fa-user" aria-hidden="true"></i><?= $ud->user_fname ?> <span class="caret"></span></a>
+                                        <li class="black dorpmenu"><a href="<?= site_url('seller-dashboard') ?>"><i class="fa fa-user" aria-hidden="true"></i><?= $ud->user_fname." ".$ud->user_lname ?> <span class="caret"></span></a>
                                             <ul class="dropdownmenu">
                                                 <li><a href="<?= site_url('signout') ?>">Signout</a></li>
                                             </ul>
@@ -105,7 +105,7 @@
                                         <li class="black"><a href="<?= site_url('shop') ?>"><i class="fa fa-shopping-bag"></i> Marketplace </a></li>
                                     <?php } elseif ($userrl == 4) { ?>
                                         <li class="black"><a href="<?= site_url() ?>"> Home </a></li>
-                                        <li class="black dorpmenu"><a href="<?= site_url('userdashboard') ?>"><i class="fa fa-user" aria-hidden="true"></i><?= $ud->user_fname ?> <span class="caret"></span></a>
+                                        <li class="black dorpmenu"><a href="<?= site_url('userdashboard') ?>"><i class="fa fa-user" aria-hidden="true"></i><?= $ud->user_fname." ".$ud->user_lname ?> <span class="caret"></span></a>
                                             <ul class="dropdownmenu">
                                                 <li><a href="<?= site_url('signout') ?>">Signout</a></li>
                                             </ul>

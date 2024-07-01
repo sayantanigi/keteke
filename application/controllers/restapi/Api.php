@@ -174,8 +174,8 @@ class Api extends REST_Controller {
 				$user = $this->Apimodel->get_cond('user_accounts', $where);
 				$rand = rand(111111, 999999);
 				$subject = 'Forgot password recovery';
-				$headers = "From: KETEKE <".$frmemail.">\r\n"; 
-		        //$headers .= "Reply-To: ".strip_tags($frmemail) . "\r\n"; 
+				$headers = "From: KETEKE <".$frmemail.">\r\n";
+		        //$headers .= "Reply-To: ".strip_tags($frmemail) . "\r\n";
 		        $headers .= "MIME-Version: 1.0\r\n";
 		        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 				//$imagePath = base_url('fassets/images/logos/headertransparentlogo.png');
@@ -197,7 +197,7 @@ class Api extends REST_Controller {
 		        Thank You,<br><br>
 		        Keteke Team </p><br>
 		        </tbody>
-		        </table>     
+		        </table>
 		        <strong>Email: </strong>".$frmemail."<br><br>
 		        This is an automated response, please <b>DO NOT</b> reply.
 		        </td>
@@ -1198,7 +1198,7 @@ class Api extends REST_Controller {
 					}
 					$getList['cartList'][$key]['pro_name'] = $value['productImage'];
 					$getList['cartList'][$key]['category_name'] = $value['cat_name'];
-					$getList['cartList'][$key]['brand_name'] = $value['brand_name'];	
+					$getList['cartList'][$key]['brand_name'] = $value['brand_name'];
 					$getList['cartList'][$key]['quantity'] = $value['quantity'];
 					$getList['cartList'][$key]['final_price'] = sprintf("%0.2f", $value['final_price']);
 					$getList['cartList'][$key]['actual_price'] = sprintf("%0.2f", $value['mrp']);
@@ -1692,6 +1692,53 @@ class Api extends REST_Controller {
 	            	$response = array('status' => 'error', 'result' => 'No data found');
 	            }
 			}
+		} catch (Exception $th) {
+			$response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+	}
+    public function tabWisefilterproduct_post() {
+		try {
+			$form_data = json_decode(file_get_contents('php://input'), true);
+			$tab_name = $form_data['tab_name'];
+            $query = "SELECT * FROM products WHERE status = '1'";
+            if($tab_name == "newest") {
+                $query .= " ORDER BY productId DESC";
+            } else if($tab_name == "popular") {
+                $query .= " ORDER BY RAND()";
+            } else {
+                $query .= " ORDER BY productId ASC";
+            }
+            $result = $this->db->query($query)->result_array();
+            if(!empty($result)) {
+                foreach ($result as $key => $value) {
+                    $primgs = $this->Apimodel->get_cond('product_images', 'productId="' . @$value['productId'] . '"');
+                    if (!empty($primgs->productImage)) {
+                        $productImage = base_url() . 'assets/images/products/' . $primgs->productImage;
+                    } else {
+                        $productImage = '';
+                    }
+
+                    $avg_rating = $this->Apimodel->fetch_single_join("SELECT AVG(rating) AS rate from product_review WHERE product_id='" . $value['productId'] . "'");
+                    if (!empty($avg_rating->rate)) {
+                        for ($i = 0; $i < $avg_rating->rate; $i++) {
+                            $rating = ' <i class="ion-android-star active"></i>';
+                        }
+                    } else {
+                        $rating = ' <i class="ion-android-star"></i>';
+                    }
+                    $resultData[$key]['productId'] = @$value['productId'];
+                    $resultData[$key]['productImage'] = @$productImage;
+                    $resultData[$key]['productName'] = @$value['productName'];
+                    $resultData[$key]['offprice'] = @$value['offprice'];
+                    $resultData[$key]['maxPrice'] = @$value['maxPrice'];
+                    $resultData[$key]['slug'] = @$value['slug'];
+                    $resultData[$key]['rating'] = @$rating;
+                }
+                $response = array('status' => 'success', 'result' => $resultData);
+            } else {
+                $response = array('status' => 'error', 'result' => 'No data found');
+            }
 		} catch (Exception $th) {
 			$response = array('status' => 'error', 'result' => $th->getMessage());
 		}

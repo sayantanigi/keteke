@@ -247,8 +247,7 @@ class Shop extends AI_Controller
         }
         return $this->load->front_view('marketplace/fetchproductlist', $this->data);
     }
-    public function seller_addproduct()
-    {
+    public function seller_addproduct() {
         $userrol = userrole();
         if ($userrol != 3) {
             $this->session->set_flashdata('error', 'Login or Sign up to list your business');
@@ -278,28 +277,26 @@ class Shop extends AI_Controller
                 $slug = strtolower(url_title($slug));
                 $frm['slug'] = $this->Cms_model->get_unique_url($slug, $id);
                 $res = $this->db->insert('products', $frm);
+                //echo $this->db->last_query(); die();
                 $productId = $this->db->insert_id();
-                if (!empty($_FILES['files']['name']) && count(array_filter($_FILES['files']['name'])) > 0) {
+                //print_r($_FILES['files']['size']); die();
+                if (!empty($_FILES['files']['size'])) {
                     $filesCount = count($_FILES['files']['name']);
                     for ($i = 0; $i < $filesCount; $i++) {
-                        $_FILES['file']['name'] = $_FILES['files']['name'][$i];
-                        $_FILES['file']['type'] = $_FILES['files']['type'][$i];
-                        $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
-                        $_FILES['file']['error'] = $_FILES['files']['error'][$i];
-                        $_FILES['file']['size'] = $_FILES['files']['size'][$i];
-                        // File upload configuration
-                        $uploadPath = 'assets/images/products/';
-                        $config['upload_path'] = $uploadPath;
-                        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-                        $this->load->library('upload', $config);
-                        $this->upload->initialize($config);
-                        if ($this->upload->do_upload('file')) {
-                            $fileData = $this->upload->data();
-                            $uploadData[$i]['productImage'] = $fileData['file_name'];
-                            $uploadData[$i]['productId'] = $productId;
+                        $src = $_FILES['files']['tmp_name'][$i];
+                        $filEnc = time();
+                        $avatar = rand(0000, 9999) . "_" . $_FILES['files']['name'][$i];
+                        $avatar1 = str_replace(array('(', ')', ' '), '', $avatar);
+                        $dest = getcwd() . '/assets/images/products/' . $avatar1;
+                        if (move_uploaded_file($src, $dest)) {
+                            $file1  = $avatar1;
                         }
+                        $uploadData = array(
+                            'productImage'=> $file1,
+                            'productId'=> $productId
+                        );
+                        $insert = $this->db->insert_batch('product_images', $uploadData);
                     }
-                    $insert = $this->db->insert_batch('product_images', $uploadData);
                     if (!empty($uploadData)) {
                         $this->session->set_flashdata('success', 'Product Submitted successfully!');
                         redirect(site_url('add-product'));
@@ -430,6 +427,7 @@ class Shop extends AI_Controller
                 redirect(site_url("shop/pr_cart"));
             } else {
                 $data = array(
+                    'session_id' => $this->input->post('session_id'),
                     'user_id' => $this->input->post('userids'),
                     'product_id' => $this->input->post('product_id'),
                     'quantity' => 1,
@@ -453,7 +451,8 @@ class Shop extends AI_Controller
         $this->data['title'] = 'Keteke | Marketplace';
         $this->data['load'] = 'marketplace/pr_cart';
         //$this->data['cartItems'] = $this->cart->contents();
-        $this->data['cartItems'] = $this->db->query("SELECT * FROM add_to_cart WHERE user_id = '".$this->session->userdata('userids')."'")->result_array();
+        //echo "SELECT * FROM add_to_cart WHERE session_id = '".session_id()."'";
+        $this->data['cartItems'] = $this->db->query("SELECT * FROM add_to_cart WHERE session_id = '".session_id()."'")->result_array();
         $this->load->front_view('marketplace/mdefault', $this->data);
     }
     public function removeItem($rowid = false) {
@@ -591,6 +590,20 @@ class Shop extends AI_Controller
         } else {
             echo 0;
         }
+    }
+
+    public function get_sub_cat() {
+        $cat_id = $this->input->post('cat_id');
+		$subcat_list = $this->db->query("SELECT * FROM marketplace_submenu WHERE cat_id = '".$cat_id."'")->result_array();
+		if(!empty($subcat_list)) {
+			$html = "<option value=''>Select Sub Category</option>";
+			foreach ($subcat_list as $row_data) {
+				$html .= "<option value='".$row_data['submenuId']."'>".ucfirst($row_data['name'])."</option>";
+			}
+		} else {
+			$html = '';
+		}
+		echo $html;
     }
 }
 /* End of file Pages.php */

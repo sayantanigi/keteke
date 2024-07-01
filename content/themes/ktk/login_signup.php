@@ -26,7 +26,7 @@
                                 ?>
                                 <div class="alert alert-info alert-dismissible">
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                    <?php echo $this->session->flashdata('errorlist'); ?>
+                                    <?php echo $this->session->flashdata('errorlist'); unset($_SESSION['errorlist']);?>
                                 </div>
                                 <?php
                             }
@@ -34,7 +34,7 @@
                                 ?>
                                 <div class="alert alert-success alert-dismissible">
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                    <?php echo $this->session->flashdata('success'); ?>
+                                    <?php echo $this->session->flashdata('success'); unset($_SESSION['success']);?>
                                 </div>
                                 <?php
                             }
@@ -42,7 +42,7 @@
                                 ?>
                                 <div class="alert alert-danger alert-dismissible">
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                    <?php echo $this->session->flashdata('error'); ?>
+                                    <?php echo $this->session->flashdata('error'); unset($_SESSION['error']);?>
                                 </div>
                                 <?php
                             }

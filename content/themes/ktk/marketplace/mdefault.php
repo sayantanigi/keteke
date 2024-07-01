@@ -92,7 +92,7 @@
                             // } else {
                             //     $total = 0;
                             // }
-                            $cartItems = $this->db->query("SELECT * FROM add_to_cart WHERE user_id = '".$this->session->userdata('userids')."'")->result_array();
+                            $cartItems = $this->db->query("SELECT * FROM add_to_cart WHERE session_id = '".session_id()."'")->result_array();
                             if ($cartItems) {
                                 $total = count($cartItems);
                             } else {
@@ -110,7 +110,7 @@
                                         <li class="black"><a href="<?= site_url('shop') ?>"> Home </a></li>
                                         <!-- <li class="black"><a href="<?= site_url('shop') ?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Marketplace </a></li> -->
                                         <li class="black dorpmenu"><a href="<?= site_url('myprofile') ?>"><i
-                                                    class="fa fa-user" aria-hidden="true"></i> <?= $ud->user_fname ?> <span
+                                                    class="fa fa-user" aria-hidden="true"></i> <?= $ud->user_fname." ".$ud->user_lname ?><span
                                                     class="caret"></span></a>
                                             <ul class="dropdownmenu">
                                                 <li><a href="<?= site_url('signout') ?>">Logout</a></li>
@@ -126,7 +126,7 @@
                                                     class="fa fa-shopping-bag" aria-hidden="true"></i> Sell My Product </a>
                                         </li>
                                         <li class="black dorpmenu"><a href="<?= site_url('seller-dashboard') ?>"><i
-                                                    class="fa fa-user" aria-hidden="true"></i> <?= $ud->user_fname ?> <span
+                                                    class="fa fa-user" aria-hidden="true"></i> <?= $ud->user_fname." ".$ud->user_lname ?><span
                                                     class="caret"></span></a>
                                             <ul class="dropdownmenu">
                                                 <li><a href="<?= site_url('signout') ?>">Logout</a></li>
@@ -137,7 +137,7 @@
                                         <li class="black"><a href="<?= site_url('shop') ?>"> Home </a></li>
                                         <!-- <li class="black"><a href="<?= site_url('shop') ?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Marketplace </a></li> -->
                                         <li class="black dorpmenu"><a href="<?= site_url('userdashboard') ?>"><i
-                                                    class="fa fa-user" aria-hidden="true"></i> <?= $ud->user_fname ?> <span
+                                                    class="fa fa-user" aria-hidden="true"></i> <?= $ud->user_fname." ".$ud->user_lname ?><span
                                                     class="caret"></span></a>
                                             <ul class="dropdownmenu">
                                                 <li><a href="<?= site_url('signout') ?>">Logout</a></li>

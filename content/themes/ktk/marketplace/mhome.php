@@ -80,11 +80,9 @@
                     <div class="single-slider-product grid-view-product">
                         <div class="single-slider-product__image">
                             <a href="<?= site_url('product-details/' . $prs->slug) ?>">
-                                <img src="<?= site_url('assets/images/products/' . $primgs->productImage) ?>" class="img-fluid"
-                                    alt="">
+                                <img src="<?= site_url('assets/images/products/' . $primgs->productImage) ?>" class="img-fluid" alt="">
                             </a>
-                            <?php if ($prs->disc_percent != '') { ?><span
-                                    class="discount-label discount-label--red">-<?= $prs->disc_percent ?>%</span><?php } ?>
+                            <?php if ($prs->disc_percent != '') { ?><span class="discount-label discount-label--red">-<?= $prs->disc_percent ?>%</span><?php } ?>
                         </div>
                         <div class="single-slider-product__content">
                             <p class="product-title"><a href="#"><?= $prs->productName ?></a></p>
@@ -99,7 +97,6 @@
                                 <span class="discounted-price">$<?= $prs->offprice ?></span>
                                 <span class="main-price discounted">$<?= $prs->maxPrice ?></span>
                             </p>
-                            <?php if(!empty($this->session->userdata('userids'))) { ?>
                             <form method="post" action="<?= site_url('shop/addtocart') ?>">
                                 <input type="hidden" value="<?= $prs->productId; ?>" name="product_id">
                                 <input type="hidden" value="<?= $prs->productName; ?>" name="product_name">
@@ -107,17 +104,13 @@
                                 <input type="hidden" value="<?= $prs->offprice; ?>" name="offprice">
                                 <input type="hidden" value="<?= $prs->maxPrice - $prs->offprice; ?>" name="disc_percent">
                                 <input type="hidden" value="<?= $primgs->productImage; ?>" name="image">
-                                <input type="hidden" value="<?= $this->session->userdata('userids') ?>" name="userids">
+                                <input type="hidden" value="<?= $user_id ?>" name="userids">
+                                <input type="hidden" value="<?= session_id() ?>" name="session_id">
                                 <span class="cart-icon"><button type="submit" class="btn btn-primary"><i class="icon-shopping-cart"></i></button></span>
                             </form>
-                            <?php } else { ?>
-                                <a href="<?= base_url()?>login"><span class="cart-icon"><button type="submit" class="btn btn-primary"><i class="icon-shopping-cart"></i></button></span></a>
-                                <!-- <div style="color: #e61d25; font-size: 15px" class="login-warning">Please login to add this product in your cart</div> -->
-                            <?php } ?>
                         </div>
                     </div>
                 </div>
-
             <?php }
         } ?>
     </div>

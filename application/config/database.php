@@ -100,7 +100,7 @@ $db['local'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'keteke',
+	'database' => 'keteke_db',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -116,4 +116,3 @@ $db['local'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-
