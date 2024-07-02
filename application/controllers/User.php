@@ -18,8 +18,7 @@ class User extends AI_Controller
         }
         $this->load->front_view('default', $this->data);
     }
-    public function listingcreate()
-    {
+    public function listingcreate() {
         $userrol = userrole();
         if ($userrol != 1 && $userrol != 2 && $userrol != 3) {
             $this->session->set_flashdata('errorlist', 'Login or Sign up to list your business');

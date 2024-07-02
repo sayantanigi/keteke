@@ -276,7 +276,7 @@ class Api extends REST_Controller {
 			$_POST = (array) $obj;
 			$userData = $_POST;
 		} else {
-			$userData['keyword'] = $this->post('keyword');
+            $userData['keyword'] = $this->post('keyword');
 		}
 		$this->form_validation->set_rules('keyword', 'keyword', 'trim|required');
 		if ($this->form_validation->run() === false) {
@@ -287,8 +287,14 @@ class Api extends REST_Controller {
 				], 400);
 			}
 		} else {
+            $stringLength = strlen($userData['keyword']);
+            if($stringLength > 3) {
+                $userData['keyword'] = substr($userData['keyword'], 0, 3);
+            } else {
+                $userData['keyword'] = $userData['keyword'];
+            }
 			if ($userData['keyword'] != "") {
-				$searchdata = $this->db->query('SELECT * FROM products AS pd JOIN mrkt_category AS mk ON mk.id=pd.category WHERE (mk.name LIKE "%' . $userData['keyword'] . '%" OR pd.productName LIKE "%' . $userData['keyword'] . '%" OR pd.tags LIKE "%' . $userData['keyword'] . '%")')->result();
+                $searchdata = $this->db->query('SELECT * FROM products AS pd JOIN mrkt_category AS mk ON mk.id=pd.category WHERE (pd.productName LIKE "%'.$userData['keyword'].'%" OR pd.tags LIKE "%'.$userData['keyword'].'%")')->result();
 			} else {
 				$searchdata = $this->db->query('SELECT * FROM products AS pd JOIN mrkt_category AS mk ON mk.id=pd.category WHERE pd.status="1"')->result();
 			}
@@ -1744,4 +1750,92 @@ class Api extends REST_Controller {
 		}
 		echo json_encode($response);
 	}
+    public function business_list_post() {
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            if(!empty($formdata['user_id'])) {
+                $businessList = $this->db->query("SELECT * FROM listing WHERE userid = '".$formdata['user_id']."' AND status = '1'")->result_array();
+            } else {
+                $businessList = $this->db->query("SELECT * FROM listing WHERE status = '1'")->result_array();
+            }
+            if(!empty($businessList)) {
+                $business_list = array();
+                foreach ($businessList as $key => $value) {
+                    $business_list[$key]['businessId'] = $value['id'];
+                    $category = $this->db->query("SELECT * FROM category WHERE id = '".$value['category']."'")->row();
+                    $business_list[$key]['businessType'] = $category->name;
+                    $business_list[$key]['businessName'] = $value['title'];
+                    $business_list[$key]['businessAddress'] = $value['street_addr'];
+                    $business_list[$key]['businessPhone'] = $value['phone'];
+                    $business_list[$key]['businessEmail'] = $value['email'];
+                    if(!empty($value['images']) && file_exists('assets/images/directory/'.$value['images'])) {
+                        $business_list[$key]['businessImage'] = base_url().'assets/images/directory/'.$value['images'];
+                    } else {
+                        $business_list[$key]['businessImage'] = base_url() . 'assets/images/no-image.png';
+                    }
+                }
+                $response = array('status' => 'success', 'result' => $business_list);
+            } else {
+                $response = array('status'=> 'error', 'result'=> 'No business found');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+    }
+    public function filter_business_list_post() {
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            if($formdata['keyword'] == 'a-z') {
+                $businessList = $this->db->query("SELECT * FROM listing WHERE status = '1' ORDER BY title ASC")->result_array();
+            } else if($formdata['keyword'] == 'rating') {
+                $businessList = $this->db->query("SELECT * FROM listing WHERE status = '1' ORDER BY rating DESC")->result_array();
+            } else {
+                $businessList = $this->db->query("SELECT * FROM listing WHERE status = '1' ORDER BY id DESC")->result_array();
+            }
+            if(!empty($businessList)) {
+                $business_list = array();
+                foreach ($businessList as $key => $value) {
+                    $business_list[$key]['businessId'] = $value['id'];
+                    $category = $this->db->query("SELECT * FROM category WHERE id = '".$value['category']."'")->row();
+                    $business_list[$key]['businessType'] = $category->name;
+                    $business_list[$key]['businessName'] = $value['title'];
+                    $business_list[$key]['businessAddress'] = $value['street_addr'];
+                    $business_list[$key]['businessPhone'] = $value['phone'];
+                    $business_list[$key]['businessEmail'] = $value['email'];
+                    if(!empty($value['images']) && file_exists('assets/images/directory/'.$value['images'])) {
+                        $business_list[$key]['businessImage'] = base_url().'assets/images/directory/'.$value['images'];
+                    } else {
+                        $business_list[$key]['businessImage'] = base_url() . 'assets/images/no-image.png';
+                    }
+                }
+                $response = array('status' => 'success', 'result' => $business_list);
+            } else {
+                $response = array('status'=> 'error', 'result'=> 'No business found');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+    }
+    public function search_business_list_post() {
+       try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            $business_List = $this->db->query("SELECT * FROM listing WHERE title LIKE '%".$formdata['keyword']."%' AND status = '1' ORDER BY id DESC")->result_array();
+            if(!empty($business_List)) {
+                $businesslist = array();
+                foreach ($business_List as $key => $roww) {
+                    $businesslist[$key]['businessId'] = $roww['id'];
+                    $businesslist[$key]['businessName'] = $roww['title'];
+                    $businesslist[$key]['businessAddress'] = $roww['street_addr'];
+                }
+                $response = array('status' => 'success', 'result' => $businesslist);
+            } else {
+                $response = array('status'=> 'error', 'result'=> 'No business found');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+    }
 }

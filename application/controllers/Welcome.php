@@ -1,9 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-class Welcome extends AI_Controller
-{
-    function __construct()
-    {
+class Welcome extends AI_Controller {
+    function __construct() {
         parent::__construct();
         $this->data['title'] = '';
         $this->load->model('Master_model');
@@ -50,8 +48,7 @@ class Welcome extends AI_Controller
         $this->data['whycms'] = $this->Master_model->getAll_where('cms', 'id', 8);
         $this->load->front_view('default', $this->data);
     }
-    public function search_list()
-    {
+    public function search_list() {
         $this->data['title'] = "Keteke | Listing";
         $this->data['load'] = 'srch_listing';
         if (isprologin()) {
@@ -71,14 +68,14 @@ class Welcome extends AI_Controller
             );
             $this->Master_model->save($srcharray, 'search_history');
             if ($loc != "" && $scat != '') {
-                $searchSql = "SELECT *, ( 6367 * acos( cos( radians($latitude) ) * cos( radians( sr.lati ) ) * cos( radians( sr.longi ) - radians($longitude) ) + sin( radians($latitude) ) * sin( radians( sr.lati )))) AS distance FROM `listing` AS sr JOIN category AS ca ON sr.category=ca.id JOIN user_accounts AS ua ON sr.userid=ua.user_id  having `distance` < 500 AND sr.status ='1' AND (sr.category='" . $scat . "' OR sr.category='%" . $scat . "%' OR ca.name LIKE '%" . $scat . "%') OR (sr.title LIKE '%" . $scat . "%' OR ua.user_fname LIKE '%" . $scat . "%' OR ua.user_lname LIKE '%" . $scat . "%') OR (sr.busi_classi LIKE '%" . $scat . "%') OR (sr.keywords LIKE '%" . $scat . "%') ORDER BY distance ASC";
+                $searchSql = "SELECT listing.id, listing.userid, listing.title, listing.busi_classi, listing.other_classi, listing.street_addr, listing.city, listing.country, listing.category, listing.subcategory, listing.keywords, listing.email, listing.phone, listing.images, listing.lati, listing.longi, listing.status, category.name, user_accounts.user_fname, user_accounts.user_lname, (6367 * acos(cos(radians($latitude)) * cos(radians(listing.lati)) * cos(radians(listing.longi) - radians($longitude)) + sin(radians($latitude)) * sin(radians(listing.lati)))) AS distance FROM listing JOIN category ON listing.category = category.id JOIN user_accounts ON listing.userid = user_accounts.user_id having distance < 500 AND listing.status = '1' AND (listing.category = '".$scat."' OR listing.category = '%".$scat."%' OR category.name LIKE '%".$scat."%') OR (listing.title LIKE '%".$scat."%' OR user_accounts.user_fname LIKE '%".$scat."%' OR user_accounts.user_lname LIKE '%".$scat."%') OR (listing.busi_classi LIKE '%".$scat."%') OR (listing.keywords LIKE '%".$scat."%') ORDER BY distance ASC";
             } else if ($loc != "") {
-                $searchSql = "SELECT *, ( 6367 * acos( cos( radians($latitude) ) * cos( radians( sr.lati ) ) * cos( radians( sr.longi ) - radians($longitude) ) + sin( radians($latitude) ) * sin( radians( sr.lati )))) AS distance FROM `listing` AS sr JOIN category AS ca ON sr.category=ca.id JOIN user_accounts AS ua ON sr.userid=ua.user_id  having `distance` < 500 AND sr.status ='1'";
+                $searchSql = "SELECT listing.id, listing.userid, listing.title, listing.busi_classi, listing.other_classi, listing.street_addr, listing.city, listing.country, listing.category, listing.subcategory, listing.keywords, listing.email, listing.phone, listing.images, listing.lati, listing.longi, listing.status, category.name, user_accounts.user_fname, user_accounts.user_lname, (6367 * acos(cos(radians($latitude)) * cos(radians(listing.lati)) * cos(radians(listing.longi) - radians($longitude)) + sin(radians($latitude)) * sin(radians(listing.lati)))) AS distance FROM listing JOIN category ON listing.category = category.id JOIN user_accounts ON listing.userid = user_accounts.user_id  having distance < 500 AND listing.status = '1'";
             } else if ($scat != '') {
-                $searchSql = "SELECT * FROM `listing` AS sr JOIN category AS ca ON sr.category=ca.id JOIN user_accounts AS ua ON sr.userid=ua.user_id WHERE sr.status ='1' AND (sr.category='" . $scat . "' OR sr.category='%" . $scat . "%' OR ca.name LIKE '%" . $scat . "%') OR (sr.title LIKE '%" . $scat . "%' OR ua.user_fname LIKE '%" . $scat . "%' OR ua.user_lname LIKE '%" . $scat . "%') OR (sr.busi_classi LIKE '%" . $scat . "%') OR (sr.keywords LIKE '%" . $scat . "%') ORDER BY sr.id DESC";
+                $searchSql = "SELECT listing.id, listing.userid, listing.title, listing.busi_classi, listing.other_classi, listing.street_addr, listing.city, listing.country, listing.category, listing.subcategory, listing.keywords, listing.email, listing.phone, listing.images, listing.lati, listing.longi, listing.status, category.name, user_accounts.user_fname, user_accounts.user_lname FROM listing JOIN category ON listing.category = category.id JOIN user_accounts ON listing.userid = user_accounts.user_id WHERE listing.status ='1' AND (listing.category='".$scat."' OR listing.category = '%".$scat."%' OR category.name LIKE '%".$scat."%') OR (listing.title LIKE '%".$scat."%' OR user_accounts.user_fname LIKE '%".$scat."%' OR user_accounts.user_lname LIKE '%".$scat."%') OR (listing.busi_classi LIKE '%".$scat."%') OR (listing.keywords LIKE '%".$scat."%') ORDER BY listing.id DESC";
             }
             $this->data['businesslist'] = $this->db->query($searchSql)->result();
-            // $this->db->last_query();die;
+            //echo $this->db->last_query(); die;
         }
         $this->load->front_view('default', $this->data);
     }
@@ -552,8 +549,7 @@ class Welcome extends AI_Controller
         $this->data['load'] = '404';
         $this->load->front_view('default', $this->data);
     }
-    function getreviewsubmit()
-    {
+    function getreviewsubmit() {
         $rstar = $this->input->post('rstar');
         $rname = $this->input->post('rname');
         $ruserid = $this->input->post('ruserid');
@@ -570,6 +566,9 @@ class Welcome extends AI_Controller
             'added_date' => date('Y-m-d H:i:s')
         );
         $rvinsert = $this->db->insert('user_listreview', $arrreview);
+        $query = $this->db->query("SELECT AVG(rating) as avg_rating FROM user_listreview WHERE business_id = '".$rlistid."'")->row();
+        echo $avg = $query->avg_rating;
+        $this->db->query("UPDATE listing SET rating = '".$avg."' WHERE id = '".$rlistid."'");
         if ($rvinsert == TRUE) {
             echo 1;
         } else {
