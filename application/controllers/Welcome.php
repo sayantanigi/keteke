@@ -568,7 +568,7 @@ class Welcome extends AI_Controller {
         $rvinsert = $this->db->insert('user_listreview', $arrreview);
         $query = $this->db->query("SELECT AVG(rating) as avg_rating FROM user_listreview WHERE business_id = '".$rlistid."'")->row();
         echo $avg = $query->avg_rating;
-        $this->db->query("UPDATE listing SET rating = '".$avg."' WHERE id = '".$rlistid."'");
+        $this->db->query("UPDATE listing SET rating = '".round($avg, 1)."' WHERE id = '".$rlistid."'");
         if ($rvinsert == TRUE) {
             echo 1;
         } else {

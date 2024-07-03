@@ -1750,6 +1750,154 @@ class Api extends REST_Controller {
 		}
 		echo json_encode($response);
 	}
+    public function classification_get(){
+        try {
+            $categoryList = $this->db->query("SELECT * FROM category WHERE status = '1'")->result_array();
+            if(!empty($categoryList)) {
+                $resultData = array();
+                foreach ($categoryList as $key => $value) {
+                    $resultData[$key]['categoryId'] = @$value['id'];
+                    $resultData[$key]['categoryName'] = @$value['name'];
+                }
+                $response = array('status' => 'success', 'result' => $resultData);
+            } else {
+                $response = array('status' => 'error', 'result' => 'No data found');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage);
+        }
+        echo json_encode($response);
+    }
+    public function classification_sub_post(){
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            $getsubcatList = $this->db->query("SELECT * FROM listing_category WHERE catid = '".$formdata['category_id']."' AND status = '1'")->result_array();
+            if(!empty($getsubcatList)) {
+                $resultData = array();
+                foreach ($getsubcatList as $key => $value) {
+                    $resultData[$key]['subcategoryId'] = @$value['id'];
+                    $resultData[$key]['subcategoryName'] = @$value['name'];
+                }
+                $response = array('status' => 'success', 'result' => $resultData);
+            } else {
+                $response = array('status' => 'error', 'result' => 'No data found');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage);
+        }
+        echo json_encode($response);
+    }
+    public function addbusinesstolist_post() {
+        try{
+            $data = array(
+                'userid' => $this->input->post('user_id'),
+                'title' => $this->input->post('business_name'),
+                'busi_classi' => $this->input->post('classification'),
+                'other_classi' => $this->input->post('other_classi'),
+                'keywords' => $this->input->post('keywords'),
+                'category' => $this->input->post('category'),
+                'subcategory' => $this->input->post('subcategory'),
+                'street_addr' => $this->input->post('street_address'),
+                'lati' => $this->input->post('lati'),
+                'longi' => $this->input->post('longi'),
+                'city' => $this->input->post('business_city'),
+                'country' => $this->input->post('business_country'),
+                'website' => $this->input->post('website_url'),
+                'email' => $this->input->post('company_email'),
+                'phone' => $this->input->post('company_phno'),
+                'fblink' => $this->input->post('facebook_link'),
+                'twlink' => $this->input->post('twitter_link'),
+                'status' => '1',
+                'created' => date("Y-m-d H:i:s"),
+            );
+            $this->db->insert('listing', $data);
+            $insert_id = $this->db->insert_id();
+            if(!empty($insert_id)) {
+                if ($_FILES['images']['name'] != '') {
+                    $src = $_FILES['images']['tmp_name'];
+                    $filEnc = time();
+                    $avatar = rand(0000, 9999) . "_" . $_FILES['images']['name'];
+                    $avatar1 = str_replace(array('(', ')', ' '), '', $avatar);
+                    $dest = getcwd() . '/assets/images/directory/' . $avatar1;
+                    if (move_uploaded_file($src, $dest)) {
+                        $file1  = $avatar1;
+                    }
+                    $uploadData = array(
+                        'images'=> $file1
+                    );
+                    $this->db->where('id', $insert_id);
+                    $this->db->update('listing', $uploadData);
+                }
+            }
+            $response = array('status' => 'success', 'result' => 'Business added successfully');
+		} catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+    }
+    public function editbusinesstolist_post() {
+		try{
+			$formdata = json_decode(file_get_contents('php://input'), true);
+			$business_data = $this->db->query("SELECT * FROM listing WHERE id = '".$formdata['business_id']."'")->row();
+			if(!empty($business_data->images) && file_exists('assets/images/directory/'.$business_data->images)) {
+				$business_data->images = base_url().'assets/images/directory/'.$business_data->images;
+			} else {
+                $business_data->images = base_url().'assets/images/no-image.png';
+            }
+			$response = array('status'=> 'success', 'result'=> $business_data);
+		} catch(\Exception $e) {
+			$response = array('status'=> 'error', 'result'=> $e->getMessage());
+		}
+		echo json_encode($response);
+	}
+    public function updatebusinesstolist_post() {
+        try{
+            $data = array(
+                'title' => $this->input->post('business_name'),
+                'busi_classi' => $this->input->post('classification'),
+                'other_classi' => $this->input->post('other_classi'),
+                'keywords' => $this->input->post('keywords'),
+                'category' => $this->input->post('category'),
+                'subcategory' => $this->input->post('subcategory'),
+                'street_addr' => $this->input->post('street_address'),
+                'lati' => $this->input->post('lati'),
+                'longi' => $this->input->post('longi'),
+                'city' => $this->input->post('business_city'),
+                'country' => $this->input->post('business_country'),
+                'website' => $this->input->post('website_url'),
+                'email' => $this->input->post('company_email'),
+                'phone' => $this->input->post('company_phno'),
+                'fblink' => $this->input->post('facebook_link'),
+                'twlink' => $this->input->post('twitter_link'),
+                'status' => '1',
+                'created' => date("Y-m-d H:i:s"),
+            );
+            $this->db->where('id', $this->input->post('id'));
+            $this->db->update('listing', $data);
+            $insert_id = $this->db->insert_id();
+            if ($_FILES['images']['name'] != '') {
+                $src = $_FILES['images']['tmp_name'];
+                $filEnc = time();
+                $avatar = rand(0000, 9999) . "_" . $_FILES['images']['name'];
+                $avatar1 = str_replace(array('(', ')', ' '), '', $avatar);
+                $dest = getcwd() . '/assets/images/directory/' . $avatar1;
+                if (move_uploaded_file($src, $dest)) {
+                    $file1  = $avatar1;
+                }
+                $uploadData = array('images'=> $file1);
+                $this->db->where('id', $insert_id);
+                $this->db->update('listing', $uploadData);
+            } else {
+                $uploadData = array('images' => $this->input->post('images'));
+                $this->db->where('id', $insert_id);
+                $this->db->update('listing', $uploadData);
+            }
+            $response = array('status' => 'success', 'result' => 'Business updated successfully');
+		} catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+    }
     public function business_list_post() {
         try {
             $formdata = json_decode(file_get_contents('php://input'), true);
@@ -1773,6 +1921,8 @@ class Api extends REST_Controller {
                     } else {
                         $business_list[$key]['businessImage'] = base_url() . 'assets/images/no-image.png';
                     }
+                    $businessratingCount = $this->db->query("SELECT COUNT(id) as count FROM user_listreview WHERE business_id = '".$value['id']."'")->row();
+                    $business_list[$key]['businessRatingCount'] = $value['rating']." (".$businessratingCount->count.")";
                 }
                 $response = array('status' => 'success', 'result' => $business_list);
             } else {
@@ -1808,6 +1958,8 @@ class Api extends REST_Controller {
                     } else {
                         $business_list[$key]['businessImage'] = base_url() . 'assets/images/no-image.png';
                     }
+                    $businessratingCount = $this->db->query("SELECT COUNT(id) as count FROM user_listreview WHERE business_id = '".$value['id']."'")->row();
+                    $business_list[$key]['businessRatingCount'] = $value['rating']." (".$businessratingCount->count.")";
                 }
                 $response = array('status' => 'success', 'result' => $business_list);
             } else {
@@ -1832,6 +1984,142 @@ class Api extends REST_Controller {
                 $response = array('status' => 'success', 'result' => $businesslist);
             } else {
                 $response = array('status'=> 'error', 'result'=> 'No business found');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+    }
+    public function addbusinessreview_post() {
+        try {
+            $form_data = json_decode(file_get_contents('php://input'), true);
+            $arrreview = array(
+                'user_id' => $form_data['user_id'],
+                'business_id' => $form_data['business_id'],
+                'username' => $form_data['fullname'],
+                'subject' => $form_data['subject'],
+                'comments' => $form_data['comment'],
+                'rating' => $form_data['rating'],
+                'added_date' => date('Y-m-d H:i:s')
+            );
+            $rvinsert = $this->db->insert('user_listreview', $arrreview);
+            if ($rvinsert == TRUE) {
+                $getquery = $this->db->query("SELECT AVG(rating) as avg_rating FROM user_listreview WHERE business_id = '".$form_data['business_id']."'")->row();
+                $this->db->query("UPDATE listing SET rating = '".round($getquery->avg_rating, 1)."' WHERE id = '".$form_data['business_id']."'");
+                $response = array('status' => 'success', 'result' => "Successfully Reviwed");
+            } else {
+                $response = array('status'=> 'error', 'result'=> 'Something went wrong. Please try again later.');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+    }
+    public function get_business_review_post() {
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            $business_ratingList = $this->db->query("SELECT * FROM user_listreview WHERE business_id = '".$formdata['business_id']."'")->result_array();
+            if(!empty($business_ratingList)) {
+                $business_review = array();
+                foreach ($business_ratingList as $key => $business) {
+                    $business_review['business_review'][$key]['businessId'] = $business['business_id'];
+                    $business_review['business_review'][$key]['username'] = $business['username'];
+                    $business_review['business_review'][$key]['subject'] = $business['subject'];
+                    $business_review['business_review'][$key]['comments'] = $business['comments'];
+                    $business_review['business_review'][$key]['rating'] = $business['rating'];
+                    $business_review['business_review'][$key]['added_date'] = $business['added_date'];
+                }
+                $sumofRating5 = $this->db->query("SELECT COUNT(id) as sum FROM user_listreview WHERE business_id ='".$formdata['business_id']."' AND rating = '5'")->row();
+                $countofadence5 = $this->db->query("SELECT COUNT(id) as total FROM user_listreview WHERE business_id ='".$formdata['business_id']."'")->row();
+                if(empty($countofadence5->total)) {
+                    $val5 = "0";
+                } else {
+                    $val5 = ($sumofRating5->sum/$countofadence5->total)*100;
+                }
+                $sumofRating4 = $this->db->query("SELECT COUNT(id) as sum FROM user_listreview WHERE business_id ='".$formdata['business_id']."' AND rating = '4'")->row();
+                $countofadence4 = $this->db->query("SELECT COUNT(id) as total FROM user_listreview WHERE business_id ='".$formdata['business_id']."'")->row();
+                if(empty($countofadence4->total)) {
+                    $val4 = "0";
+                } else {
+                    $val4 = ($sumofRating4->sum/$countofadence4->total)*100;
+                }
+                $sumofRating3 = $this->db->query("SELECT COUNT(id) as sum FROM user_listreview WHERE business_id ='".$formdata['business_id']."' AND rating = '3'")->row();
+                $countofadence3 = $this->db->query("SELECT COUNT(id) as total FROM user_listreview WHERE business_id ='".$formdata['business_id']."'")->row();
+                if(empty($countofadence3->total)) {
+                    $val3 = "0";
+                } else {
+                    $val3 = ($sumofRating3->sum/$countofadence3->total)*100;
+                }
+                $sumofRating2 = $this->db->query("SELECT COUNT(id) as sum FROM user_listreview WHERE business_id ='".$formdata['business_id']."' AND rating = '2'")->row();
+                $countofadence2 = $this->db->query("SELECT COUNT(id) as total FROM user_listreview WHERE business_id ='".$formdata['business_id']."'")->row();
+                if(empty($countofadence2->total)) {
+                    $val2 = "0";
+                } else {
+                    $val2 = ($sumofRating2->sum/$countofadence2->total)*100;
+                }
+                $sumofRating1 = $this->db->query("SELECT COUNT(id) as sum FROM user_listreview WHERE business_id ='".$formdata['business_id']."' AND rating = '1'")->row();
+                $countofadence1 = $this->db->query("SELECT COUNT(id) as total FROM user_listreview WHERE business_id ='".$formdata['business_id']."'")->row();
+                if(empty($countofadence1->total)) {
+                    $val1 = "0";
+                } else {
+                    $val1 = ($sumofRating1->sum/$countofadence1->total)*100;
+                }
+                $business_review['business_rating'] = array('5' => round($val5, 1), '4' => round($val4, 1), '3' => round($val3, 1), '2' => round($val2, 1), '1' => round($val1, 1));
+                $response = array('status' => 'success', 'result' => $business_review);
+            } else {
+                $response = array('status'=> 'error', 'result'=> 'No business found');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+    }
+    public function filter_business_review_post() {
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            if($formdata['keyword'] == 'newest') {
+                $business_ratingList = $this->db->query("SELECT * FROM user_listreview WHERE business_id = '".$formdata['business_id']."' ORDER BY id DESC")->result_array();
+            } else if($formdata['keyword'] == 'highest') {
+                $business_ratingList = $this->db->query("SELECT * FROM user_listreview WHERE business_id = '".$formdata['business_id']."' ORDER BY rating DESC")->result_array();
+            } else {
+                $business_ratingList = $this->db->query("SELECT * FROM user_listreview WHERE business_id = '".$formdata['business_id']."' ORDER BY rating ASC")->result_array();
+            }
+            if(!empty($business_ratingList)) {
+                $business_review = array();
+                foreach ($business_ratingList as $key => $business) {
+                    $business_review['business_review'][$key]['businessId'] = $business['business_id'];
+                    $business_review['business_review'][$key]['username'] = $business['username'];
+                    $business_review['business_review'][$key]['subject'] = $business['subject'];
+                    $business_review['business_review'][$key]['comments'] = $business['comments'];
+                    $business_review['business_review'][$key]['rating'] = $business['rating'];
+                    $business_review['business_review'][$key]['added_date'] = $business['added_date'];
+                }
+                $response = array('status' => 'success', 'result' => $business_review);
+            } else {
+                $response = array('status'=> 'error', 'result'=> 'No business found');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+    }
+    public function addbusinesscomment_post() {
+        try {
+            $form_data = json_decode(file_get_contents('php://input'), true);
+            $arrremessage = array(
+                'userid' => $form_data['user_id'],
+                'business_id' => $form_data['business_id'],
+                'fname' => $form_data['fullname'],
+                'email' => $form_data['email'],
+                'mobile' => $form_data['phone'],
+                'descr' => $form_data['message'],
+                'created_at' => date('Y-m-d H:i:s')
+            );
+            $rvinsert = $this->db->insert('business_message', $arrremessage);
+            if ($rvinsert == TRUE) {
+                $response = array('status' => 'success', 'result' => "Thank you for your message. We will get back to you soon.");
+            } else {
+                $response = array('status'=> 'error', 'result'=> 'Something went wrong. Please try again later.');
             }
         } catch (\Throwable $th) {
             $response = array('status' => 'error', 'result' => $th->getMessage());
