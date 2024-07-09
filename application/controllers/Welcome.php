@@ -6,8 +6,7 @@ class Welcome extends AI_Controller {
         $this->data['title'] = '';
         $this->load->model('Master_model');
     }
-    public function index()
-    {
+    public function index() {
         $this->data['title'] = "Home | Keteke";
         $this->data['load'] = 'home';
         // $this->data['category']=$this->db->query("SELECT distinct category.*, listing_category.id,listing_category.name from category,listing_category where category.id=listing_category.catid")->result();
@@ -25,18 +24,16 @@ class Welcome extends AI_Controller {
             $this->data['lon'] = $lon;
             $this->data['loc'] = $city . ',' . $state . ',' . $country;
             $searchSql = "SELECT *, ( 6367 * acos( cos( radians('" . $lat . "') ) * cos( radians( `lati` ) ) * cos( radians( `longi` ) - radians('" . $lon . "') ) + sin( radians('" . $lat . "') ) * sin( radians( `lati` ) ) ) ) AS distance FROM `listing` having `distance` < 500  AND (status = '1' OR prefer_list = '1' ) ORDER BY  distance ASC LIMIT 3";
-            $this->data['chlist'] = $this->db->query($searchSql)->result();
+            $this->data['chlist'] = $this->db->query($searchSql)->result_array();
         }
         $this->load->front_view('default', $this->data);
     }
-    public function faq()
-    {
+    public function faq() {
         $this->data['load'] = 'faq';
         $this->data['faq'] = $this->db->get_where('faqs', array('status' => 1))->result();
         $this->load->front_view('default', $this->data);
     }
-    public function how_work()
-    {
+    public function how_work() {
         $this->data['load'] = 'how_it_work';
         $this->load->front_view('default', $this->data);
     }
@@ -450,8 +447,7 @@ class Welcome extends AI_Controller {
         }
         $this->load->front_view('default', $this->data);
     }
-    function get_percentage($total, $number)
-    {
+    function get_percentage($total, $number) {
         if ($total > 0) {
             return round($number / ($total / 100), 2);
         } else {
@@ -542,8 +538,7 @@ class Welcome extends AI_Controller {
         $this->session->set_flashdata('success', 'Logout successfully');
         redirect(site_url(''));
     }
-    function error_page()
-    {
+    function error_page() {
         $this->data['title'] = 'Keteke | 404-error';
         $this->data['header'] = '404-error ';
         $this->data['load'] = '404';
@@ -575,8 +570,7 @@ class Welcome extends AI_Controller {
             echo 0;
         }
     }
-    function getmsgsubmit()
-    {
+    function getmsgsubmit() {
         $mname = $this->input->post('mname');
         $muserid = $this->input->post('muserid');
         $mlistid = $this->input->post('mlistid');
@@ -599,8 +593,7 @@ class Welcome extends AI_Controller {
             echo 0;
         }
     }
-    function get_moreReview()
-    {
+    function get_moreReview() {
         $listid = $this->input->post('reviewmsglistid');
         $datareviewlist = $this->db->query("SELECT * FROM listing as lst JOIN user_listreview AS rv ON rv.business_id=lst.id WHERE rv.business_id='" . $listid . "'")->result();
         //$datareviewlist=$this->db->get_where('user_listreview',array('business_id'=>$listid))->result();
@@ -624,8 +617,7 @@ class Welcome extends AI_Controller {
         );
         echo json_encode($data);
     }
-    function get_moreReviewbyOrder()
-    {
+    function get_moreReviewbyOrder() {
         $reviewordby = $this->input->post('revieword');
         $listid = $this->input->post('businessid');
         if ($reviewordby == "new") {
@@ -657,8 +649,7 @@ class Welcome extends AI_Controller {
         );
         echo json_encode($data);
     }
-    public function replytextfromOwner()
-    {
+    public function replytextfromOwner() {
         $reviewid = $this->input->post('reviewid');
         $responsetext = $this->input->post('responsetext');
         $arres = array('response_text' => $responsetext, 'response_date' => date('Y-m-d H:i:s'));

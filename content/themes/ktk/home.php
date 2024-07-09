@@ -74,18 +74,6 @@
                                 <input type="hidden" id="search_lon" name="s_lon" value="<?= @$lon ?>">
                             </div>
                         </div>
-                        <!-- <div class="home-form formFieldBox">
-                            <label>Select City</label>
-                            <div class="selectarrow">
-                                <div class="form-group">
-                                <select class="form-control">
-                                    <option>Select</option>
-                                    <option>Select</option>
-                                    <option>Select</option>
-                                </select>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="home-form selectsearch formFieldBox ">
                             <label>Type of business</label>
                             <div class="input-group"><i class="fa fa-search"></i>
@@ -103,11 +91,6 @@
                         <div class="form-item-submit homesubmit">
                             <input class="nirmala-semilight " name="search" type="submit" />
                         </div>
-                        <!-- <h1 class="main-page-phrase">
-                    Connecting You With African
-                    Businesses and Social life.
-                    Making life easier and smoother.
-                  </h1> -->
                     </form>
                 </div>
                 <div class="col-6 search-opp-display">
@@ -125,24 +108,17 @@
                             Coupons<br>
                             <span class=" black">We got you the best offers!</span>
                         </h2>
-                        <br>
                         <ul>
-                            <?php if (is_array($coupons) && count($coupons) > 0) {
-                                foreach ($coupons as $coup) { ?>
-                                    <li> <img src="<?= site_url('assets/images/coupons/' . $coup->coupon_img) ?>"
-                                            style="width:100%;"></li>
-                                <?php }
-                            } ?>
+                        <?php if (is_array($coupons) && count($coupons) > 0) {
+                            foreach ($coupons as $coup) { ?>
+                            <li> <img src="<?= site_url('assets/images/coupons/' . $coup->coupon_img) ?>" style="width:100%;"></li>
+                        <?php } } ?>
                         </ul>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-xl-4 col-lg-4 ">
                     <div class="most-searched-section">
-                        <h2 class=" red">
-                            <span class="glyphicon glyphicon-search red search-icon"></span>
-                            Most popular searched
-                        </h2>
-                        <br>
+                        <h2 class=" red"><span class="glyphicon glyphicon-search red search-icon"></span>Most popular searched</h2>
                         <ul class="frontbtns">
                             <li> Room for Rent</li>
                             <li> Clothing </li>
@@ -160,33 +136,28 @@
         <div class=" container">
             <h1 class=" red">Popular at your place</h1>
             <div class="row">
+                <?php
+                if(!empty($chlist)) {
+                foreach ($chlist as $list) {
+                    $cat = $this->db->get_where('category', array('id' => $list['busi_classi']))->row();
+                    if(!empty($list['images']) && file_exists('assets/images/directory/'.$list['images'])) {
+                        $image = base_url().'assets/images/directory/'.$list['images'];
+                    } else {
+                        $image = base_url().'assets/images/no-image.png';
+                    }
+                ?>
                 <div class="col-6 col-lg-3 col-md-3 col-xs-4  text-center">
                     <div class="iamps-item">
-                        <img src="<?= site_url() ?>fassets/images/bussinesslogos/sb.png" style="width:50%;">
+                        <img src="<?= @$image ?>" style="width:100%; height: 210px">
                         <div class="iamps-detail">
-                            <h2 class="">Starbucks</h2>
-                            <p class=""> Coffee Shop <br>500 meters</p>
+                            <h2 class=""><?= $list['title'] ?></h2>
+                            <p class=""><?= $cat->name ?> <br> <?= round($list['distance'], 0) ?> meter</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-lg-3 col-md-3 col-xs-4  text-center">
-                    <div class="iamps-item ">
-                        <img src="<?= site_url() ?>fassets/images/bussinesslogos/md.png" style="width:50%;">
-                        <div class="iamps-detail">
-                            <h2 class="">Mc Donald's</h2>
-                            <p class=""> Restaurent <br>800 meters</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-3 col-xs-4 text-center">
-                    <div class="iamps-item">
-                        <img src="<?= site_url() ?>fassets/images/bussinesslogos/pvr.png" style="width:50%;">
-                        <div class="iamps-detail">
-                            <h2 class="">PVR Cinemas</h2>
-                            <p class=""> Movie Theater <br>200 meters</p>
-                        </div>
-                    </div>
-                </div>
+                <?php } } else { ?>
+                <p class="">No listing found</p>
+                <?php } ?>
             </div>
             <p class="iamps-more red">More > </p>
         </div>

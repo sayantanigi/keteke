@@ -1750,6 +1750,60 @@ class Api extends REST_Controller {
 		}
 		echo json_encode($response);
 	}
+    public function business_home_post() {
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            $lat = $formdata['lati'];
+            $lon = $formdata['longi'];
+            $categoryList = $this->db->query("SELECT * FROM category WHERE `status` = '1'")->result_array();
+            if(!empty($categoryList)) {
+                $resultData = array();
+                foreach ($categoryList as $key => $cat) {
+                    $resultData[$key]['categoryId'] = @$cat['id'];
+                    $resultData[$key]['categoryName'] = @$cat['name'];
+                }
+                $resultcat = $resultData;
+            } else {
+                $resultcat = "";
+            }
+            $data['category_list'] = $resultcat;
+
+            $coupons = $this->db->query("SELECT * FROM coupon_details WHERE coupon_status = '1' LIMIT 6")->result_array();
+            if(!empty($coupons)) {
+                foreach ($coupons as $key => $coup) {
+                    if(!empty($coup['coupon_img']) && file_exists('assets/images/coupons/'.$coup['coupon_img'])) {
+                        $coupons[$key]['images'] = base_url().'assets/images/coupons/'.$coup['coupan_img'];
+                    } else {
+                        $coupons[$key]['images'] = base_url().'assets/images/no-image.png';
+                    }
+                }
+                $resultcoup = $coupons;
+            } else {
+                $resultcoup = "";
+            }
+            $data['coupons'] = $resultcoup;
+
+            $searchSql = "SELECT *, (6367 * acos( cos(radians('".$lat."')) * cos(radians(lati)) * cos(radians(longi) - radians('".$lon."')) + sin( radians('".$lat."')) * sin(radians(`lati`)))) AS distance FROM listing having distance < 500  AND (status = '1' OR prefer_list = '1' ) ORDER BY  distance ASC LIMIT 3";
+            $chlist = $this->db->query($searchSql)->result_array();
+            if(!empty($chlist)) {
+                foreach ($chlist as $key => $list) {
+                    if(!empty($list['images']) && file_exists('assets/images/directory/'.$list['images'])) {
+                        $chlist[$key]['images'] = base_url().'assets/images/directory/'.$list['images'];
+                    } else {
+                        $chlist[$key]['images'] = base_url().'assets/images/no-image.png';
+                    }
+                }
+                $resultlist = $chlist;
+            } else {
+                $resultlist = "";
+            }
+            $data['listing'] = $resultlist;
+            $response = array('status' => 'success', 'result' => $data);
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage);
+        }
+        echo json_encode($response);
+    }
     public function classification_get(){
         try {
             $categoryList = $this->db->query("SELECT * FROM category WHERE status = '1'")->result_array();
@@ -2126,4 +2180,262 @@ class Api extends REST_Controller {
 		}
 		echo json_encode($response);
     }
+
+    public function add_customer_post() {
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            $created_by = $formdata['created_by'];
+            $user_fname = $formdata['user_fname'];
+            $user_lname = $formdata['user_lname'];
+            $user_emailid = $formdata['user_emailid'];
+            $user_pasword = $formdata['user_pasword'];
+            $user_status = $formdata['user_status'];
+            $u_type = $formdata['u_type'];
+            $checkEmail = $this->db->query("SELECT * FROM user_accounts WHERE user_emailid = '".$user_emailid."'")->result();
+            if(!empty($checkEmail)) {
+                $response = array('status' => 'error', 'result' => 'Email already exists');
+            } else {
+                $arrremessage = array(
+                    'created_by' => $created_by,
+                    'user_fname' => $user_fname,
+                    'user_lname' => $user_lname,
+                    'user_emailid' => $user_emailid,
+                    'user_pasword' => base64_encode($user_pasword),
+                    'user_status' => '1',
+                    'u_type' => '4',
+                    'created_at' => date('Y-m-d H:i:s')
+                );
+                $rvinsert = $this->db->insert('user_accounts', $arrremessage);
+                if ($rvinsert == TRUE) {
+                    $response = array('status' => "success", 'result' => "User added successfully");
+                } else {
+                    $response = array('status'=> "error", 'result'=> "Something went wrong. Please try again later");
+                }
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+    }
+    public function customer_list_post() {
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            $user_id = $formdata['user_id'];
+            $customer_list = $this->db->query("SELECT * FROM user_accounts WHERE created_by = '".$user_id."'")->result_array();
+            if(!empty($customer_list)) {
+                $customerList = [];
+                foreach ($customer_list as $key => $list) {
+                    $customerList[$key]['user_id'] = $list['user_id'];
+                    $customerList[$key]['user_fname'] = $list['user_fname'];
+                    $customerList[$key]['user_lname'] = $list['user_lname'];
+                    $customerList[$key]['user_emailid'] = $list['user_emailid'];
+                    $customerList[$key]['user_pasword'] = $list['user_pasword'];
+                    $customerList[$key]['u_type'] = $list['u_type'];
+                    $customerList[$key]['messageType'] = $list['messageType'];
+                    if(!empty($list['image']) && file_exists('assets/images/profile/'.$list['image'])) {
+                        $customerList[$key]['profileimage'] = base_url('assets/images/profile/'.$list['image']);
+                    } else {
+                        $customerList[$key]['profileimage'] = base_url('assets/images/profile/user-icon.png');
+                    }
+                    $customerList[$key]['created_at'] = $list['created_at'];
+                }
+                $response = array('status' => 'success', 'result' => $customerList);
+            } else {
+                $response = array('status' => 'error', 'result' => 'No data found');
+            }
+        } catch (\Throwable $th){
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+		}
+		echo json_encode($response);
+    }
+    public function edit_customer_post() {
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            $customer_id = $formdata['customer_id'];
+            $getCustomerDetails = $this->db->query("SELECT * FROM user_accounts WHERE user_id = '".$customer_id."' AND user_status = '1'")->result();
+            //print_r($getCustomerDetails); die();
+            if(!empty($getCustomerDetails)) {
+                $CustomerDetails = [];
+                foreach ($getCustomerDetails as $record) {
+                    $CustomerDetails['user_id'] = $record->user_id;
+                    $CustomerDetails['user_fname'] = $record->user_fname;
+                    $CustomerDetails['user_lname'] = $record->user_lname;
+                    $CustomerDetails['user_emailid'] = $record->user_emailid;
+                    $CustomerDetails['user_pasword'] = base64_decode($record->user_pasword);
+                }
+                $response = array('status' => 'success', 'result' => $CustomerDetails);
+            } else {
+                $response = array('status' => 'error', 'result' => 'Something went wrong! Please try again later');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status'=> 'error', 'result'=> $th->getMessage());
+        }
+        echo json_encode($response);
+    }
+    public function update_customer_post() {
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            $updateData = array(
+                'user_fname' => $formdata['user_fname'],
+                'user_lname' => $formdata['user_lname'],
+                'user_emailid' => $formdata['user_emailid'],
+                'user_pasword' => base64_encode($formdata['user_pasword']),
+            );
+            $checkEmail = $this->db->query("SELECT * FROM user_accounts WHERE user_emailid = '".$formdata['user_emailid']."' AND user_id != '".$formdata['user_id']."'")->row();
+            if(!empty($checkEmail)) {
+                $response = array('status' => 'success', 'result' => 'Email already exist');
+            } else {
+                $this->db->where('user_id', $formdata['user_id']);
+                $this->db->update('user_accounts', $updateData);
+                $response = array('status' => 'success', 'result' => 'Customer updated successfully');
+            }
+        } catch(\Throwable $th) {
+            $response = array('status'=> 'error', 'result'=> $th->getMessage());
+        }
+        echo json_encode($response);
+    }
+    public function delete_customer_post() {
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            $this->db->where('user_id', $formdata['user_id']);
+            $this->db->delete('user_accounts');
+            $response = array('status' => 'success', 'result' => 'Customer deleted successfully');
+        } catch(\Throwable $th) {
+            $response = array('status'=> 'error', 'result'=> $th->getMessage());
+        }
+        echo json_encode($response);
+    }
+    public function product_category_get() {
+        try {
+            $category = $this->db->get_where('mrkt_category', array('status' => 1))->result_array();
+            if(!empty($category)) {
+                $categoryList = [];
+                foreach ($category as $key => $cat) {
+                    $categoryList[$key]['id'] = $cat['id'];
+                    $categoryList[$key]['name'] = $cat['name'];
+                }
+                $response = array('status' => 'success', 'result' => $categoryList);
+            } else {
+                $response = array('status' => 'error', 'result' => 'No category found');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status'=> 'error', 'result'=> $th->getMessage());
+        }
+        echo json_encode($response);
+    }
+    public function product_subcategory_post() {
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            $subcategory = $this->db->get_where('marketplace_submenu', array('cat_id'=> $formdata['cat_id'], 'status' => 1))->result_array();
+            if(!empty($subcategory)) {
+                $subcategoryList = [];
+                foreach ($subcategory as $key => $subcat) {
+                    $subcategoryList[$key]['id'] = $subcat['submenuId'];
+                    $subcategoryList[$key]['name'] = $subcat['name'];
+                }
+                $response = array('status' => 'success', 'result' => $subcategoryList);
+            } else {
+                $response = array('status' => 'error', 'result' => 'No subcategory found');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status'=> 'error', 'result'=> $th->getMessage());
+        }
+        echo json_encode($response);
+    }
+    public function add_product_post() {
+        try{
+            $data = array(
+                'userid' => $this->input->post('user_id'),
+                'category' => $this->input->post('category'),
+                'prsubmenuId' => $this->input->post('prsubmenuId'),
+                'productName' => $this->input->post('productName'),
+                'prcode' => $this->input->post('prcode'),
+                'product_type' => $this->input->post('product_type'),
+                'brand_name' => $this->input->post('brand_name'),
+                'maxPrice' => $this->input->post('maxPrice'),
+                'disc_percent' => $this->input->post('disc_percent'),
+                'sku' => $this->input->post('sku'),
+                'inventory' => $this->input->post('inventory'),
+                'collections' => $this->input->post('collections'),
+                'tags' => $this->input->post('tags'),
+                'shipping_info' => $this->input->post('shipping_info'),
+                'description' => $this->input->post('description'),
+                'shipping_charge' => $this->input->post('shipping_charge'),
+                'variants' => $this->input->post('variants'),
+                'seo_title' => $this->input->post('seo_title'),
+                'seo_descr' => $this->input->post('seo_descr'),
+                'return_day' => $this->input->post('return_day'),
+                'status' => '1',
+                'created' => date("Y-m-d H:i:s"),
+            );
+            $this->db->insert('products', $data);
+            $insert_id = $this->db->insert_id();
+            if(!empty($insert_id)) {
+                if (!empty($_FILES['prod_image']['size'])) {
+                    $filesCount = count($_FILES['prod_image']['name']);
+					for($i=0; $i < $filesCount; $i++) {
+                        $src = $_FILES['prod_image']['tmp_name'][$i];
+                        $filEnc = time();
+                        $avatar = rand(0000, 9999) . "_" . $_FILES['prod_image']['name'][$i];
+                        $avatar1 = str_replace(array('(', ')', ' '), '', $avatar);
+                        $dest = getcwd() . '/assets/images/products/' . $avatar1;
+                        if (move_uploaded_file($src, $dest)) {
+                            $file1 = $avatar1;
+                        }
+                        if(!empty($file1)) {
+                            $pfile = $file1;
+                        } else {
+                            $pfile = "";
+                        }
+                        $uploadData = array(
+                            'productImage' => $pfile,
+                            'productId' => $insert_id
+                        );
+                        $insert = $this->db->insert('product_images', $uploadData);
+                    }
+                }
+                $response = array('status' => 'success', 'result' => 'Product added successfully');
+            } else {
+                $response = array('status' => 'error', 'result' => 'Something went wrong. Please try again later');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+        }
+        echo json_encode($response);
+    }
+    // public function product_list_post() {
+    //     try {
+    //         $formdata = json_decode(file_get_contents('php://input'), true);
+    //         if(!empty($formdata['user_id'])) {
+    //             $businessList = $this->db->query("SELECT * FROM listing WHERE userid = '".$formdata['user_id']."' AND status = '1'")->result_array();
+    //         } else {
+    //             $businessList = $this->db->query("SELECT * FROM listing WHERE status = '1'")->result_array();
+    //         }
+    //         if(!empty($businessList)) {
+    //             $business_list = array();
+    //             foreach ($businessList as $key => $value) {
+    //                 $business_list[$key]['businessId'] = $value['id'];
+    //                 $category = $this->db->query("SELECT * FROM category WHERE id = '".$value['category']."'")->row();
+    //                 $business_list[$key]['businessType'] = $category->name;
+    //                 $business_list[$key]['businessName'] = $value['title'];
+    //                 $business_list[$key]['businessAddress'] = $value['street_addr'];
+    //                 $business_list[$key]['businessPhone'] = $value['phone'];
+    //                 $business_list[$key]['businessEmail'] = $value['email'];
+    //                 if(!empty($value['images']) && file_exists('assets/images/directory/'.$value['images'])) {
+    //                     $business_list[$key]['businessImage'] = base_url().'assets/images/directory/'.$value['images'];
+    //                 } else {
+    //                     $business_list[$key]['businessImage'] = base_url() . 'assets/images/no-image.png';
+    //                 }
+    //                 $businessratingCount = $this->db->query("SELECT COUNT(id) as count FROM user_listreview WHERE business_id = '".$value['id']."'")->row();
+    //                 $business_list[$key]['businessRatingCount'] = $value['rating']." (".$businessratingCount->count.")";
+    //             }
+    //             $response = array('status' => 'success', 'result' => $business_list);
+    //         } else {
+    //             $response = array('status'=> 'error', 'result'=> 'No business found');
+    //         }
+    //     } catch (\Throwable $th) {
+    //         $response = array('status' => 'error', 'result' => $th->getMessage());
+    //     }
+    //     echo json_encode($response);
+    // }
 }
