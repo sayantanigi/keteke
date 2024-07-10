@@ -1,19 +1,14 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
+defined('BASEPATH') or exit('No direct script access allowed');
 class Categories extends Admin_Controller {
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->admin_login();
+    public function __construct() {
+        parent::__construct();
+        $this->admin_login();
         $this->data['title'] = '';
         $this->data['tab'] = '';
-	}
-
-    public function categoryIndex($page = 1)
-    {   
-        if(isset($_GET['page'])){
+    }
+    public function categoryIndex($page = 1) {
+        if (isset($_GET['page'])) {
             $page = $_GET['page'];
         }
         $show_per_page = 10;
@@ -21,69 +16,64 @@ class Categories extends Admin_Controller {
         $this->data['title'] = 'Business category List';
         $this->data['tab'] = 'mrktcat';
         $this->data['main'] = admin_view('category/homepagecategoryindex');
-        $cms = $this->Master_model->getAll($offset, $show_per_page,'category');
+        $cms = $this->Master_model->getAll($offset, $show_per_page, 'category');
         $this->data['pages'] = $cms['results'];
-        $this->load->view(admin_view('default'),$this->data);
+        $this->load->view(admin_view('default'), $this->data);
     }
-     public function category_add($id=false)
-    {
+    public function category_add($id = false) {
         $this->data['title'] = 'Add/Edit Business Category';
         $this->data['tab'] = 'add_subcat';
         $this->data['main'] = admin_view('category/category_edit');
-        $this->data['category'] = $this->db->get_where('category',array('status'=>1))->result();
+        $this->data['category'] = $this->db->get_where('category', array('status' => 1))->result();
         if ($id) {
-            $this->data['pages'] = $pages = $this->Master_model->getRow($id,'category');
-            if(!isset($pages)){
-               redirect(site_url('404_override'));
-               exit();
+            $this->data['pages'] = $pages = $this->Master_model->getRow($id, 'category');
+            if (!isset($pages)) {
+                redirect(site_url('404_override'));
+                exit();
             }
         }
-       
         $this->form_validation->set_rules('frm[name]', 'Category Name', 'required');
-        if($this->form_validation->run()) {
+        if ($this->form_validation->run()) {
             $formdata = $this->input->post('frm');
-            $formdata['id'] = $id;   
-            $id = $this->Master_model->save($formdata,'category');
+            $formdata['id'] = $id;
+            $id = $this->Master_model->save($formdata, 'category');
             $this->session->set_flashdata("success", "Category updated");
             redirect(admin_url('categories/categoryIndex'));
-        }       
-        $this->load->view(admin_view('default'),$this->data);
+        }
+        $this->load->view(admin_view('default'), $this->data);
     }
-     function categorydelete($id){
+    function categorydelete($id) {
         if ($id > 0) {
-            $this->Master_model->delete($id,'category');
+            $this->Master_model->delete($id, 'category');
             $this->session->set_flashdata('success', 'Category Deleted successfully ');
         }
         redirect(admin_url('categories/categoryIndex'));
     }
-    public function add($id=false)
-    {
+    public function add($id = false) {
         $this->data['title'] = 'Add Subcategory';
         $this->data['tab'] = 'add_subcat';
         $this->data['main'] = admin_view('category/add');
-        $this->data['category'] = $this->db->get_where('category',array('status'=>1))->result();
+        $this->data['category'] = $this->db->get_where('category', array('status' => 1))->result();
         if ($id) {
-            $this->data['pages'] = $pages = $this->Master_model->getRow($id,'subcategory');
-            if(!isset($pages)){
-               redirect(site_url('404_override'));
-               exit();
+            $this->data['pages'] = $pages = $this->Master_model->getRow($id, 'subcategory');
+            if (!isset($pages)) {
+                redirect(site_url('404_override'));
+                exit();
             }
         }
         $this->form_validation->set_rules('frm[catid]', 'Category Name', 'required');
         $this->form_validation->set_rules('frm[name]', 'Sub-category Name', 'required');
-        if($this->form_validation->run()) {
+        if ($this->form_validation->run()) {
             $formdata = $this->input->post('frm');
-            $formdata['id'] = $id;   
-            $id = $this->Master_model->save($formdata,'listing_category');
+            $formdata['id'] = $id;
+            $id = $this->Master_model->save($formdata, 'listing_category');
             $this->session->set_flashdata("success", "Sub-category added");
             redirect(admin_url('categories/index'));
-        }       
-        $this->load->view(admin_view('default'),$this->data);
+        }
+        $this->load->view(admin_view('default'), $this->data);
     }
-
-public function index($page = 1)
-    {   
-        if(isset($_GET['page'])){
+    public function index($page = 1) {
+        if (isset($_GET['page'])) {
             $page = $_GET['page'];
         }
         $show_per_page = 10;
@@ -91,7 +81,7 @@ public function index($page = 1)
         $this->data['title'] = 'Subcategory';
         $this->data['tab'] = 'subcat';
         $this->data['main'] = admin_view('category/index');
-        $cms = $this->Master_model->getAll($offset, $show_per_page,'listing_category');
+        $cms = $this->Master_model->getAll($offset, $show_per_page, 'listing_category');
         $this->data['pages'] = $cms['results'];
         $config['base_url'] = admin_url('categories/index');
         $config['num_links'] = 2;
@@ -121,70 +111,60 @@ public function index($page = 1)
         $config['page_query_string'] = true;
         $config['query_string_segment'] = 'page';
         $config['reuse_query_string'] = true;
-
         $this->pagination->initialize($config);
         $this->data['paginate'] = $this->pagination->create_links();
-        $this->load->view(admin_view('default'),$this->data);
+        $this->load->view(admin_view('default'), $this->data);
     }
-    
-
-
-    function activate($id = false)
-    {
+    function activate($id = false) {
         $redirect = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : admin_url('categories');
         if ($id) {
             $c['id'] = $id;
             $c['status'] = 1;
-            $this->Master_model->save($c,'listing_category');
+            $this->Master_model->save($c, 'listing_category');
             $this->session->set_flashdata("success", "Sub-category activated");
         }
         redirect($redirect);
     }
-     function deactivate($id = false)
-    {
+    function deactivate($id = false) {
         $redirect = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : admin_url('categories');
         if ($id) {
             $c['id'] = $id;
             $c['status'] = 0;
-            $this->Master_model->save($c,'listing_category');
+            $this->Master_model->save($c, 'listing_category');
             $this->session->set_flashdata("success", "Sub-category deactivated");
         }
         redirect($redirect);
     }
-
-    function delete($id){
+    function delete($id) {
         if ($id > 0) {
-            $this->Master_model->delete($id,'listing_category');
+            $this->Master_model->delete($id, 'listing_category');
             $this->session->set_flashdata('success', 'Sub-category Deleted successfully ');
         }
         redirect(admin_url('categories'));
     }
-   public function addMarketcategory($id=false)
-    {
+    public function addMarketcategory($id = false) {
         $this->data['title'] = 'Add Marketplace Category';
         $this->data['tab'] = 'mrktcat';
         $this->data['main'] = admin_view('category/addmarket');
         if ($id) {
-            $this->data['pages'] = $pages = $this->Master_model->getRow($id,'mrkt_category');
-            if(!isset($pages)){
-               redirect(site_url('404_override'));
-               exit();
+            $this->data['pages'] = $pages = $this->Master_model->getRow($id, 'mrkt_category');
+            if (!isset($pages)) {
+                redirect(site_url('404_override'));
+                exit();
             }
         }
         $this->form_validation->set_rules('frm[name]', 'Market category Name', 'required');
-        if($this->form_validation->run()) {
+        if ($this->form_validation->run()) {
             $formdata = $this->input->post('frm');
-            $formdata['id'] = $id;   
-            $id = $this->Master_model->save($formdata,'mrkt_category');
+            $formdata['id'] = $id;
+            $id = $this->Master_model->save($formdata, 'mrkt_category');
             $this->session->set_flashdata("success", "Category added");
             redirect(admin_url('categories/MarketCategoryindex'));
-        }       
-        $this->load->view(admin_view('default'),$this->data);
+        }
+        $this->load->view(admin_view('default'), $this->data);
     }
-
-public function MarketCategoryindex($page = 1)
-    {   
-        if(isset($_GET['page'])){
+    public function MarketCategoryindex($page = 1) {
+        if (isset($_GET['page'])) {
             $page = $_GET['page'];
         }
         $show_per_page = 10;
@@ -192,99 +172,87 @@ public function MarketCategoryindex($page = 1)
         $this->data['title'] = 'Marketplace Category List';
         $this->data['tab'] = 'mrktcat';
         $this->data['main'] = admin_view('category/indexmarket');
-        $cms = $this->Master_model->getAll($offset, $show_per_page,'mrkt_category');
+        $cms = $this->Master_model->getAll($offset, $show_per_page, 'mrkt_category');
         $this->data['pages'] = $cms['results'];
-        $this->load->view(admin_view('default'),$this->data);
+        $this->load->view(admin_view('default'), $this->data);
     }
-    function Marketcategoryactivate($id = false)
-    {
+    function Marketcategoryactivate($id = false) {
         $redirect = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : admin_url('categories/MarketCategoryindex');
         if ($id) {
             $c['id'] = $id;
             $c['status'] = 1;
-            $this->Master_model->save($c,'mrkt_category');
+            $this->Master_model->save($c, 'mrkt_category');
             $this->session->set_flashdata("success", "Category activated");
         }
         redirect($redirect);
     }
-     function Marketcategorydeactivate($id = false)
-    {
+    function Marketcategorydeactivate($id = false) {
         $redirect = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : admin_url('categories/MarketCategoryindex');
         if ($id) {
             $c['id'] = $id;
             $c['status'] = 0;
-            $this->Master_model->save($c,'mrkt_category');
+            $this->Master_model->save($c, 'mrkt_category');
             $this->session->set_flashdata("success", "Category deactivated");
         }
         redirect($redirect);
     }
-
-    function MarketCategorydelete($id){
+    function MarketCategorydelete($id) {
         if ($id > 0) {
-            $this->Master_model->delete($id,'mrkt_category');
+            $this->Master_model->delete($id, 'mrkt_category');
             $this->session->set_flashdata('success', 'Category Deleted successfully ');
         }
         redirect(admin_url('categories/MarketCategoryindex'));
     }
- public function addsubmenuMarketplace($id=false)
-    {
+    public function addsubmenuMarketplace($id = false) {
         $this->data['title'] = 'Add submenu';
         $this->data['tab'] = 'mrktcat';
         $this->data['main'] = admin_view('category/addsubmenumrkt');
-        $this->data['mrktcategory'] = $this->db->get_where('mrkt_category',array('status'=>1))->result();
+        $this->data['mrktcategory'] = $this->db->get_where('mrkt_category', array('status' => 1))->result();
         if ($id) {
-            $this->data['pages'] = $pages = $this->Master_model->getsubmenuRow($id,'marketplace_submenu');
-            if(!isset($pages)){
-               redirect(site_url('404_override'));
-               exit();
+            $this->data['pages'] = $pages = $this->Master_model->getsubmenuRow($id, 'marketplace_submenu');
+            if (!isset($pages)) {
+                redirect(site_url('404_override'));
+                exit();
             }
         }
         $this->form_validation->set_rules('frm[name]', 'Marketplace Sub-menu Name', 'required');
-        if($this->form_validation->run()) {
+        if ($this->form_validation->run()) {
             $formdata = $this->input->post('frm');
-            $formdata['submenuId'] = $id;   
-            $id = $this->Master_model->submenusave($formdata,'marketplace_submenu');
+            $formdata['submenuId'] = $id;
+            $id = $this->Master_model->submenusave($formdata, 'marketplace_submenu');
             $this->session->set_flashdata("success", "Sub-menu saved");
             redirect(admin_url('categories/submenumarketplaceindex'));
-        }       
-        $this->load->view(admin_view('default'),$this->data);
+        }
+        $this->load->view(admin_view('default'), $this->data);
     }
-
-public function submenumarketplaceindex()
-    {   
+    public function submenumarketplaceindex() {
         $this->data['title'] = 'Sub-menu List';
         $this->data['tab'] = 'mrktcat';
         $this->data['main'] = admin_view('category/indexmarketsubmenu');
-        $this->data['pages']  = $this->db->get('marketplace_submenu')->result();
-        $this->load->view(admin_view('default'),$this->data);
+        $this->data['pages'] = $this->db->get('marketplace_submenu')->result();
+        $this->load->view(admin_view('default'), $this->data);
     }
-    
-
-
-    function submenuMrktactivate($id = false)
-    {
+    function submenuMrktactivate($id = false) {
         $redirect = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : admin_url('categories/submenumarketplaceindex');
         if ($id) {
             $c['submenuId'] = $id;
             $c['status'] = 1;
-            $this->Master_model->submenusave($c,'marketplace_submenu');
+            $this->Master_model->submenusave($c, 'marketplace_submenu');
             $this->session->set_flashdata("success", "Sub-menu activated");
         }
         redirect($redirect);
     }
-     function submenuMrktdeactivate($id = false)
-    {
+    function submenuMrktdeactivate($id = false) {
         $redirect = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : admin_url('categories/submenumarketplaceindex');
         if ($id) {
             $c['submenuId'] = $id;
             $c['status'] = 0;
-            $this->Master_model->submenusave($c,'marketplace_submenu');
+            $this->Master_model->submenusave($c, 'marketplace_submenu');
             $this->session->set_flashdata("success", "Sub-menu deactivated");
         }
         redirect($redirect);
     }
-
-    function submenumrktdelete($id){
+    function submenumrktdelete($id) {
         if ($id > 0) {
             $this->db->delete('marketplace_submenu', array('submenuId' => $id));
             $this->session->set_flashdata('success', 'Sub-menu Deleted successfully ');
@@ -292,6 +260,3 @@ public function submenumarketplaceindex()
         redirect(admin_url('categories/submenumarketplaceindex'));
     }
 }
-
-/* End of file city.php */
-/* Location: ./application/controllers/admin/city.php */
