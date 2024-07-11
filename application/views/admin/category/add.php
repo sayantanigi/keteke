@@ -35,8 +35,8 @@
                                     <div class="form-group">
                                         <label>Status</label>
                                         <select name="frm[status]" class="form-control">
-                                            <option value="1" <?php if ($pages->status == 1) { echo "selected"; } ?>>Active</option>
-                                            <option value="0" <?php if ($pages->status == 0) { echo "selected"; } ?>>Inactive</option>
+                                            <option value="1" <?php if (@$pages->status == '1') { echo "selected"; } ?>>Active</option>
+                                            <option value="0" <?php if (@$pages->status == '0') { echo "selected"; } ?>>Inactive</option>
                                         </select>
                                     </div>
                                 </div>

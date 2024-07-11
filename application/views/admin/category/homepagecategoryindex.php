@@ -4,7 +4,7 @@
             <div class="col-lg-12 col-12">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Business category List</h3>
+                        <h3 class="card-title">Business Category List</h3>
                     </div>
                     <div class="card-body">
                         <a href="<?= admin_url('categories/category_add') ?>" class="btn btn-warning btn-sm mb-3">Add</a>
@@ -21,7 +21,7 @@
                                 <tbody>
                                 <?php
                                 if (is_array($pages) && count($pages) > 0) {
-                                $i = 1;
+                                    $i = 1;
                                     foreach ($pages as $pr) { ?>
                                     <tr>
                                         <td><?= $i ?></td>

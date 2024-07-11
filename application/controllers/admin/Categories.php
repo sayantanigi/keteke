@@ -13,7 +13,7 @@ class Categories extends Admin_Controller {
         }
         $show_per_page = 10;
         $offset = ($page - 1) * $show_per_page;
-        $this->data['title'] = 'Business category List';
+        $this->data['title'] = 'Business Category List';
         $this->data['tab'] = 'mrktcat';
         $this->data['main'] = admin_view('category/homepagecategoryindex');
         $cms = $this->Master_model->getAll($offset, $show_per_page, 'category');
@@ -50,7 +50,7 @@ class Categories extends Admin_Controller {
         redirect(admin_url('categories/categoryIndex'));
     }
     public function add($id = false) {
-        $this->data['title'] = 'Add Subcategory';
+        $this->data['title'] = 'Add Business Subcategory';
         $this->data['tab'] = 'add_subcat';
         $this->data['main'] = admin_view('category/add');
         $this->data['category'] = $this->db->get_where('category', array('status' => 1))->result();
@@ -78,7 +78,7 @@ class Categories extends Admin_Controller {
         }
         $show_per_page = 10;
         $offset = ($page - 1) * $show_per_page;
-        $this->data['title'] = 'Subcategory';
+        $this->data['title'] = 'Business Subcategory List';
         $this->data['tab'] = 'subcat';
         $this->data['main'] = admin_view('category/index');
         $cms = $this->Master_model->getAll($offset, $show_per_page, 'listing_category');
@@ -204,7 +204,7 @@ class Categories extends Admin_Controller {
         redirect(admin_url('categories/MarketCategoryindex'));
     }
     public function addsubmenuMarketplace($id = false) {
-        $this->data['title'] = 'Add submenu';
+        $this->data['title'] = 'Add Marketplace Submenu';
         $this->data['tab'] = 'mrktcat';
         $this->data['main'] = admin_view('category/addsubmenumrkt');
         $this->data['mrktcategory'] = $this->db->get_where('mrkt_category', array('status' => 1))->result();
@@ -226,7 +226,7 @@ class Categories extends Admin_Controller {
         $this->load->view(admin_view('default'), $this->data);
     }
     public function submenumarketplaceindex() {
-        $this->data['title'] = 'Sub-menu List';
+        $this->data['title'] = 'Marketplace Sub Menu List';
         $this->data['tab'] = 'mrktcat';
         $this->data['main'] = admin_view('category/indexmarketsubmenu');
         $this->data['pages'] = $this->db->get('marketplace_submenu')->result();

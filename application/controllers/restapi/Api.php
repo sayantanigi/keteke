@@ -2588,4 +2588,40 @@ class Api extends REST_Controller {
         }
         echo json_encode($response);
     }
+    public function create_draft_order_post() {
+        try {
+            $formdata = json_decode(file_get_contents('php://input'), true);
+            $user_id = $formdata['user_id'];
+            $draftpayarray = array(
+				'pay_user_id' => $formdata['customer_id'],
+				'paid_amount' => $formdata['price'],
+				'payment_status' => 'Not paid',
+				'payment_created_by' => $user_id,
+				'payment_created_date' =>date('Y-m-d h:i:s')
+			);
+			$this->Master_model->save($draftpayarray,'draftorders_payment');
+			$Payorderid=$this->db->insert_id();
+
+            $prdid = $formdata['product_id'];
+            //echo "<pre>"; print_r($prdid); die();
+			for($i = 0; $i < count($prdid); $i++){
+				$productDetails = $this->Master_model->getSingleRow('productId',$prdid[$i],'products');
+				$insdrft = array(
+                    'userid' => $formdata['customer_id'],
+					'draftpayment_orderid' => $Payorderid,
+					'product_id' => $prdid[$i],
+					'qty' => $formdata['qty'],
+					'price' => $productDetails->offprice,
+					'shipping_charge' => $productDetails->shipping_charge,
+					'created_by' => $user_id,
+					'created_at' => date('Y-m-d h:i:s'),
+					'payment_status' => '0');
+				$this->Master_model->save($insdrft,'draft_orders');
+			}
+            $response = array('status' => 'success', 'result' => "Draft Order created successfully");
+        } catch (\Throwable $th) {
+            $response = array('status' => 'error', 'result' => $th->getMessage());
+        }
+        echo json_encode($response);
+    }
 }

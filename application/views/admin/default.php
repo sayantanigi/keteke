@@ -1,24 +1,142 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Keteke | <?= $title ?></title>
-    <link rel="icon" href="<?= site_url('fassets/images/favicon.png') ?>">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <link rel="stylesheet" href="<?= site_url('assets/admin/plugins/fontawesome-free/css/all.min.css') ?>">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="<?= site_url('assets/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') ?>">
-    <link rel="stylesheet" href="<?= site_url('assets/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css') ?>">
-    <link rel="stylesheet" href="<?= site_url('assets/admin/plugins/jqvmap/jqvmap.min.css') ?>">
-    <link rel="stylesheet" href="<?= site_url('assets/admin/dist/css/adminlte.min.css') ?>">
-    <link rel="stylesheet" href="<?= site_url('assets/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') ?>">
-    <link rel="stylesheet" href="<?= site_url('assets/admin/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') ?>" type="text/css" />
-    <link rel="stylesheet" href="<?= site_url('assets/admin/plugins/summernote/summernote-bs4.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="<?= site_url() ?>fassets/marketplace/css/all.min.css"/>
-    <link rel="stylesheet" href="<?= site_url() ?>fassets/marketplace/css/bootstrap-tagsinput.css"/>
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/1.10.22/sorting/datetime-moment.js">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Keteke | <?= $title ?></title>
+<link rel="icon" href="<?= site_url('fassets/images/favicon.png') ?>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link rel="stylesheet" href="<?= site_url('assets/admin/plugins/fontawesome-free/css/all.min.css') ?>">
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="<?= site_url('assets/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') ?>">
+<link rel="stylesheet" href="<?= site_url('assets/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css') ?>">
+<link rel="stylesheet" href="<?= site_url('assets/admin/plugins/jqvmap/jqvmap.min.css') ?>">
+<link rel="stylesheet" href="<?= site_url('assets/admin/dist/css/adminlte.min.css') ?>">
+<link rel="stylesheet" href="<?= site_url('assets/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') ?>">
+<link rel="stylesheet" href="<?= site_url('assets/admin/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') ?>" type="text/css" />
+<link rel="stylesheet" href="<?= site_url('assets/admin/plugins/summernote/summernote-bs4.min.css') ?>">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="<?= site_url() ?>fassets/marketplace/css/all.min.css" />
+<link rel="stylesheet" href="<?= site_url() ?>fassets/marketplace/css/bootstrap-tagsinput.css" />
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/1.10.22/sorting/datetime-moment.js">
+<script src="<?= site_url('assets/admin/plugins/jquery/jquery.min.js') ?>"></script>
+<script src="<?= site_url('assets/admin/plugins/jquery-ui/jquery-ui.min.js') ?>"></script>
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<script src="<?= site_url('assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+<script src="<?= site_url('assets/admin/plugins/chart.js/Chart.min.js') ?>"></script>
+<script src="<?= site_url('assets/admin/plugins/sparklines/sparkline.js') ?>"></script>
+<script src="<?= site_url('assets/admin/plugins/jqvmap/jquery.vmap.min.js') ?>"></script>
+<script src="<?= site_url('assets/admin/plugins/jqvmap/maps/jquery.vmap.usa.js') ?>"></script>
+<script src="<?= site_url('assets/admin/plugins/jquery-knob/jquery.knob.min.js') ?>"></script>
+<script src="<?= site_url('assets/admin/plugins/moment/moment.min.js') ?>"></script>
+<script src="<?= site_url('assets/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') ?>"></script>
+<script src="<?= site_url('assets/admin/plugins/summernote/summernote-bs4.min.js') ?>"></script>
+<script src="<?= site_url('assets/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') ?>"></script>
+<script src="<?= site_url('assets/admin/dist/js/adminlte.js') ?>"></script>
+<script src="<?= site_url('assets/admin/dist/js/demo.js') ?>"></script>
+<script src="<?= site_url('assets/admin/dist/js/pages/dashboard.js') ?>"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?= site_url() ?>fassets/marketplace/js/bootstrap-tagsinput.js"></script>
+<script src="<?= site_url('assets/admin/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') ?>"></script>
+<!-- <script src="<?= site_url() ?>fassets/marketplace/js/shieldui-all.min.js"></script> -->
+<script type="text/javascript">
+    jQuery(function ($) {
+        $("#chart").shieldChart({
+            theme: "bootstrap",
+            exportOptions: {
+                image: false,
+                print: false
+            },
+            seriesSettings: {
+                bar: {stackMode: "normal"}
+            },
+            axisX: {categoricalValues: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]},
+            primaryHeader: {text: "Keteke"},
+            dataSeries: [{
+                seriesType: "bar",
+                collectionAlias: "Total Sale",
+                data: [40, 32, 34, 36, 45, 33, 34, 75, 85, 150, 55, 20]
+            }]
+        });
+    });
+</script>
+<style>
+    text tspan {
+        display: none;
+    }
+    g text tspan {
+        display: block;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $(".delete").click(function () {
+            if (!confirm("Do you want to delete")) {
+                return false;
+            }
+        });
+    });
+</script>
+<script>
+    function delete_confirm() {
+        if ($('.checkbox:checked').length > 0) {
+            var result = confirm("Are you sure to delete selected Listing?");
+            if (result) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            alert('Select at least 1 record to delete.');
+            return false;
+        }
+    }
+    $(document).ready(function () {
+        $('#select_all').on('click', function () {
+            if (this.checked) {
+                $('.checkbox').each(function () {
+                    this.checked = true;
+                });
+            } else {
+                $('.checkbox').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+        $('.checkbox').on('click', function () {
+            if ($('.checkbox:checked').length == $('.checkbox').length) {
+                $('#select_all').prop('checked', true);
+            } else {
+                $('#select_all').prop('checked', false);
+            }
+        });
+    });
+</script>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#ex').DataTable();
+    });
+    $(function () {
+        $("#fromdate").datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+            todayHighlight: true
+        }).datepicker();
+        $("#expiredate").datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+            todayHighlight: true
+        }).datepicker();
+    });
+</script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -37,8 +155,7 @@
                     </div>
                 </div>
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
                             <a href="<?= site_url('dashboard') ?>" class="nav-link <?= ($tab == 'dashboard') ? 'active' : ''; ?> ">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -104,24 +221,24 @@
                                         <p>Category List</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a href="<?= admin_url('categories/add') ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add Subcategory</p>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
                                     <a href="<?= admin_url('categories') ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Subcategory List</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a href="<?= admin_url('categories/addMarketcategory') ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add Marketplace Category</p>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
                                     <a href="<?= admin_url('categories/MarketCategoryindex') ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -136,7 +253,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item <?= ($tab == 'country' || $tab == 'add_country') ? 'menu-is-opening menu-open' : ''; ?> ">
+                        <!-- <li class="nav-item <?= ($tab == 'country' || $tab == 'add_country') ? 'menu-is-opening menu-open' : ''; ?> ">
                             <a href="#" class="nav-link <?= ($tab == 'country') ? 'active' : ''; ?> ">
                                 <i class="nav-icon fas fa-globe"></i>
                                 <p>Country Mgmt<i class="fas fa-angle-left right"></i></p>
@@ -155,7 +272,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li class="nav-item <?= ($tab == 'dir_list_shop') ? 'menu-is-opening menu-open' : ''; ?> ">
                             <a href="#" class="nav-link <?= ($tab == 'dir_list_shop') ? 'active' : ''; ?> ">
                                 <i class="nav-icon fas fa-briefcase"></i>
@@ -289,131 +406,5 @@
         </footer>
         <aside class="control-sidebar control-sidebar-dark"></aside>
     </div>
-    <script src="<?= site_url('assets/admin/plugins/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/plugins/jquery-ui/jquery-ui.min.js') ?>"></script>
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
-    </script>
-    <script src="<?= site_url('assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/plugins/chart.js/Chart.min.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/plugins/sparklines/sparkline.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/plugins/jqvmap/jquery.vmap.min.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/plugins/jqvmap/maps/jquery.vmap.usa.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/plugins/jquery-knob/jquery.knob.min.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/plugins/moment/moment.min.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/plugins/summernote/summernote-bs4.min.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/dist/js/adminlte.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/dist/js/demo.js') ?>"></script>
-    <script src="<?= site_url('assets/admin/dist/js/pages/dashboard.js') ?>"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <script src="<?= site_url() ?>fassets/marketplace/js/bootstrap-tagsinput.js"></script>
-    <script src="<?= site_url('assets/admin/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') ?>"></script>
-    <!-- <script src="<?= site_url() ?>fassets/marketplace/js/shieldui-all.min.js"></script> -->
-    <script type="text/javascript">
-        jQuery(function ($) {
-            $("#chart").shieldChart({
-                theme: "bootstrap",
-                exportOptions: {
-                    image: false,
-                    print: false
-                },
-                seriesSettings: {
-                    bar: {
-                        stackMode: "normal"
-                    }
-                },
-                axisX: {
-                    categoricalValues: [
-                        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"
-                    ]
-                },
-                primaryHeader: {
-                    text: "Keteke"
-                },
-                dataSeries: [{
-                    seriesType: "bar",
-                    collectionAlias: "Total Sale",
-                    data: [40, 32, 34, 36, 45, 33, 34, 75, 85, 150, 55, 20]
-                }]
-            });
-        });
-    </script>
-    <style>
-        text tspan {
-            display: none;
-        }
-        g text tspan {
-            display: block;
-        }
-    </style>
-    <script>
-        $(document).ready(function () {
-            $(".delete").click(function () {
-                if (!confirm("Do you want to delete")) {
-                    return false;
-                }
-            });
-        });
-    </script>
-    <script>
-        function delete_confirm() {
-            if ($('.checkbox:checked').length > 0) {
-                var result = confirm("Are you sure to delete selected Listing?");
-                if (result) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                alert('Select at least 1 record to delete.');
-                return false;
-            }
-        }
-        $(document).ready(function () {
-            $('#select_all').on('click', function () {
-                if (this.checked) {
-                    $('.checkbox').each(function () {
-                        this.checked = true;
-                    });
-                } else {
-                    $('.checkbox').each(function () {
-                        this.checked = false;
-                    });
-                }
-            });
-            $('.checkbox').on('click', function () {
-                if ($('.checkbox:checked').length == $('.checkbox').length) {
-                    $('#select_all').prop('checked', true);
-                } else {
-                    $('#select_all').prop('checked', false);
-                }
-            });
-        });
-    </script>
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
-    <script>
-        $(document).ready(function () {
-            $('#ex').DataTable();
-        });
-        $(function () {
-            $("#fromdate").datepicker({
-                autoclose: true,
-                format: 'yyyy-mm-dd',
-                todayHighlight: true
-            }).datepicker();
-            $("#expiredate").datepicker({
-                autoclose: true,
-                format: 'yyyy-mm-dd',
-                todayHighlight: true
-            }).datepicker();
-        });
-    </script>
 </body>
 </html>
