@@ -28,9 +28,9 @@
                                         <td><?php echo $pr->name; ?></td>
                                         <td>
                                             <?php if ($pr->status == 1) { ?>
-                                            <span class="badge bg-green">Active</span>
+                                            <a href="<?= admin_url('categories/category_deactivate/' . $pr->id) ?>"><span class="badge bg-green">Active</span></a>
                                             <?php } else { ?>
-                                            <span class="badge bg-red">Inactive</span>
+                                            <a href="<?= admin_url('categories/category_activate/' . $pr->id) ?>"><span class="badge bg-red">Inactive</span></a>
                                             <?php } ?>
                                         </td>
                                         <td>

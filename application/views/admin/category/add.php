@@ -17,7 +17,7 @@
                                                 <option value="">--Choose Category--</option>
                                                 <?php if (is_array($category) && count($category) > 0) {
                                                 foreach ($category as $c) { ?>
-                                                <option value="<?= $c->id ?>" <?php if ($c->id == $pages->cat_id) { echo "selected"; } ?>><?= $c->name ?></option>
+                                                <option value="<?= $c->id ?>" <?php if ($c->id == $pages->catid) { echo "selected"; } ?>><?= $c->name ?></option>
                                                 <?php } } ?>
                                             </select>
                                         </div>
@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
-                                        <label>Sucategory Name</label>
+                                        <label>Subcategory Name</label>
                                         <input type="text" name="frm[name]" value="<?= $pages->name ?>" class="form-control" id="exampleInputEmail1" placeholder="Enter Sucategory Name">
                                     </div>
                                 </div>

@@ -42,100 +42,79 @@
 <script src="<?= site_url() ?>fassets/marketplace/js/bootstrap-tagsinput.js"></script>
 <script src="<?= site_url('assets/admin/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') ?>"></script>
 <!-- <script src="<?= site_url() ?>fassets/marketplace/js/shieldui-all.min.js"></script> -->
-<script type="text/javascript">
-    jQuery(function ($) {
-        $("#chart").shieldChart({
-            theme: "bootstrap",
-            exportOptions: {
-                image: false,
-                print: false
-            },
-            seriesSettings: {
-                bar: {stackMode: "normal"}
-            },
-            axisX: {categoricalValues: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]},
-            primaryHeader: {text: "Keteke"},
-            dataSeries: [{
-                seriesType: "bar",
-                collectionAlias: "Total Sale",
-                data: [40, 32, 34, 36, 45, 33, 34, 75, 85, 150, 55, 20]
-            }]
-        });
-    });
-</script>
 <style>
-    text tspan {
-        display: none;
-    }
-    g text tspan {
-        display: block;
-    }
+text tspan {display: none;}
+g text tspan {display: block;}
 </style>
 <script>
-    $(document).ready(function () {
-        $(".delete").click(function () {
-            if (!confirm("Do you want to delete")) {
-                return false;
-            }
-        });
+$(document).ready(function () {
+    $("#chart").shieldChart({
+        theme: "bootstrap",
+        exportOptions: {
+            image: false,
+            print: false
+        },
+        seriesSettings: {
+            bar: {stackMode: "normal"}
+        },
+        axisX: {categoricalValues: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]},
+        primaryHeader: {text: "Keteke"},
+        dataSeries: [{
+            seriesType: "bar",
+            collectionAlias: "Total Sale",
+            data: [40, 32, 34, 36, 45, 33, 34, 75, 85, 150, 55, 20]
+        }]
     });
-</script>
-<script>
-    function delete_confirm() {
-        if ($('.checkbox:checked').length > 0) {
-            var result = confirm("Are you sure to delete selected Listing?");
-            if (result) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            alert('Select at least 1 record to delete.');
+    $("#fromdate").datepicker({
+        autoclose: true,
+        format: 'yyyy-mm-dd',
+        todayHighlight: true
+    }).datepicker();
+    $("#expiredate").datepicker({
+        autoclose: true,
+        format: 'yyyy-mm-dd',
+        todayHighlight: true
+    }).datepicker();
+    $(".delete").click(function () {
+        if (!confirm("Do you want to delete")) {
             return false;
         }
+    });
+    $('#select_all').on('click', function () {
+        if (this.checked) {
+            $('.checkbox').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $('.checkbox').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+    $('.checkbox').on('click', function () {
+        if ($('.checkbox:checked').length == $('.checkbox').length) {
+            $('#select_all').prop('checked', true);
+        } else {
+            $('#select_all').prop('checked', false);
+        }
+    });
+});
+function delete_confirm() {
+    if ($('.checkbox:checked').length > 0) {
+        var result = confirm("Are you sure to delete selected Listing?");
+        if (result) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        alert('Select at least 1 record to delete.');
+        return false;
     }
-    $(document).ready(function () {
-        $('#select_all').on('click', function () {
-            if (this.checked) {
-                $('.checkbox').each(function () {
-                    this.checked = true;
-                });
-            } else {
-                $('.checkbox').each(function () {
-                    this.checked = false;
-                });
-            }
-        });
-        $('.checkbox').on('click', function () {
-            if ($('.checkbox:checked').length == $('.checkbox').length) {
-                $('#select_all').prop('checked', true);
-            } else {
-                $('#select_all').prop('checked', false);
-            }
-        });
-    });
-</script>
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
-<script>
-    $(document).ready(function () {
-        $('#ex').DataTable();
-    });
-    $(function () {
-        $("#fromdate").datepicker({
-            autoclose: true,
-            format: 'yyyy-mm-dd',
-            todayHighlight: true
-        }).datepicker();
-        $("#expiredate").datepicker({
-            autoclose: true,
-            format: 'yyyy-mm-dd',
-            todayHighlight: true
-        }).datepicker();
-    });
+}
+function goBack() {
+    window.history.back();
+}
 </script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -146,14 +125,14 @@
                 <span class="brand-text font-weight-light">Keteke</span>
             </a>
             <div class="sidebar">
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                         <img src="<?= site_url('assets/images/profile/user-icon.png') ?>" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">Admin</a>
                     </div>
-                </div>
+                </div> -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
@@ -165,7 +144,7 @@
                         <li class="nav-item <?= ($tab == 'members') ? 'menu-is-opening menu-open' : ''; ?> ">
                             <a href="#" class="nav-link <?= ($tab == 'members') ? 'active' : ''; ?> ">
                                 <i class="nav-icon fas fa-users"></i>
-                                <p>Member & Newsletter Mgmt<i class="fas fa-angle-left right"></i></p>
+                                <p>Member & Newsletter<i class="fas fa-angle-left right"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <!--  <li class="nav-item">
@@ -191,7 +170,7 @@
                         <li class="nav-item <?= ($tab == 'banners') ? 'menu-is-opening menu-open' : ''; ?> ">
                             <a href="#" class="nav-link <?= ($tab == 'banners') ? 'active' : ''; ?> ">
                                 <i class="nav-icon fas fa-camera"></i>
-                                <p>Marketplace Banner Mgmt<i class="fas fa-angle-left right"></i>
+                                <p>Marketplace Banner<i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
@@ -212,7 +191,7 @@
                         <li class="nav-item <?= ($tab == 'subcat' || $tab == 'add_subcat' || $tab == 'mrktcat') ? 'menu-is-opening menu-open' : ''; ?> ">
                             <a href="#" class="nav-link <?= ($tab == 'subcat') ? 'active' : ''; ?> ">
                                 <i class="nav-icon fas fa-arrows-alt"></i>
-                                <p>Category Mgmt<i class="fas fa-angle-left right"></i></p>
+                                <p>Category<i class="fas fa-angle-left right"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
@@ -221,24 +200,12 @@
                                         <p>Category List</p>
                                     </a>
                                 </li>
-                                <!-- <li class="nav-item">
-                                    <a href="<?= admin_url('categories/add') ?>" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Subcategory</p>
-                                    </a>
-                                </li> -->
                                 <li class="nav-item">
                                     <a href="<?= admin_url('categories') ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Subcategory List</p>
                                     </a>
                                 </li>
-                                <!-- <li class="nav-item">
-                                    <a href="<?= admin_url('categories/addMarketcategory') ?>" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Marketplace Category</p>
-                                    </a>
-                                </li> -->
                                 <li class="nav-item">
                                     <a href="<?= admin_url('categories/MarketCategoryindex') ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -253,30 +220,10 @@
                                 </li>
                             </ul>
                         </li>
-                        <!-- <li class="nav-item <?= ($tab == 'country' || $tab == 'add_country') ? 'menu-is-opening menu-open' : ''; ?> ">
-                            <a href="#" class="nav-link <?= ($tab == 'country') ? 'active' : ''; ?> ">
-                                <i class="nav-icon fas fa-globe"></i>
-                                <p>Country Mgmt<i class="fas fa-angle-left right"></i></p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="<?= admin_url('countries/add') ?>" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Country</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="<?= admin_url('countries') ?>" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Country List</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li> -->
                         <li class="nav-item <?= ($tab == 'dir_list_shop') ? 'menu-is-opening menu-open' : ''; ?> ">
                             <a href="#" class="nav-link <?= ($tab == 'dir_list_shop') ? 'active' : ''; ?> ">
                                 <i class="nav-icon fas fa-briefcase"></i>
-                                <p>Business Mgmt<i class="fas fa-angle-left right"></i></p>
+                                <p>Business<i class="fas fa-angle-left right"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
@@ -290,7 +237,7 @@
                         <li class="nav-item <?= ($tab == 'products' || $tab == 'trans') ? 'menu-is-opening menu-open' : ''; ?> ">
                             <a href="#" class="nav-link <?= ($tab == 'products') ? 'active' : ''; ?> ">
                                 <i class="nav-icon fas fa-shopping-bag"></i>
-                                <p>Product & Order Mgmt<i class="fas fa-angle-left right"></i></p>
+                                <p>Product & Order<i class="fas fa-angle-left right"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
@@ -322,7 +269,7 @@
                         <li class="nav-item <?= ($tab == 'cms') ? 'menu-is-opening menu-open' : ''; ?> ">
                             <a href="#" class="nav-link <?= ($tab == 'cms' || $tab == 'add_cms') ? 'active' : ''; ?> ">
                                 <i class="nav-icon fas fa-list"></i>
-                                <p>Content Mgmt<i class="fas fa-angle-left right"></i></p>
+                                <p>Content<i class="fas fa-angle-left right"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <!-- <li class="nav-item">
@@ -342,7 +289,7 @@
                         <li class="nav-item <?= ($tab == 'coupons') ? 'menu-is-opening menu-open' : ''; ?> ">
                             <a href="#" class="nav-link <?= ($tab == 'coupons') ? 'active' : ''; ?> ">
                                 <i class="nav-icon fas fa-tag"></i>
-                                <p>Coupon code Mgmt<i class="fas fa-angle-left right"></i></p>
+                                <p>Coupon code<i class="fas fa-angle-left right"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">

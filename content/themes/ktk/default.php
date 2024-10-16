@@ -171,9 +171,7 @@
                         </p>
                         <p>
                             <a href="https://www.freecounterstat.com" title="visitor counter script">
-                                <img class="counterwidth"
-                                    src="https://counter10.stat.ovh/private/freecounterstat.php?c=xkun6ugmt9tqt3z242k7c99g84wddk1c"
-                                    border="0" title="visitor counter script" alt="visitor counter script">
+                                <img class="counterwidth" src="https://counter10.stat.ovh/private/freecounterstat.php?c=xkun6ugmt9tqt3z242k7c99g84wddk1c" border="0" title="visitor counter script" alt="visitor counter script">
                             </a>
                         </p>
                     </div>

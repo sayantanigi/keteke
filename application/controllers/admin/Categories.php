@@ -36,9 +36,18 @@ class Categories extends Admin_Controller {
         if ($this->form_validation->run()) {
             $formdata = $this->input->post('frm');
             $formdata['id'] = $id;
-            $id = $this->Master_model->save($formdata, 'category');
+            $checkduplicatecategory = $this->db->query("SELECT * FROM category WHERE name LIKE '%".$formdata['name']."%'")->result();
+            if(!empty($checkduplicatecategory)) {
+                $this->session->set_flashdata("error", "Category Name already Exist");
+                redirect(admin_url('categories/category_add/'.$id));
+            } else {
+                $id = $this->Master_model->save($formdata, 'category');
+                $this->session->set_flashdata("success", "Category data submitted successfully!");
+                redirect(admin_url('categories/categoryIndex'));
+            }
+            /*$id = $this->Master_model->save($formdata, 'category');
             $this->session->set_flashdata("success", "Category updated");
-            redirect(admin_url('categories/categoryIndex'));
+            redirect(admin_url('categories/categoryIndex'));*/
         }
         $this->load->view(admin_view('default'), $this->data);
     }
@@ -55,7 +64,7 @@ class Categories extends Admin_Controller {
         $this->data['main'] = admin_view('category/add');
         $this->data['category'] = $this->db->get_where('category', array('status' => 1))->result();
         if ($id) {
-            $this->data['pages'] = $pages = $this->Master_model->getRow($id, 'subcategory');
+            $this->data['pages'] = $pages = $this->Master_model->getRow($id, 'listing_category');
             if (!isset($pages)) {
                 redirect(site_url('404_override'));
                 exit();
@@ -66,9 +75,18 @@ class Categories extends Admin_Controller {
         if ($this->form_validation->run()) {
             $formdata = $this->input->post('frm');
             $formdata['id'] = $id;
-            $id = $this->Master_model->save($formdata, 'listing_category');
+            $checkduplicatesubcategory = $this->db->query("SELECT * FROM listing_category WHERE name LIKE '%".$formdata['name']."%'")->result();
+            if(!empty($checkduplicatesubcategory)) {
+                $this->session->set_flashdata("error", "Subcategory Name already Exist");
+                redirect(admin_url('categories/add/'.$id));
+            } else {
+                $id = $this->Master_model->save($formdata, 'listing_category');
+                $this->session->set_flashdata("success", "Sub category data submitted successfully!");
+                redirect(admin_url('categories/index'));
+            }
+            /*$id = $this->Master_model->save($formdata, 'listing_category');
             $this->session->set_flashdata("success", "Sub-category added");
-            redirect(admin_url('categories/index'));
+            redirect(admin_url('categories/index'));*/
         }
         $this->load->view(admin_view('default'), $this->data);
     }
@@ -115,6 +133,26 @@ class Categories extends Admin_Controller {
         $this->data['paginate'] = $this->pagination->create_links();
         $this->load->view(admin_view('default'), $this->data);
     }
+    function category_activate($id = false) {
+        $redirect = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : admin_url('categories/categoryIndex');
+        if ($id) {
+            $c['id'] = $id;
+            $c['status'] = 1;
+            $this->Master_model->save($c, 'category');
+            $this->session->set_flashdata("success", "Category activated");
+        }
+        redirect($redirect);
+    }
+    function category_deactivate($id = false) {
+        $redirect = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : admin_url('categories/categoryIndex');
+        if ($id) {
+            $c['id'] = $id;
+            $c['status'] = 0;
+            $this->Master_model->save($c, 'category');
+            $this->session->set_flashdata("success", "Category deactivated");
+        }
+        redirect($redirect);
+    }
     function activate($id = false) {
         $redirect = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : admin_url('categories');
         if ($id) {
@@ -138,7 +176,7 @@ class Categories extends Admin_Controller {
     function delete($id) {
         if ($id > 0) {
             $this->Master_model->delete($id, 'listing_category');
-            $this->session->set_flashdata('success', 'Sub-category Deleted successfully ');
+            $this->session->set_flashdata('success', 'Sub category Deleted successfully ');
         }
         redirect(admin_url('categories'));
     }
@@ -157,9 +195,18 @@ class Categories extends Admin_Controller {
         if ($this->form_validation->run()) {
             $formdata = $this->input->post('frm');
             $formdata['id'] = $id;
-            $id = $this->Master_model->save($formdata, 'mrkt_category');
+            $checkmarketcategory = $this->db->query("SELECT * FROM mrkt_category WHERE name LIKE '%".$formdata['name']."%'")->result();
+            if(!empty($checkmarketcategory)) {
+                $this->session->set_flashdata("error", "Marketplace category name already exist");
+                redirect(admin_url('categories/addMarketcategory/'.$id));
+            } else {
+                $id = $this->Master_model->save($formdata, 'mrkt_category');
+                $this->session->set_flashdata("success", "Marketplace category data submitted successfully!");
+                redirect(admin_url('categories/MarketCategoryindex'));
+            }
+            /*$id = $this->Master_model->save($formdata, 'mrkt_category');
             $this->session->set_flashdata("success", "Category added");
-            redirect(admin_url('categories/MarketCategoryindex'));
+            redirect(admin_url('categories/MarketCategoryindex'));*/
         }
         $this->load->view(admin_view('default'), $this->data);
     }
