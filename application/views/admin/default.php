@@ -197,13 +197,13 @@ function goBack() {
                                 <li class="nav-item">
                                     <a href="<?= admin_url('categories/categoryIndex') ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Category List</p>
+                                        <p>Business Category List</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="<?= admin_url('categories') ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Subcategory List</p>
+                                        <p>Business Subcategory List</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -215,7 +215,7 @@ function goBack() {
                                 <li class="nav-item">
                                     <a href="<?= admin_url('categories/submenumarketplaceindex') ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Marketplace sub-menu List</p>
+                                        <p>Marketplace subcategory List</p>
                                     </a>
                                 </li>
                             </ul>

@@ -12,13 +12,19 @@
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
                                         <label>Select Category</label>
-                                        <select class="form-control" name="frm[category]" required>
-                                            <option value="">Select</option>
+                                        <select class="form-control" name="frm[category]" id="category" required>
+                                            <option value="">Select Category</option>
                                             <?php if (is_array($mcategoty) && count($mcategoty) > 0) {
                                             foreach ($mcategoty as $mcat) { ?>
                                             <option value="<?= $mcat->id ?>" <?php if (@$product->category == $mcat->id) {echo "selected";} ?>><?= $mcat->name ?></option>
                                             <?php } } ?>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12" id="subcategoryblock">
+                                    <div class="form-group">
+                                        <label>Select Sub Category</label>
+                                        <select class="form-control" name="frm[prsubmenuId]" id="prsubmenuId"></select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
@@ -168,12 +174,37 @@
         </div>
     </div>
 </section>
+<style>
+#subcategoryblock {display: none;}
+</style>
 <script>
-    function fetchprice() {
-        var regPrice = $("#maxPrice").val();
-        var dprcnt = $("#disc_percent").val();
-        var offprc = (regPrice-(dprcnt/100) * regPrice);
-        //var discprc = Math.round(regPrice - offprc);
-        $("#offedprice").val(offprc);
-    }
+function fetchprice() {
+    var regPrice = $("#maxPrice").val();
+    var dprcnt = $("#disc_percent").val();
+    var offprc = (regPrice-(dprcnt/100) * regPrice);
+    //var discprc = Math.round(regPrice - offprc);
+    $("#offedprice").val(offprc);
+}
+$('#category').on('change', function() {
+    var cat_id = $(this).val();
+    $.ajax({
+        type: "POST",
+        url: "<?= site_url('admin/products/getmrktsubcategory') ?>",
+        data: { cat_id: cat_id }, // Sending the category ID
+        success: function(response) {
+            if (response && response.length > 0) {
+                $("#subcategoryblock").show();
+                $("#prsubmenuId").html(response);
+                $("#prsubmenuId").prop('required', true);
+            } else {
+                $("#subcategoryblock").hide();
+                $("#prsubmenuId").prop('required', false);
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle any errors
+            console.error(error);
+        }
+    });
+});
 </script>

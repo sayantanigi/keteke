@@ -74,26 +74,28 @@ class Coupon extends Admin_Controller {
             }
         $this->form_validation->set_rules('frm[coupon_code]', 'Coupon code must be unique', 'required');
         }else{
-           $this->form_validation->set_rules('frm[coupon_code]', 'Coupon code must be unique', 'required|is_unique[coupon_details.coupon_code]'); 
+           $this->form_validation->set_rules('frm[coupon_code]', 'Coupon code must be unique', 'required|is_unique[coupon_details.coupon_code]');
         }
-        
+
 		if ($this->form_validation->run() !=false) {
 			$formdata = $this->input->post('frm');
 			$formdata['coupon_id'] = $id;
+            $formdata['created_date'] = date("Y-m-d", strtotime($formdata['created_date']));
+            $formdata['expiry_date'] = date("Y-m-d", strtotime($formdata['expiry_date']));
             $formdata['created']=date("Y-m-d H:i:s");
-            if ($this->upload->do_upload('image'))
-            {
+            if ($this->upload->do_upload('image')) {
                 $data = $this->upload->data();
-                $formdata['coupon_img'] = $data['file_name']; 
+                $formdata['coupon_img'] = $data['file_name'];
             }
-          
+
 			$id = $this->Master_model->savecoupon($formdata,'coupon_details');
+            //echo $this->db->last_query(); die();
 			$this->session->set_flashdata("success", "Coupon details saved");
             redirect(admin_url('coupon'));
 		}else{
             $this->session->set_flashdata("error", "Coupon Code Must be Unique");
         }
-        		
+
 		$this->load->view(admin_view('default'),$this->data);
 	}
 
@@ -129,8 +131,8 @@ class Coupon extends Admin_Controller {
         redirect(admin_url('coupon'));
 	}
 
-  
-       
+
+
 }
 
 /* End of file Products.php */

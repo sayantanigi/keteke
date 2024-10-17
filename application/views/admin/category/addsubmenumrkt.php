@@ -14,7 +14,7 @@
                                         <div class="form-group">
                                             <label>Category Name</label>
                                             <select name="frm[cat_id]" class="form-control" required>
-                                                <option value="">--Choose Category--</option>
+                                                <option value="">Choose Category</option>
                                                 <?php if (is_array($mrktcategory) && count($mrktcategory) > 0) {
                                                     foreach ($mrktcategory as $c) { ?>
                                                 <option value="<?= $c->id ?>" <?php if ($c->id == $pages->cat_id) { echo "selected"; } ?>><?= $c->name ?></option>
@@ -25,8 +25,8 @@
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
-                                        <label>Sub-menu Name</label>
-                                        <input type="text" name="frm[name]" value="<?= $pages->name ?>" class="form-control" id="exampleInputEmail1" placeholder="Enter Sub-menu Name" autocomplete="off">
+                                        <label>Sub Category Name</label>
+                                        <input type="text" name="frm[name]" value="<?= $pages->name ?>" class="form-control" id="exampleInputEmail1" placeholder="Enter Sub Category Name" autocomplete="off">
                                     </div>
                                 </div>
                             </div>

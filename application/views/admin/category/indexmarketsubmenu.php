@@ -4,7 +4,7 @@
             <div class="col-lg-12 col-12">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Marketplace Sub Menu List</h3>
+                        <h3 class="card-title">Marketplace Sub Category List</h3>
                     </div>
                     <div class="card-body">
                         <a href="<?= admin_url('categories/addsubmenuMarketplace') ?>" class="btn btn-warning btn-sm mb-3">Add</a>
@@ -13,8 +13,8 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
-                                        <th>Sub-menu Name</th>
-                                        <th>Menu Name </th>
+                                        <th>Sub Category Name</th>
+                                        <th>Category Name </th>
                                         <th>Status</th>
                                         <th>Created</th>
                                         <th style="width: 100px">Action</th>

@@ -251,7 +251,7 @@ class Categories extends Admin_Controller {
         redirect(admin_url('categories/MarketCategoryindex'));
     }
     public function addsubmenuMarketplace($id = false) {
-        $this->data['title'] = 'Add Marketplace Submenu';
+        $this->data['title'] = 'Add Marketplace Category';
         $this->data['tab'] = 'mrktcat';
         $this->data['main'] = admin_view('category/addsubmenumrkt');
         $this->data['mrktcategory'] = $this->db->get_where('mrkt_category', array('status' => 1))->result();
@@ -265,15 +265,32 @@ class Categories extends Admin_Controller {
         $this->form_validation->set_rules('frm[name]', 'Marketplace Sub-menu Name', 'required');
         if ($this->form_validation->run()) {
             $formdata = $this->input->post('frm');
-            $formdata['submenuId'] = $id;
-            $id = $this->Master_model->submenusave($formdata, 'marketplace_submenu');
+            //$formdata['submenuId'] = $id;
+            $checkmarketsubcategory = $this->db->query("SELECT * FROM marketplace_submenu WHERE cat_id = '".$formdata['cat_id']."' AND name = '".$formdata['name']."'")->result();
+            if(!empty($checkmarketsubcategory)) {
+                $this->session->set_flashdata("error", "Marketplace subcategory name already exist");
+                redirect(admin_url('categories/addsubmenuMarketplace/'.$id));
+            } else {
+                if($id) {
+                    //$id = $this->Master_model->save($formdata, 'marketplace_submenu');
+                    $this->db->where('submenuId', $id);
+                    $this->db->update('marketplace_submenu', $formdata);
+                    $this->session->set_flashdata("success", "Marketplace subcategory data submitted successfully!");
+                    redirect(admin_url('categories/submenumarketplaceindex'));
+                } else {
+                    $id = $this->Master_model->save($formdata, 'marketplace_submenu');
+                    $this->session->set_flashdata("success", "Marketplace subcategory data submitted successfully!");
+                    redirect(admin_url('categories/submenumarketplaceindex'));
+                }
+            }
+            /*$id = $this->Master_model->submenusave($formdata, 'marketplace_submenu');
             $this->session->set_flashdata("success", "Sub-menu saved");
-            redirect(admin_url('categories/submenumarketplaceindex'));
+            redirect(admin_url('categories/submenumarketplaceindex'));*/
         }
         $this->load->view(admin_view('default'), $this->data);
     }
     public function submenumarketplaceindex() {
-        $this->data['title'] = 'Marketplace Sub Menu List';
+        $this->data['title'] = 'Marketplace Sub Category List';
         $this->data['tab'] = 'mrktcat';
         $this->data['main'] = admin_view('category/indexmarketsubmenu');
         $this->data['pages'] = $this->db->get('marketplace_submenu')->result();
@@ -285,7 +302,7 @@ class Categories extends Admin_Controller {
             $c['submenuId'] = $id;
             $c['status'] = 1;
             $this->Master_model->submenusave($c, 'marketplace_submenu');
-            $this->session->set_flashdata("success", "Sub-menu activated");
+            $this->session->set_flashdata("success", "Marketplace Sub Category activated");
         }
         redirect($redirect);
     }
@@ -295,14 +312,14 @@ class Categories extends Admin_Controller {
             $c['submenuId'] = $id;
             $c['status'] = 0;
             $this->Master_model->submenusave($c, 'marketplace_submenu');
-            $this->session->set_flashdata("success", "Sub-menu deactivated");
+            $this->session->set_flashdata("success", "Marketplace Sub Category deactivated");
         }
         redirect($redirect);
     }
     function submenumrktdelete($id) {
         if ($id > 0) {
             $this->db->delete('marketplace_submenu', array('submenuId' => $id));
-            $this->session->set_flashdata('success', 'Sub-menu Deleted successfully ');
+            $this->session->set_flashdata('success', 'Marketplace Sub Category Deleted successfully ');
         }
         redirect(admin_url('categories/submenumarketplaceindex'));
     }

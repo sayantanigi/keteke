@@ -43,17 +43,17 @@
                 </div>
                 <div class="col-lg-6 col-12">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">From Date(YYYY-MM-DD)</label>
-                    <input type="text" name="frm[created_date]" value="<?=$product->created_date?>" class="form-control" id="fromdate" placeholder="Enter Created date" autocomplete="off"required>
-                  </div>
-                </div> 
-                <div class="col-lg-6 col-12">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Expire Date(YYYY-MM-DD)</label>
-                    <input type="text" name="frm[expiry_date]" value="<?=$product->expiry_date?>" class="form-control" id="expiredate" placeholder="Enter Expire Date" autocomplete="off" required>
+                    <label for="exampleInputEmail1">From Date</label>
+                    <input type="date" name="frm[created_date]" value="<?=$product->created_date?>" class="form-control" id="fromdate" placeholder="Enter Created date" autocomplete="off"required>
                   </div>
                 </div>
-                
+                <div class="col-lg-6 col-12">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Expire Date</label>
+                    <input type="date" name="frm[expiry_date]" value="<?=$product->expiry_date?>" class="form-control" id="expiredate" placeholder="Enter Expire Date" autocomplete="off" required>
+                  </div>
+                </div>
+
                 <div class="col-lg-6 col-12">
                   <div class="form-group">
                    <label>Status</label>

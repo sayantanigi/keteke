@@ -319,6 +319,19 @@ class Products extends Admin_Controller {
         $this->data['payInfo'] = $this->db->get_where('draftorders_payment', array('id' => $orderId))->row();
         $this->load->view(admin_view('default'), $this->data);
     }
+    public function getmrktsubcategory() {
+        $cat_id = $_POST['cat_id'];
+		$subcat_list = $this->db->query("SELECT * FROM marketplace_submenu WHERE cat_id = '".$cat_id."' AND status = '1'")->result_array();
+		if(!empty($subcat_list)) {
+			$html = "<option value=''>Select Sub category</option>";
+			foreach ($subcat_list as $row_data) {
+				$html .= "<option value='".$row_data['submenuId']."'>".ucfirst($row_data['name'])."</option>";
+			}
+		} else {
+			$html = '';
+		}
+		echo $html;
+    }
 }
 /* End of file Products.php */
 /* Location: ./application/controllers/admin/Products.php */
