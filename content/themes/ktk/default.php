@@ -28,9 +28,9 @@
     <!--  <script src="https://raw.githubusercontent.com/select2/select2/develop/dist/js/select2.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>> -->
     <script>
-        $(window).on("load", function () {
-            $("#loader").fadeOut();
-        });
+    $(window).on("load", function () {
+        $("#loader").fadeOut();
+    });
     </script>
     <title><?= $title ?></title>
     <style>
@@ -49,8 +49,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-6 icon" onclick="open_mobile_nav();">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28.37" height="17.346"
-                                viewBox="0 0 28.37 17.346">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28.37" height="17.346" viewBox="0 0 28.37 17.346">
                                 <defs>
                                     <style>
                                         .cls-1 {
@@ -84,37 +83,37 @@
                                     $user = userid2();
                                     $ud = $this->db->get_where('user_accounts', array('user_id' => $user))->row();
                                     if ($userrl == 1 || $userrl == 2) { ?>
-                                        <li class="black"><a href="<?= site_url() ?>"> Home </a></li>
-                                        <li class="black dorpmenu"><a href="<?= site_url('myprofile') ?>"><i class="fa fa-user" aria-hidden="true"></i> <?= $ud->user_fname." ".$ud->user_lname ?> <span class="caret"></span></a>
-                                            <ul class="dropdownmenu">
-                                                <li><a href="<?= site_url('signout') ?>">Signout</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="black"><a href="<?= site_url('list-your-business') ?>"> List your business</a></li>
-                                        <li class="black"> <a href="<?= site_url('shop') ?>"><i class="fa fa-shopping-bag"></i> Marketplace </a></li>
-                                        <!--  <li class="black"><a href="<?= site_url('signout') ?>"> Signout </a></li> -->
+                                    <li class="black"><a href="<?= site_url() ?>"> Home </a></li>
+                                    <li class="black dorpmenu"><a href="<?= site_url('myprofile') ?>"><i class="fa fa-user" aria-hidden="true"></i> <?= $ud->user_fname." ".$ud->user_lname ?> <span class="caret"></span></a>
+                                        <ul class="dropdownmenu">
+                                            <li><a href="<?= site_url('signout') ?>">Signout</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="black"><a href="<?= site_url('list-your-business') ?>"> List your business</a></li>
+                                    <li class="black"> <a href="<?= site_url('shop') ?>"><i class="fa fa-shopping-bag"></i> Marketplace </a></li>
+                                    <!--  <li class="black"><a href="<?= site_url('signout') ?>"> Signout </a></li> -->
                                     <?php } elseif ($userrl == 3) { ?>
-                                        <li class="black"><a href="<?= site_url() ?>"> Home </a></li>
-                                        <li class="black"><a href="<?= site_url('list-your-business') ?>"> List your business</a></li>
-                                        <!-- <li class="black"><a href="<?= site_url('userdashboard') ?>"><i class="fa fa-user" aria-hidden="true"></i> My Dashboard</a></li> -->
-                                        <li class="black dorpmenu"><a href="<?= site_url('seller-dashboard') ?>"><i class="fa fa-user" aria-hidden="true"></i><?= $ud->user_fname." ".$ud->user_lname ?> <span class="caret"></span></a>
-                                            <ul class="dropdownmenu">
-                                                <li><a href="<?= site_url('signout') ?>">Signout</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="black"><a href="<?= site_url('shop') ?>"><i class="fa fa-shopping-bag"></i> Marketplace </a></li>
+                                    <li class="black"><a href="<?= site_url() ?>"> Home </a></li>
+                                    <li class="black"><a href="<?= site_url('list-your-business') ?>"> List your business</a></li>
+                                    <!-- <li class="black"><a href="<?= site_url('userdashboard') ?>"><i class="fa fa-user" aria-hidden="true"></i> My Dashboard</a></li> -->
+                                    <li class="black dorpmenu"><a href="<?= site_url('seller-dashboard') ?>"><i class="fa fa-user" aria-hidden="true"></i><?= $ud->user_fname." ".$ud->user_lname ?> <span class="caret"></span></a>
+                                        <ul class="dropdownmenu">
+                                            <li><a href="<?= site_url('signout') ?>">Signout</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="black"><a href="<?= site_url('shop') ?>"><i class="fa fa-shopping-bag"></i> Marketplace </a></li>
                                     <?php } elseif ($userrl == 4) { ?>
-                                        <li class="black"><a href="<?= site_url() ?>"> Home </a></li>
-                                        <li class="black dorpmenu"><a href="<?= site_url('userdashboard') ?>"><i class="fa fa-user" aria-hidden="true"></i><?= $ud->user_fname." ".$ud->user_lname ?> <span class="caret"></span></a>
-                                            <ul class="dropdownmenu">
-                                                <li><a href="<?= site_url('signout') ?>">Signout</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="black"><a href="<?= site_url('shop') ?>"><i class="fa fa-shopping-bag"></i>Marketplace </a></li>
+                                    <li class="black"><a href="<?= site_url() ?>"> Home </a></li>
+                                    <li class="black dorpmenu"><a href="<?= site_url('userdashboard') ?>"><i class="fa fa-user" aria-hidden="true"></i><?= $ud->user_fname." ".$ud->user_lname ?> <span class="caret"></span></a>
+                                        <ul class="dropdownmenu">
+                                            <li><a href="<?= site_url('signout') ?>">Signout</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="black"><a href="<?= site_url('shop') ?>"><i class="fa fa-shopping-bag"></i>Marketplace </a></li>
                                     <?php } elseif ($userrl == 0) { ?>
-                                        <li class="black"><a href="<?= site_url('login') ?>"> Login/Sign up </a></li>
-                                        <li class="black"><a href="<?= site_url('list-your-business') ?>"> List your business</a></li>
-                                        <li class="black"><a href="<?= site_url('shop') ?>"><i class="fa fa-shopping-bag"></i>Marketplace </a></li>
+                                    <li class="black"><a href="<?= site_url('login') ?>"> Login/Sign up </a></li>
+                                    <li class="black"><a href="<?= site_url('list-your-business') ?>"> List your business</a></li>
+                                    <li class="black"><a href="<?= site_url('shop') ?>"><i class="fa fa-shopping-bag"></i>Marketplace </a></li>
                                     <?php } ?>
                                 </ul>
                             </div>
@@ -191,7 +190,7 @@
                     </div>
                 </div>
                 <div class="copyright mirmala-semilight">
-                    <span>@ 2020 Copyright Keteke. All Rights Reserved </span>
+                    <span>@ <?= date('Y'); ?> Copyright Keteke. All Rights Reserved </span>
                     <a href="<?= site_url('privacy-policy') ?>"><span class="nirmala-bold red"> &bull;Privacy
                             Policy</span></a>
                     <a href="<?= site_url('terms') ?>">
@@ -200,13 +199,11 @@
                 </div>
             </div>
         </footer>
-        <!----end footer part -->
     </div>
     <script src="<?= site_url() ?>fassets/js/login-signup.js"></script>
     <script src="<?= site_url() ?>fassets/js/sticky.js"></script>
     <script src="<?= site_url() ?>fassets/js/mobile.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script> -->
     <script>
         function getsubscribe() {
             var email = document.getElementById('sub-mail').value;

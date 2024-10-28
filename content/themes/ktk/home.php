@@ -120,12 +120,17 @@
                     <div class="most-searched-section">
                         <h2 class=" red"><span class="glyphicon glyphicon-search red search-icon"></span>Most popular searched</h2>
                         <ul class="frontbtns">
-                            <li> Room for Rent</li>
-                            <li> Clothing </li>
-                            <li> Restaurants </li>
-                            <li> Social Events </li>
-                            <li> Worship </li>
-                            <li> Professional Groups</li>
+                            <?php
+                            $popular_search = $this->db->query("SELECT DISTINCT(`business_id`) FROM `search_history` LIMIT 6")->result_array();
+                            if($popular_search) {
+                                foreach ($popular_search as $key => $value) {
+                                    $searchcategoryName = $this->db->query("SELECT * FROM category WHERE id = '".$value['business_id']."'")->row();
+                                    echo "<li>".$searchcategoryName->name."</li>";
+                                }
+                            } else {
+                                echo "<li> No recent search available</li>";
+                            }
+                            ?>
                         </ul>
                     </div>
                 </div>

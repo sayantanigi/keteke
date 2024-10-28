@@ -26,7 +26,7 @@
                                 <?php $getsubcatdata = $this->db->query("SELECT * FROM marketplace_submenu WHERE cat_id = '".$product->category."' AND status = '1'")->result_array(); ?>
                                 <div class="col-lg-6 col-12" id="subcategoryblock" style="display: <?php if(!empty($getsubcatdata)) {echo "block"; } else {echo "none"; }?>">
                                     <div class="form-group">
-                                        <label>Select Sub Category</label>
+                                        <label>Sub Category</label>
                                         <select class="form-control" name="frm[prsubmenuId]" id="prsubmenuId">
                                         <option value="">Select Sub Category</option>
                                         <?php

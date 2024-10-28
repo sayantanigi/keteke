@@ -8,8 +8,7 @@ class User extends AI_Controller
         $this->data['title'] = '';
         $this->load->model('Master_model');
     }
-    public function index()
-    {
+    public function index() {
         $this->data['title'] = "My Dashboard | Keteke";
         $this->data['load'] = 'user_dash';
         if (isprologin()) {
@@ -17,6 +16,19 @@ class User extends AI_Controller
             $this->data['udetail'] = $this->Master_model->getSingleRow('user_id', $user, 'user_accounts');
         }
         $this->load->front_view('default', $this->data);
+    }
+    public function getsubcategory() {
+        $cat_id = $_POST['cat_id'];
+		$subcat_list = $this->db->query("SELECT * FROM listing_category WHERE catid = '".$cat_id."' AND status = '1'")->result_array();
+		if(!empty($subcat_list)) {
+			$html = "<option value=''>Choose an option</option>";
+			foreach ($subcat_list as $row_data) {
+				$html .= "<option value='".$row_data['id']."'>".ucfirst($row_data['name'])."</option>";
+			}
+		} else {
+			$html = '';
+		}
+		echo $html;
     }
     public function listingcreate() {
         $userrol = userrole();
@@ -29,7 +41,8 @@ class User extends AI_Controller
             $this->data['title'] = 'Keteke | List Your Business';
             $this->data['load'] = 'listing_create';
             $this->data['category'] = $this->db->order_by('id', 'desc')->get_where('category', array('status' => 1))->result();
-            $this->data['countries'] = $this->db->get_where('country', array('status' => 1))->result();
+            //$this->data['countries'] = $this->db->get_where('country', array('status' => 1))->result();
+            $this->data['countries'] = $this->db->get_where('country', array('flag' => 1))->result();
             $ip = $_SERVER["REMOTE_ADDR"];
             $query = @unserialize(file_get_contents('http://ip-api.com/php/' . $ip));
             if ($query && $query['status'] == 'success') {
@@ -81,8 +94,7 @@ class User extends AI_Controller
         }
         $this->load->front_view('default', $this->data);
     }
-    public function view_listing()
-    {
+    public function view_listing() {
         $this->data['title'] = "Keteke | My Listings";
         $this->data['load'] = 'listing';
         if (isprologin()) {
@@ -92,8 +104,7 @@ class User extends AI_Controller
         $this->data['listings'] = $this->db->get_where('listing', array('userid' => $user, 'status' => 1))->result();
         $this->load->front_view('default', $this->data);
     }
-    public function edit_listing()
-    {
+    public function edit_listing() {
         if (!isprologin()) {
             redirect(site_url());
         }
@@ -104,7 +115,8 @@ class User extends AI_Controller
         $this->data['title'] = 'Keteke | Edit Post Ads';
         $this->data['load'] = 'listing_update';
         $this->data['subcategory'] = $this->db->get_where('listing_category', array('status' => 1))->result();
-        $this->data['countries'] = $this->db->get_where('country', array('status' => 1))->result();
+        //$this->data['countries'] = $this->db->get_where('country', array('status' => 1))->result();
+        $this->data['countries'] = $this->db->get_where('country', array('flag' => 1))->result();
         $this->data['category'] = $this->db->order_by('id', 'desc')->get_where('category', array('status' => 1))->result();
         $editid = $this->uri->segment(2);
         $this->data['view_ad'] = $pages = $this->db->get_where('listing', array('userid' => $user, 'status' => 1, 'id' => $editid))->row();
@@ -136,22 +148,19 @@ class User extends AI_Controller
         }
         $this->load->front_view('default', $this->data);
     }
-    function listing_delete($id)
-    {
+    function listing_delete($id) {
         if ($id > 0) {
             $this->Master_model->delete($id, 'listing');
             $this->session->set_flashdata('success', 'row deleted successfully.');
         }
         redirect(site_url('mylistings'));
     }
-    public function search_history()
-    {
+    public function search_history() {
         $this->data['title'] = "Keteke | Search";
         $this->data['load'] = 'search_history';
         $this->load->front_view('default', $this->data);
     }
-    public function userorders()
-    {
+    public function userorders() {
         $this->data['title'] = "Keteke | My Orders";
         $this->data['load'] = 'user_orders';
         if (isprologin()) {
@@ -161,8 +170,7 @@ class User extends AI_Controller
         $this->data['myorderslist'] = $this->db->get_where('productorders', array('userid' => $user, 'payment_status' => 1))->result();
         $this->load->front_view('default', $this->data);
     }
-    public function userdraftorders()
-    {
+    public function userdraftorders() {
         $this->data['title'] = "Keteke | My Draft Orders";
         $this->data['load'] = 'user_draft_orders';
         if (isprologin()) {
@@ -173,8 +181,7 @@ class User extends AI_Controller
         //echo $this->db->last_query();die;
         $this->load->front_view('default', $this->data);
     }
-    public function edit_profile()
-    {
+    public function edit_profile() {
         $this->data['title'] = "Keteke | Edit Profile";
         $this->data['load'] = 'profile';
         if (!isprologin()) {
@@ -205,23 +212,20 @@ class User extends AI_Controller
         }
         $this->load->front_view('default', $this->data);
     }
-    public function sign_out()
-    {
+    public function sign_out() {
         $this->session->unset_userdata('fouserid');
         $this->session->unset_userdata('userids');
         $this->session->sess_destroy();
         $this->session->set_flashdata('success', 'Logout successfully');
         redirect(site_url(''));
     }
-    function error_page()
-    {
+    function error_page() {
         $this->data['title'] = 'Keteke | 404-error';
         $this->data['header'] = '404-error ';
         $this->data['load'] = '404';
         $this->load->front_view('default', $this->data);
     }
-    function getsubcatbycatid()
-    {
+    function getsubcatbycatid() {
         $catid = $this->input->post('catg');
         $option = $this->db->get_where('listing_category', array('catid' => $catid))->result();
         $ht = '';
@@ -234,14 +238,12 @@ class User extends AI_Controller
         }
         echo $ht;
     }
-    function forget_password()
-    {
+    function forget_password() {
         $this->data['title'] = 'Keteke | Forgot Password';
         $this->data['load'] = 'forget_pass';
         $this->load->front_view('default', $this->data);
     }
-    public function sendForgetMail()
-    {
+    public function sendForgetMail() {
         $email = $this->input->post("forgetemail");
         $get_details = $this->db->query("SELECT * FROM user_accounts WHERE user_emailid='" . $email . "' AND user_status=1")->row();
         if (!empty($get_details)) {
@@ -253,35 +255,7 @@ class User extends AI_Controller
             $headers .= "Reply-To: " . strip_tags('$frmemail') . "\r\n";
             $headers .= "MIME-Version: 1.0\r\n";
             $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-            $htmlContent = "<table align='center' style='width:650px; text-align:center; background:#F9F9F9;'>
-        <tbody>
-        <tr style='height:50px;background-color:#f2f2f2;'><td valign='middle' style='color:white;'><img src='" . site_url() . "fassets/images/logos/headertransparentlogo.png' alt='KETEKE' title='Keteke'  style='width:210px;height:auto' /></td></tr>
-        <tr>
-        <td valign='top' align='center' colspan='2'>
-        <table align='' style='height:380px; color:#000; width:600px;'>
-        <tbody>
-        <td valign='top' align='' colspan='2'>
-        <table align='' style='color:#000; width:600px;'>
-        <tbody>
-        <br>
-        <p>Dear " . $name . ", <br>
-        <p>You are requesting for forgot password.<br><br>
-        Please click below link to update your password:<br><br>
-        <a href=" . base_url('update-forgot-password/' . $id) . " target='blank'><b>click here</b></a><br><br>
-        Thank You,<br><br>
-        Keteke Team </p><br>
-        </tbody>
-        </table>
-        <strong>Email: </strong>" . $frmemail . "<br><br>
-        This is an automated response, please <b>DO NOT</b> reply.
-        </td>
-        </tr>
-        </tbody>
-        </table>
-        </td>
-        </tr>
-        </tbody>
-        </table>";
+            $htmlContent = "<table align='center' style='width:650px; text-align:center; background:#F9F9F9;'><tbody><tr style='height:50px;background-color:#f2f2f2;'><td valign='middle' style='color:white;'><img src='" . site_url() . "fassets/images/logos/headertransparentlogo.png' alt='KETEKE' title='Keteke' style='width:210px;height:auto' /></td></tr><tr><td valign='top' align='center' colspan='2'><table align='' style='height:380px; color:#000; width:600px;'><tbody><td valign='top' align='' colspan='2'><table align='' style='color:#000; width:600px;'><tbody><br><p>Dear " . $name . ", <br><p>You are requesting for forgot password.<br><br>Please click below link to update your password:<br><br><a href=" . base_url('update-forgot-password/' . $id) . " target='blank'><b>click here</b></a><br><br>Thank You,<br><br>Keteke Team </p><br></tbody></table><strong>Email: </strong>" . $frmemail . "<br><br>This is an automated response, please <b>DO NOT</b> reply.</td></tr></tbody></table></td></tr></tbody></table>";
             // $config = Array(
             //     'protocol' => 'smtp',
             //     'smtp_host' => 'ssl://smtp.googlemail.com',
@@ -306,15 +280,13 @@ class User extends AI_Controller
             }
         }
     }
-    public function update_password($id)
-    {
+    public function update_password($id) {
         $this->data['title'] = 'Keteke | Update Forgot Password';
         $this->data['load'] = 'update_forget_pass';
         $this->data['user_id'] = $id;
         $this->load->front_view('default', $this->data);
     }
-    public function up_pass($id)
-    {
+    public function up_pass($id) {
         $user_id = base64_decode($id);
         $this->form_validation->set_rules('password', 'New Password', 'trim|required');
         $this->form_validation->set_rules('cpassword', 'Confirm Password', 'trim|required|matches[password]');
@@ -331,8 +303,7 @@ class User extends AI_Controller
             }
         }
     }
-    public function return_order($orderId = false, $productId = false)
-    {
+    public function return_order($orderId = false, $productId = false) {
         $this->data['title'] = 'Keteke | Return Order';
         $this->data['load'] = 'user_return_product';
         if (isprologin()) {
@@ -344,8 +315,7 @@ class User extends AI_Controller
         $this->data['product'] = $this->Master_model->getSingleRow('productId', $productId, 'products');
         $this->load->front_view('default', $this->data);
     }
-    public function return_order_success($orderId = false)
-    {
+    public function return_order_success($orderId = false) {
         $ordId = base64_decode($orderId);
         $this->form_validation->set_rules('return_reason', 'Reason ', 'trim|required');
         if ($this->form_validation->run() != false) {
