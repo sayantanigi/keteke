@@ -24,7 +24,7 @@
                 <div class="col-12 col-lg-3 col-md-6 col-sm-6 mb-20">
                     <!--=======  grid view product  =======-->
                     <div class="single-slider-product grid-view-product">
-                        <div class="single-slider-product__image" style="height: 255px;">
+                        <div class="single-slider-product__image">
                             <a href="<?= site_url('product-details/' . $prs->slug) ?>">
                                 <img src="<?= site_url('assets/images/products/' . $primgs->productImage) ?>" class="img-fluid" alt="">
                             </a>
@@ -57,3 +57,7 @@
         </div>
     </div>
 </div>
+<style>
+.single-slider-product__image {height: 230px !important;}
+.single-slider-product__image img {height: 230px !important;}
+</style>

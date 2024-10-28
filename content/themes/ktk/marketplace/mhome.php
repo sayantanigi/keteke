@@ -128,6 +128,8 @@
 </div> -->
 <style>
 .login-warning{display: none; }
+.single-slider-product__image {height: 230px !important;}
+.single-slider-product__image img {height: 230px !important;}
 </style>
 <script>
 $('.login-alert').click(function(){
