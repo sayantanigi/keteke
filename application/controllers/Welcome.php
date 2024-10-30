@@ -159,13 +159,25 @@ class Welcome extends AI_Controller {
     }
     public function checkvalidmail() {
         $email = $this->input->post('foremail');
-        $arr = array('email' => $email);
+        $get_details = $this->db->query("SELECT * FROM user_accounts WHERE user_emailid = '".$email."'")->row();
+        if (!empty($get_details)) {
+            if($get_details->user_status == '0') {
+                echo '1';
+            } else if($get_details->email_verified == '0') {
+                echo '2';
+            } else {
+                echo '3';
+            }
+        } else {
+            echo '4';
+        }
+        /*$arr = array('email' => $email);
         $rows = $this->db->get_where('user_accounts', array('user_emailid' => $email, 'user_status' => 1))->num_rows();
         if ($rows > 0) {
             echo 1;
         } else {
             echo 0;
-        }
+        }*/
     }
     public function login_ajax() {
         $this->data['title'] = 'Keteke | Login';
@@ -243,9 +255,10 @@ class Welcome extends AI_Controller {
             $email = $this->input->post('email');
             $password = $this->input->post('password');
             $u_type = $this->input->post('u_type');
-            $check_email = $this->db->get_where('user_accounts', array('user_emailid' => $email, 'user_status' => 1))->num_rows();
-            if ($check_email > 0) {
-                $this->session->set_flashdata('error', 'The email address is already in use. Login if you already have an account or create a new account');
+            $check_email = $this->db->get_where('user_accounts', array('user_emailid' => $email))->result();
+            //echo $this->db->last_query(); die();
+            if (!empty($check_email)) {
+                $this->session->set_flashdata('error', 'The email address is already in use. Login if you already have an account or create a new account using other email address.');
                 redirect(site_url('signup'));
             } else {
                 $arr = array(
@@ -300,21 +313,20 @@ class Welcome extends AI_Controller {
         );
         if ($check > 0) {
             $usr = $this->db->query($sql)->row();
-            $result = $this->db->query("UPDATE `user_accounts` SET `email_verified` = 1, `user_status` = 1 where `user_id` = $usr->userId");
+            $result = $this->db->query("UPDATE `user_accounts` SET `email_verified` = 1, `user_status` = 1 where `user_id` = $usr->user_id");
             if ($result) {
-                $this->session->set_flashdata('message', 'Your Email Address is verified successfully and your account is active. Please login.');
+                $this->session->set_flashdata('success', 'Your Email Address is verified successfully and your account is active. Please login.');
 				redirect(base_url('login'), 'refresh');
             } else {
-                $this->session->set_flashdata('message', 'Sorry! There is error verifying your Email Address!');
+                $this->session->set_flashdata('error', 'Sorry! There is error verifying your Email Address!');
                 redirect(base_url('login'), 'refresh');
             }
         } else {
-            $this->session->set_flashdata('message', 'Your Email Address is already verified. Please login.');
+            $this->session->set_flashdata('error', 'Your Email Address is already verified. Please login.');
             redirect(base_url('login'), 'refresh');
         }
     }
-    public function list_details($slug, $page = 1)
-    {
+    public function list_details($slug, $page = 1) {
         $this->data['load'] = 'list_detail';
         $this->data['list_detl'] = $det = $this->db->get_where('listing', array('slug' => $slug))->row();
         //echo $this->db->last_query();die;
@@ -384,8 +396,7 @@ class Welcome extends AI_Controller {
             return 0;
         }
     }
-    public function view_listing()
-    {
+    public function view_listing() {
         if (!isprologin()) {
             redirect(site_url());
         }
@@ -399,8 +410,7 @@ class Welcome extends AI_Controller {
         $this->data['my_list'] = $this->db->order_by('id', 'desc')->get_where('listing', array('userid' => $user, 'status' => 1))->result();
         $this->load->front_view('default', $this->data);
     }
-    function listing_delete($id)
-    {
+    function listing_delete($id) {
         if ($id > 0) {
             $this->Master_model->delete($id, 'listing');
             $this->session->set_flashdata('success', 'row deleted successfully.');

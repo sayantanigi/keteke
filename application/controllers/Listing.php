@@ -5,7 +5,7 @@ class Listing extends AI_Controller {
 
 	public function __construct()
 	{
-		parent::__construct(); 
+		parent::__construct();
         $this->load->model('Property_model');
         $this->load->library("pagination");
 		//Do your magic here
@@ -86,10 +86,6 @@ class Listing extends AI_Controller {
         //$this->data['result'] = $this->Property_model->getCms($slug);
         $this->load->front_view('default', $this->data);
     }
-
-
-
 }
-
 /* End of file Pages.php */
 /* Location: ./application/controllers/Pages.php */

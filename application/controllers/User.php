@@ -245,39 +245,36 @@ class User extends AI_Controller
     }
     public function sendForgetMail() {
         $email = $this->input->post("forgetemail");
-        $get_details = $this->db->query("SELECT * FROM user_accounts WHERE user_emailid='" . $email . "' AND user_status=1")->row();
+        $get_details = $this->db->query("SELECT * FROM user_accounts WHERE user_emailid = '".$email."'")->row();
+        //echo "<pre>"; print_r($get_details); die();
         if (!empty($get_details)) {
-            $name = $get_details->user_fname;
-            $id = base64_encode($get_details->user_id);
-            $frmemail = theme_option('email');
-            $subject = 'Forgot password recovery';
-            $headers = "From: " . 'KETEKE <$frmemail>' . "\r\n";
-            $headers .= "Reply-To: " . strip_tags('$frmemail') . "\r\n";
-            $headers .= "MIME-Version: 1.0\r\n";
-            $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-            $htmlContent = "<table align='center' style='width:650px; text-align:center; background:#F9F9F9;'><tbody><tr style='height:50px;background-color:#f2f2f2;'><td valign='middle' style='color:white;'><img src='" . site_url() . "fassets/images/logos/headertransparentlogo.png' alt='KETEKE' title='Keteke' style='width:210px;height:auto' /></td></tr><tr><td valign='top' align='center' colspan='2'><table align='' style='height:380px; color:#000; width:600px;'><tbody><td valign='top' align='' colspan='2'><table align='' style='color:#000; width:600px;'><tbody><br><p>Dear " . $name . ", <br><p>You are requesting for forgot password.<br><br>Please click below link to update your password:<br><br><a href=" . base_url('update-forgot-password/' . $id) . " target='blank'><b>click here</b></a><br><br>Thank You,<br><br>Keteke Team </p><br></tbody></table><strong>Email: </strong>" . $frmemail . "<br><br>This is an automated response, please <b>DO NOT</b> reply.</td></tr></tbody></table></td></tr></tbody></table>";
-            // $config = Array(
-            //     'protocol' => 'smtp',
-            //     'smtp_host' => 'ssl://smtp.googlemail.com',
-            //     'smtp_port' => 465,
-            //     'smtp_user' => 'no-reply@goigi.com',
-            //     'smtp_pass' => 'b6wb]gJ-_tG},9FW',
-            //     'charset'   => 'iso-8859-1'
-            // );
-            // $this->load->library('email', $config);
-            // $this->email->set_newline("\r\n");
-            // $this->email->to($email);
-            // $this->email->from($frmemail, 'Keteke Team');
-            // $this->email->subject($subject);
-            // $this->email->message($htmlContent);
-            // $this->email->set_mailtype("html");
-            if (mail($email, $subject, $htmlContent, $headers)) {
-                $this->session->set_flashdata("success", "Please check your mail!");
+            if($get_details->user_status == '0') {
+                $this->session->set_flashdata('error', 'Your account is disabled by admin. Please contact administrator.');
+                redirect(site_url('forgot-password'));
+            } else if($get_details->email_verified == '0') {
+                $this->session->set_flashdata('error', 'Email address verification is pending.');
                 redirect(site_url('forgot-password'));
             } else {
-                $this->session->set_flashdata("error", "Something Went Wrong!");
-                redirect(site_url('forgot-password'));
+                $name = $get_details->user_fname;
+                $id = base64_encode($get_details->user_id);
+                $frmemail = theme_option('email');
+                $subject = 'Forgot password recovery';
+                $headers = "From: " . 'KETEKE <$frmemail>' . "\r\n";
+                $headers .= "Reply-To: " . strip_tags('$frmemail') . "\r\n";
+                $headers .= "MIME-Version: 1.0\r\n";
+                $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+                $htmlContent = "<body><div style='width:600px;margin: 0 auto;background: #fff;font-family: 'Poppins', sans-serif; border: 1px solid #e6e6e6;'><div style='padding: 30px 30px 15px 30px;box-sizing: border-box;'><img src='".site_url()."fassets/images/logos/headertransparentlogo.png' style='width:100px;float: right;margin-top: 0 auto;'><h3 style='padding-top: 40px;line-height: 20px;font-weight: 100;font-size: 15px;'>Greetings from <span style='font-weight: 900;font-size: 23px;color: #e61d25;display: block;'>Keteke</span></h3><p style='font-size: 15px;'>Hello ".$name.",</p><p style='font-size: 15px; padding: 0; margin: 0;'>You are requesting for forgot password.</p><p style='font-size: 15px; padding: 0; margin: 0;'>Please click the button below to update your password.</p><p style='font-size: 15px;text-align: center;'><a href='".base_url('update-forgot-password/' . $id)."' style='height: 30px; width: 200px; background: rgb(253,179,2); background: linear-gradient(45deg, black, #ff0000); text-align: center; font-size: 15px; color: #fff; border-radius: 12px; display: inline-block; line-height: 30px; text-decoration: none; text-transform: uppercase; font-weight: 600;'>Reset Password</a></p><p style='font-size: 15px;'>Thank you!</p><p style='font-size: 15px; padding: 0; margin: 0; list-style: none;'>Sincerly</p><p style='font-size: 15px; padding: 0; margin: 0; list-style: none;'><b>Keteke</b></p></div><table style='width: 100%;'><tr><td style='height:30px;width:100%; background: red;padding: 10px 0px; font-size:13px; color: #fff; text-align: center;'>Copyright &copy; <?=date('Y')?> Keteke. All rights reserved.</td></tr></table></div></body>";
+                if (mail($email, $subject, $htmlContent, $headers)) {
+                    $this->session->set_flashdata("success", "We have sent a reset password link for your account to continue with the reset password process.");
+                    redirect(site_url('forgot-password'));
+                } else {
+                    $this->session->set_flashdata("error", "Something Went Wrong!");
+                    redirect(site_url('forgot-password'));
+                }
             }
+        } else {
+            $this->session->set_flashdata("error", "Email address is not registered with us. Please registered yourself.");
+            redirect(site_url('forgot-password'));
         }
     }
     public function update_password($id) {
