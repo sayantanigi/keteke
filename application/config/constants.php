@@ -85,7 +85,7 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 defined('SITENAME')			   OR define('SITENAME', 'Keteke');
 
-// Stripe Sandbox API configuration
+// Stripe Sandbox API configuration  
 //defined('STRIPE_API_KEY')        OR define('STRIPE_API_KEY', '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');
 
 //defined('STRIPE_PUBLISHABLE_KEY')       OR define('STRIPE_PUBLISHABLE_KEY', 'pk_live_51JR0ZRJjDckR426HF0s2h83CDI4mHcktEhz1bVi86vLdG9wxIrdz5vnoUqNiv4Pvw6cWxAWlDqyQKZnBJdABjZKt00axWIpYeQ');

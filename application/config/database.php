@@ -76,9 +76,9 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'keteke',
+	'username' => 'ketekene_keteken',
+	'password' => 'D=jTNRKO2R2e',
+	'database' => 'ketekene_ketekenet',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -116,3 +116,4 @@ $db['local'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
