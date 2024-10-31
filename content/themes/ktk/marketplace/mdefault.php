@@ -89,7 +89,7 @@
                             // } else {
                             //     $total = 0;
                             // }
-                            $cartItems = $this->db->query("SELECT * FROM add_to_cart WHERE session_id = '".session_id()."'")->result_array();
+                            $cartItems = $this->db->query("SELECT * FROM add_to_cart WHERE session_id = '".$this->session->userdata('session_id')."'")->result_array();
                             if ($cartItems) {
                                 $total = count($cartItems);
                             } else {

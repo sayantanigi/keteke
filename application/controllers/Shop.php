@@ -68,11 +68,11 @@ class Shop extends AI_Controller
         $this->data['cartItems'] = $this->db->query("SELECT * FROM add_to_cart WHERE user_id = '".$this->session->userdata('userids')."'")->result_array();
         $this->load->front_view('marketplace/mdefault', $this->data);
     }
-    public function placeOrders()
-    {
+    public function placeOrders() {
         $userrol = userrole();
         if ($this->input->post('chk_guest') == 1) {
-            $user = 'guest';
+            //$user = 'guest';
+            $user = $this->input->post('billing_email');
         } else {
             $user = userid2();
         }
@@ -448,7 +448,7 @@ class Shop extends AI_Controller
         $this->data['load'] = 'marketplace/pr_cart';
         //$this->data['cartItems'] = $this->cart->contents();
         //echo "SELECT * FROM add_to_cart WHERE session_id = '".session_id()."'";
-        $this->data['cartItems'] = $this->db->query("SELECT * FROM add_to_cart WHERE session_id = '".session_id()."'")->result_array();
+        $this->data['cartItems'] = $this->db->query("SELECT * FROM add_to_cart WHERE session_id = '".$this->session->userdata('session_id')."'")->result_array();
         $this->load->front_view('marketplace/mdefault', $this->data);
     }
     public function removeItem($rowid = false) {
@@ -533,23 +533,32 @@ class Shop extends AI_Controller
     public function check_coupon_ajax() {
         $cpn = $this->input->post('cpn');
         $amt = $this->input->post('amt');
-        $check = $this->db->query("SELECT * FROM `coupon_details` WHERE coupon_code='" . $cpn . "' AND CURDATE() between created_date and expiry_date AND coupon_status=1");
-        $count = $check->num_rows();
-        $rowdetl = $check->row();
-        $couamnt = @$rowdetl->coupon_amount;
-        if($couamnt > $amt ) {
-            echo "1";
-        } else {
-            if ($count > 0) {
-                if ($rowdetl->coupon_type == 'amount') {
-                    $totaldisc_price = ($amt - $couamnt);
-                } elseif ($rowdetl->coupon_type == 'percent') {
-                    $totaldisc_price = ($amt * $couamnt) / 100;
-                }
-                echo $totaldisc_price;
+        $session_id = $this->input->post('session_id');
+        $buttonval = $this->input->post('buttonval');
+        if($buttonval == 'Apply Code') {
+            $check = $this->db->query("SELECT * FROM `coupon_details` WHERE coupon_code='" . $cpn . "' AND CURDATE() between created_date and expiry_date AND coupon_status=1");
+            $count = $check->num_rows();
+            $rowdetl = $check->row();
+            $couamnt = @$rowdetl->coupon_amount;
+            if($couamnt > $amt ) {
+                echo "1";
             } else {
-                echo 0;
+                if ($count > 0) {
+                    if ($rowdetl->coupon_type == 'amount') {
+                        $totaldisc_price = ($amt - $couamnt);
+                    } elseif ($rowdetl->coupon_type == 'percent') {
+                        $totaldisc_price = $amt - ($amt * $couamnt) / 100;
+                        $saved = ($amt * $couamnt) / 100;
+                    }
+                    $this->db->query("UPDATE add_to_cart SET applied_coupon_id = '".@$rowdetl->coupon_id."', coupon_discount_amnt = '".$saved."', price_after_coupon = '".$totaldisc_price."' WHERE session_id = '".$session_id."'");
+                    echo json_encode(array('totaldisc_price' => $totaldisc_price, 'saved' => $saved));
+                } else {
+                    echo 0;
+                }
             }
+        } else {
+            $this->db->query("UPDATE add_to_cart SET applied_coupon_id = '0', coupon_discount_amnt = '0', price_after_coupon = '0' WHERE session_id = '".$session_id."'");
+            echo json_encode(array('totaldisc_price' => $amt, 'saved' => '0'));
         }
     }
     public function search_product($prdname = false)

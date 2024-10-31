@@ -1578,7 +1578,7 @@ class Api extends REST_Controller {
 				if($query) {
 					$paidprice = $formdata['total_paid_price'];
 					$orderdetails = array(
-						'bemail' => $bemail,
+						'bemail' => $formdata['bemail'],
 						'userid' => $user,
 						'orderid' => $order_id,
 						'gross_amount' => $paidprice

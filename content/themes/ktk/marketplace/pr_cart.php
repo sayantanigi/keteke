@@ -113,15 +113,14 @@
                         <!--=======  Discount Coupon  =======-->
                         <div class="discount-coupon">
                             <h4>Discount Coupon Code</h4>
-                            <form action="javascript:void(0)" onsubmit="check_coupon()">
+                            <form action="javascript:void(0)">
                                 <div class="row">
                                     <div class="col-md-6 col-12 mb-25">
-                                        <input type="text" placeholder="Coupon Code" autocomplete="off"
-                                            id="coupon_code">
+                                        <input type="text" placeholder="Coupon Code" autocomplete="off" id="coupon_code">
                                         <p id="discmessage"></p>
                                     </div>
                                     <div class="col-md-6 col-12 mb-25">
-                                        <input type="submit" value="Apply Code">
+                                        <input type="submit" value="Apply Code" id="apply_code">
                                     </div>
                                 </div>
                                 <p id="coupon_err" style="color:red; font-size: 15px"></p>
@@ -135,25 +134,24 @@
                             <div class="cart-summary-wrap">
                                 <h4>Cart Summary</h4>
                                 <input type="hidden" id="sv" value="<?= $subtotal ?>">
-                                <p>Sub Total <span>$<?= $subtotal ?></span></p>
-                                <p>Discounted Total <span id="disamnt">$<?= $discount ?></span></p>
-                                <h2>Grand Total <span id="disamntgrtotal">$<?= $grtotal ?></span></h2>
+                                <p>Item Total ($) <span><?= $subtotal ?></span></p>
+                                <!-- <p>Discounted Total ($) <span id="disamnt"><?= $discount ?></span></p> -->
+                                <p id="coupondisamnttxt">Coupon ($) <span id="coupondisamnt"></span></p>
+                                <h2>To Pay ($) <span id="disamntgrtotal"><?= $grtotal ?></span></h2>
                                 <input type="hidden" id="grand_total" value="<?= $grtotal ?>">
                             </div>
                             <form action="<?= site_url('shop/pr_checkout'); ?>" method="POST">
                                 <div class="form-group text-left">
-                                    <h4><label class="font-weight-normal"><input type="checkbox" <?php if (!userid2()) {
-                                        echo "required";
-                                    } ?> name="check_guest" value="1">
-                                            Checkout as a Guest </label></h4>
+                                    <h4>
+                                        <label class="font-weight-normal">
+                                        <input type="checkbox" <?php if (!userid2()) { echo "required"; } ?> name="check_guest" value="1"><span> Checkout as a Guest </span></label>
+                                    </h4>
                                 </div>
                                 <div class="cart-summary-button">
                                     <div class="row">
                                         <div class="col-12 text-left">
-                                            <a href="<?= base_url('shop') ?>" class="btn btn-primary btncontinue"><i
-                                                    class="fa fa-arrow-left"></i> Continue Shopping</a>
-                                            <button onclick="clear_cart()" type="button"
-                                                class="update-btn btn float-left btn-danger">Clear Cart</button>
+                                            <a href="<?= base_url('shop') ?>" class="btn btn-primary btncontinue"><i class="fa fa-arrow-left"></i> Continue Shopping</a>
+                                            <button onclick="clear_cart()" type="button" class="update-btn btn float-left btn-danger">Clear Cart</button>
                                             <input type="hidden" name="discountedsubtotal" value="" id="discpriceamnt">
                                             <button type="submit" class="checkout-btn btn" href="">Checkout</button>
                                         </div>
@@ -168,33 +166,64 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="session_id" value="<?= $this->session->userdata('session_id'); ?>" />
+<style>
+#coupondisamnttxt {display: none;}
+</style>
 <script>
-function check_coupon() {
+$('#apply_code').on('click', function() {
     var cp = $('#coupon_code').val();
     var amt = $('#sv').val();
-
+    var session_id = $('#session_id').val();
+    var buttonval = $('#apply_code').val();
     $.ajax({
         url: '<?= base_url("shop/check_coupon_ajax") ?>',
         type: 'POST',
         dataType: 'html',
-        data: { cpn: cp, amt: amt },
+        data: { cpn: cp, amt: amt, session_id: session_id, buttonval: buttonval },
     })
-    .done(function (total_price) {
-        if (total_price == 0) {
+    .done(function (result) {
+        if (result == 0) {
             $('#discmessage').html('<p style="color:red">Invalid coupon code.</p>');
-        } else if(total_price == 1) {
+        } else if(result == 1) {
             $('#coupon_err').html('<p style="color:red">Coupon value must be less than cart total value.</p>');
             setTimeout(() => {
                 $('#coupon_err').hide();
             }, 3000);
         } else {
-            $('#discpriceamnt').val(total_price);
-            $('#disamnt').text('$' + total_price + '');
-            $('#disamntgrtotal').text('$' + total_price + '');
-            $('#discmessage').html('<p style="color:green;">Applied</p>');
+            if(buttonval == 'Apply Code'){
+                $('#apply_code').val('Remove Code');
+            } else {
+                $('#apply_code').val('Apply Code');
+            }
+            var data = JSON.parse(result);
+            //console.log(data);
+            let savedprice = data.saved;
+            if(savedprice > 0) {
+                $('#discmessage').html('<p style="color:green">Coupon applied successfully.</p>');
+                $('#coupondisamnttxt').show();
+                $('#coupondisamnt').text(savedprice);
+                $('#disamntgrtotal').text(data.totaldisc_price.toFixed(2));
+            } else {
+                $('#discmessage').html('<p style="color:red">Coupon removed</p>');
+                $('#coupon_code').val('');
+                $('#coupondisamnttxt').hide();
+                $('#disamntgrtotal').text(data.totaldisc_price);
+            }
+            /*$('#discmessage').html('<p style="color:green">Coupon applied successfully.</p>');
+            let savedprice = data.saved;
+            if(savedprice > 0) {
+                $('#coupondisamnttxt').show();
+                $('#coupondisamnt').text(savedprice);
+                $('#disamntgrtotal').text(data.totaldisc_price.toFixed(2));
+            } else {
+                $('#coupondisamnttxt').hide();
+                $('#disamntgrtotal').text(data.totaldisc_price.toFixed(2));
+            }
+            //$('#disamntgrtotal').text(data.totaldisc_price.toFixed(2));*/
         }
     });
-}
+})
 
 <?php $i = 1;
 foreach ($cartItems as $crt) {?>

@@ -59,6 +59,13 @@
         </div>
     </div>
 </div>
+<?php
+if(empty($this->session->userdata('session_id'))){
+    $this->session->set_userdata('session_id', session_id());
+} else {
+    $session_id = $this->session->userdata('session_id');
+}
+?>
 <div class="container">
     <div class="row shop-product-wrap grid four-column mb-10">
         <?php if (is_array($produclist) && count($produclist) > 0) {
@@ -95,7 +102,7 @@
                                 <input type="hidden" value="<?= $prs->maxPrice - $prs->offprice; ?>" name="disc_percent">
                                 <input type="hidden" value="<?= $primgs->productImage; ?>" name="image">
                                 <input type="hidden" value="<?= userid2() ?>" name="userids">
-                                <input type="hidden" value="<?= session_id() ?>" name="session_id">
+                                <input type="hidden" value="<?= $session_id; ?>" name="session_id">
                                 <span class="cart-icon"><button type="submit" class="btn btn-primary"><i class="icon-shopping-cart"></i></button></span>
                             </form>
                         </div>

@@ -22,8 +22,8 @@
       <div class="row">
          <div class="col-12">
             <!-- Checkout Form s-->
-    <?php 
-    
+    <?php
+
     if(!empty($orders)){ ?>
     <!-- Display transaction status -->
 <div class="row">
@@ -34,7 +34,7 @@
       <?php }else{ ?>
       <h1 class="text-danger text-center">The transaction was successful! But your payment has been failed!</h1>
       <?php } ?>
-    
+
       <h4>Payment Information</h4>
       <table class="table table-bordered">
         <tbody>
@@ -75,14 +75,14 @@
         </thead>
         <tbody>
            <?php
-           
+
             if(is_array($products) && count($products)>0){
               $i=0;
-          foreach ($products as $prd) { 
+          foreach ($products as $prd) {
             $i++;
             $prdetl=$this->Master_model->getSingleRow("productId",$prd->product_id, "products");
              $shaddr=$this->Master_model->getSingleRow('order_id',$prd->orderid,'customer_shipping_addrs');
-                  
+
             $baddr=$this->Master_model->getSingleRow('order_id',$prd->orderid,'customer_billing_addrs');
 
             ?>
@@ -119,7 +119,7 @@
         </tbody>
 
       </table>
-      
+
       <?php }else{ ?>
       <h1 class="text-danger text-center">The transaction has failed</h1>
       <?php } ?>

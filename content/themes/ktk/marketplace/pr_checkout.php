@@ -135,8 +135,9 @@
                                                 foreach ($cartItems as $crt) {
                                                     $shipchrge = $this->Master_model->getSingleRow('productId', $crt['product_id'], 'products');
                                                     $scharge = $shipchrge->shipping_charge;
+                                                    @$couponamnt = $crt['coupon_discount_amnt'];
                                                     ?>
-                                                    <li><?= $crt["name"] ?> X <?= $crt["quantity"] ?><span>$<?= $crt["final_price"] ?></span></li>
+                                                    <li><?= $crt["name"] ?> X <?= $crt["quantity"] ?><span>$<?= $crt["mrp"] ?></span></li>
                                                     <li>Shipping charge <span>$<?= $scharge ?></span></li>
                                                     <?php
                                                     if ($dispricetotal == "") {
@@ -153,11 +154,12 @@
                                                     <input name="prd_quan[]" value="<?php echo $crt['quantity']; ?>" type="hidden" />
                                                 <?php }
                                             } ?>
-                                            <input type="hidden" name="total_paid_price" value="<?= $grtotal ?>">
+                                            <input type="hidden" name="total_paid_price" value="<?= $grtotal - @$couponamnt ?>">
                                         </ul>
-                                        <p>Sub Total(In Discount) <span>$<?= $subtotal ?></span></p>
+                                        <p>Discounted Price <span>$<?= $subtotal ?></span></p>
                                         <p>Shipping Fee Total <span>$<?= $sfee ?></span></p>
-                                        <h4>Grand Total <span>$<?= $grtotal ?></span></h4>
+                                        <p>Coupon Applied <span>$<?= @$couponamnt ?></span></p>
+                                        <h4>To Pay <span>$<?= $grtotal - @$couponamnt ?></span></h4>
                                     </div>
                                 </div>
                                 <!-- Payment Method -->
