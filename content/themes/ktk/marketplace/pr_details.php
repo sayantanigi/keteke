@@ -2,8 +2,6 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <!--=======  breadcrumb content  =======-->
-
                 <div class="breadcrumb-content">
                     <h2>Product Details </h2>
                     <ul>
@@ -17,8 +15,6 @@
                         </li>
                     </ul>
                 </div>
-
-                <!--=======  End of breadcrumb content  =======-->
             </div>
         </div>
     </div>
@@ -28,122 +24,86 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 mb-md-30 mb-sm-25">
-                <!--=======  product details slider  =======-->
-                <!--=======  big image slider  =======-->
                 <div class="big-image-slider-wrapper big-image-slider-wrapper--change-cursor">
                     <div class="ht-slick-slider big-image-slider99" data-slick-setting='{
-                  "slidesToShow": 1,
-                  "slidesToScroll": 1,
-                  "dots": false,
-                  "autoplay": false,
-                  "autoplaySpeed": 5000,
-                  "speed": 1000
-                  }' data-slick-responsive='[
-                  {"breakpoint":1501, "settings": {"slidesToShow": 1} },
-                  {"breakpoint":1199, "settings": {"slidesToShow": 1} },
-                  {"breakpoint":991, "settings": {"slidesToShow": 1} },
-                  {"breakpoint":767, "settings": {"slidesToShow": 1} },
-                  {"breakpoint":575, "settings": {"slidesToShow": 1} },
-                  {"breakpoint":479, "settings": {"slidesToShow": 1} }
-                  ]'>
-                        <!--=======  big image slider single item  =======-->
-                        <?php foreach ($primgs as $pimg) { ?>
-                            <div class="big-image-slider-single-item">
-                                <img src="<?= site_url('assets/images/products/' . $pimg->productImage) ?>" class="img-fluid"
-                                    alt="">
-                            </div>
-                        <?php } ?>
-                        <!--=======  End of big image slider single item  =======-->
-
+                    "slidesToShow": 1,
+                    "slidesToScroll": 1,
+                    "dots": false,
+                    "autoplay": false,
+                    "autoplaySpeed": 5000,
+                    "speed": 1000
+                    }' data-slick-responsive='[
+                    {"breakpoint":1501, "settings": {"slidesToShow": 1} },
+                    {"breakpoint":1199, "settings": {"slidesToShow": 1} },
+                    {"breakpoint":991, "settings": {"slidesToShow": 1} },
+                    {"breakpoint":767, "settings": {"slidesToShow": 1} },
+                    {"breakpoint":575, "settings": {"slidesToShow": 1} },
+                    {"breakpoint":479, "settings": {"slidesToShow": 1} }
+                    ]'>
+                    <?php foreach ($primgs as $pimg) { ?>
+                        <div class="big-image-slider-single-item">
+                            <img src="<?= site_url('assets/images/products/' . $pimg->productImage) ?>" class="img-fluid" alt="">
+                        </div>
+                    <?php } ?>
                     </div>
                 </div>
-                <!--=======  End of big image slider  =======-->
-                <!--=======  small image slider  =======-->
                 <div class="small-image-slider-wrapper small-image-slider-wrapper--quickview">
                     <div class="ht-slick-slider small-image-slider" data-slick-setting='{
-                  "slidesToShow": 4,
-                  "slidesToScroll": 1,
-                  "dots": false,
-                  "autoplay": false,
-                  "autoplaySpeed": 5000,
-                  "speed": 1000,
-                  "asNavFor": ".big-image-slider99",
-                  "focusOnSelect": true,
-                  "arrows": true,
-                  "prevArrow": {"buttonClass": "slick-prev", "iconClass": "ion-ios-arrow-left" },
-                  "nextArrow": {"buttonClass": "slick-next", "iconClass": "ion-ios-arrow-right" }
-                  }' data-slick-responsive='[
-                  {"breakpoint":1501, "settings": {"slidesToShow": 4} },
-                  {"breakpoint":1199, "settings": {"slidesToShow": 4} },
-                  {"breakpoint":991, "settings": {"slidesToShow": 4} },
-                  {"breakpoint":767, "settings": {"slidesToShow": 4} },
-                  {"breakpoint":575, "settings": {"slidesToShow": 3} },
-                  {"breakpoint":479, "settings": {"slidesToShow": 2} }
-                  ]'>
-                        <!--=======  small image slider single item  =======-->
-                        <?php foreach ($primgs as $pimgg) { ?>
-                            <div class="small-image-slider-single-item">
-                                <img src="<?= site_url('assets/images/products/' . $pimgg->productImage) ?>" class="img-fluid"
-                                    alt="">
-                            </div>
-                        <?php } ?>
-                        <!--=======  End of small image slider single item  =======-->
-                        <!--=======  small image slider single item  =======-->
-
-
+                    "slidesToShow": 4,
+                    "slidesToScroll": 1,
+                    "dots": false,
+                    "autoplay": false,
+                    "autoplaySpeed": 5000,
+                    "speed": 1000,
+                    "asNavFor": ".big-image-slider99",
+                    "focusOnSelect": true,
+                    "arrows": true,
+                    "prevArrow": {"buttonClass": "slick-prev", "iconClass": "ion-ios-arrow-left" },
+                    "nextArrow": {"buttonClass": "slick-next", "iconClass": "ion-ios-arrow-right" }
+                    }' data-slick-responsive='[
+                    {"breakpoint":1501, "settings": {"slidesToShow": 4} },
+                    {"breakpoint":1199, "settings": {"slidesToShow": 4} },
+                    {"breakpoint":991, "settings": {"slidesToShow": 4} },
+                    {"breakpoint":767, "settings": {"slidesToShow": 4} },
+                    {"breakpoint":575, "settings": {"slidesToShow": 3} },
+                    {"breakpoint":479, "settings": {"slidesToShow": 2} }
+                    ]'>
+                    <?php foreach ($primgs as $pimgg) { ?>
+                        <div class="small-image-slider-single-item">
+                            <img src="<?= site_url('assets/images/products/' . $pimgg->productImage) ?>" class="img-fluid"
+                                alt="">
+                        </div>
+                    <?php } ?>
                     </div>
                 </div>
-                <!--=======  End of small image slider  =======-->
-                <!--=======  End of product details slider  =======-->
             </div>
             <div class="col-lg-6">
-                <!--=======  product details content  =======-->
                 <div class="product-detail-content">
-                    <!-- <div class="tags mb-5">
-                  <span class="tag-title">Tags:</span>
-                  <ul class="tag-list">
-                     <li><a href="#">Plant</a>,</li>
-                     <li><a href="#">Garden</a></li>
-                  </ul>
-               </div> -->
                     <h3 class="product-details-title mb-15"><?= $prodetail->productName ?></h3>
                     <div class="rating d-inline-block mr-15">
                         <?php $rating = $this->Master_model->productRating($prodetail->productId);
                         for ($j = 0; $j < 5; $j++) { ?>
-                            <?php if ($j < $rating) { ?>
-                                <i class="ion-android-star active"></i>
-                            <?php } else { ?>
-                                <i class="ion-android-star"></i>
-                            <?php }
+                        <?php if ($j < $rating) { ?>
+                            <i class="ion-android-star active"></i>
+                        <?php } else { ?>
+                            <i class="ion-android-star"></i>
+                        <?php }
                         } ?>
                     </div>
                     <div class="review-links d-inline-block">
-                        <p class="fs-14">(<?php echo $this->Master_model->productRating($prodetail->productId); ?>
-                            Review)</p>
+                        <p class="fs-14">(<?php echo $this->Master_model->productRating($prodetail->productId); ?> Review)</p>
                     </div>
-                    <p class="product-price product-price--big mb-10"><span
-                            class="discounted-price">$<?= $prodetail->offprice ?>.00</span> <span
-                            class="main-price discounted">$<?= $prodetail->maxPrice ?>.00</span></p>
+                    <p class="product-price product-price--big mb-10"><span class="discounted-price">$<?= $prodetail->offprice ?>.00</span> <span class="main-price discounted">$<?= $prodetail->maxPrice ?>.00</span></p>
                     <div class="product-info-block mb-30">
-                        <!-- <div class="single-info">
-                     <span class="title">Ex Tax:</span>
-                     <span class="value">$95.00</span>
-                  </div> -->
                         <div class="single-info">
                             <span class="title">Brand:</span>
-                            <?php
-                            $brand_name = $this->db->query("SELECT * FROM product_brand WHERE id = '".$prodetail->brand_name."'")->row();
-                            ?>
+                            <?php $brand_name = $this->db->query("SELECT * FROM product_brand WHERE id = '".$prodetail->brand_name."'")->row(); ?>
                             <span class="value"><a href="#"><?= $brand_name->brand_name ?></a></span>
                         </div>
                         <div class="single-info">
                             <span class="title">Product Code:</span>
                             <span class="value"><?= $prodetail->prcode ?></span>
                         </div>
-                        <!-- <div class="single-info">
-                     <span class="title">Availability:</span>
-                     <span class="value stock-red">In stock</span>
-                  </div> -->
                     </div>
                     <div class="product-short-desc mb-25">
                         <p><?= $prodetail->description ?></p>
@@ -155,13 +115,14 @@
                         </div>
                         <?php if(!empty($this->session->userdata('userids'))) { ?>
                         <form method="post" action="<?= site_url('shop/addtocart') ?>">
-                            <input type="hidden" value="<?= $prs->productId; ?>" name="product_id">
-                            <input type="hidden" value="<?= $prs->productName; ?>" name="product_name">
-                            <input type="hidden" value="<?= $prs->maxPrice; ?>" name="maxPrice">
-                            <input type="hidden" value="<?= $prs->offprice; ?>" name="offprice">
-                            <input type="hidden" value="<?= $prs->maxPrice - $prs->offprice; ?>" name="disc_percent">
-                            <input type="hidden" value="<?= $primgs->productImage; ?>" name="image">
-                            <input type="hidden" value="<?= $this->session->userdata('userids') ?>" name="userids">
+                            <input type="hidden" value="<?= $prodetail->productId; ?>" name="product_id">
+                            <input type="hidden" value="<?= $prodetail->productName; ?>" name="product_name">
+                            <input type="hidden" value="<?= $prodetail->maxPrice; ?>" name="maxPrice">
+                            <input type="hidden" value="<?= $prodetail->offprice; ?>" name="offprice">
+                            <input type="hidden" value="<?= $prodetail->maxPrice - $prodetail->offprice; ?>" name="disc_percent">
+                            <input type="hidden" value="<?= $primgs[0]->productImage; ?>" name="image">
+                            <input type="hidden" value="<?= userid2() ?>" name="userids">
+                            <input type="hidden" value="<?= $this->session->userdata('session_id') ?>" name="session_id">
                             <button type="submit" class="theme-button product-cart-button">+ Add to Cart</button>
                         </form>
                         <?php } else { ?>

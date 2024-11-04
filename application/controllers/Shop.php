@@ -406,7 +406,11 @@ class Shop extends AI_Controller
     }
     function addtocart() {
         if ($this->input->post('product_id')) {
-            $checkCartData = $this->db->query("SELECT * FROM add_to_cart WHERE product_id = '".$this->input->post('product_id')."' AND user_id = '".$this->input->post('userids')."'")->result_array();
+            if(!empty($this->session->userdata('session_id'))) {
+                $checkCartData = $this->db->query("SELECT * FROM add_to_cart WHERE product_id = '".$this->input->post('product_id')."' AND user_id = '".$this->session->userdata('session_id')."'")->result_array();
+            } else {
+                $checkCartData = $this->db->query("SELECT * FROM add_to_cart WHERE product_id = '".$this->input->post('product_id')."' AND user_id = '".$this->input->post('userids')."'")->result_array();
+            }
             if(!empty($checkCartData)) {
                 $data = array(
 					'quantity' => $checkCartData[0]['quantity'] + 1

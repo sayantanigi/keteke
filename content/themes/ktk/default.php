@@ -207,13 +207,13 @@
     <script>
         function getsubscribe() {
             var email = document.getElementById('sub-mail').value;
-            $.ajax({
-                url: '<?= site_url("welcome/newsletter") ?>',
-                type: 'POST',
-                dataType: 'html',
-                data: { email: email },
-            })
-                .done(function (e) {
+            if(email != '') {
+                $.ajax({
+                    url: '<?= site_url("welcome/newsletter") ?>',
+                    type: 'POST',
+                    dataType: 'html',
+                    data: { email: email },
+                }) .done(function (e) {
                     if (e == 1) {
                         $('#getshow').html('<div class="alert alert-danger"><b>Already Subscribed !!</b></div>');
                         $('#sub-mail').val('');
@@ -222,6 +222,10 @@
                         $('#getshow').html('<div class="alert alert-success"><b>Thank You For Subsciption</b></div>');
                     }
                 });
+            } else {
+
+            }
+
         }
         $('.select2').select2();
     </script>

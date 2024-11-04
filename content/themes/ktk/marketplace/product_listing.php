@@ -53,7 +53,7 @@
                                 <input type="hidden" value="<?= $prs->offprice; ?>" name="offprice">
                                 <input type="hidden" value="<?= $prs->maxPrice - $prs->offprice; ?>" name="disc_percent">
                                 <input type="hidden" value="<?= $primgs->productImage; ?>" name="image">
-                                <input type="hidden" value="<?= $user_id ?>" name="userids">
+                                <input type="hidden" value="<?= userid2() ?>" name="userids">
                                 <input type="hidden" value="<?= $this->session->userdata('session_id') ?>" name="session_id">
                                 <span class="cart-icon"><button type="submit" class="btn btn-primary"><i class="icon-shopping-cart"></i></button></span>
                             </form>
