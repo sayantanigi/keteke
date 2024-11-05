@@ -287,7 +287,7 @@
                             <div class="subscription-form-item">
                                 <img src="<?= site_url() ?>fassets/images/icon/email-icon.png"
                                     style="width:18px;height:14px; margin:5px;">
-                                <input class="nirmala-light" type="email" placeholder="Email" id="sub-mail">
+                                <input class="nirmala-light" type="email" placeholder="Email" id="sub-mail" required>
                             </div>
                             <div class="subscription-form-item-sub nirmala-light">
                                 <input type="submit" value="Submit">

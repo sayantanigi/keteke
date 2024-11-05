@@ -229,9 +229,21 @@ class Shop extends AI_Controller
             $this->data['udetail'] = $this->Master_model->getSingleRow('user_id', $user, 'user_accounts');
         }
         $this->data['mcategoty'] = $this->db->get_where('mrkt_category', array('status' => 1))->result();
-        $this->data['mproducts'] = $this->db->get_where('products', array('status' => 1, 'userid' => $user))->result();
+        $this->data['mproducts'] = $this->db->get_where('products', array('userid' => $user))->result();
         $this->load->front_view('marketplace/mdefault', $this->data);
     }
+    public function activateproduct($product_id) {
+        $status = '1';
+        $this->db->query("UPDATE products SET status = '".$status."' WHERE productId = '".$product_id."'");
+        redirect(site_url('view-products'));
+    }
+
+    public function deactivateproduct($product_id) {
+        $status = '2';
+        $this->db->query("UPDATE products SET status = '".$status."' WHERE productId = '".$product_id."'");
+        redirect(site_url('view-products'));
+    }
+
     public function fetchproduct()
     {
         $mprcat = $this->input->post('caatid');
@@ -253,6 +265,7 @@ class Shop extends AI_Controller
             $this->data['udetail'] = $this->Master_model->getSingleRow('user_id', $user, 'user_accounts');
             $this->data['mcategoty'] = $this->db->get_where('mrkt_category', array('status' => 1))->result();
             $this->data['mcatsubmenu'] = $this->db->get_where('marketplace_submenu', array('cat_id' => 2))->result();
+            $this->data['productBrand'] = $this->db->get_where('product_brand', array('status' => 1, 'is_delete' => 1))->result();
             $this->data['title'] = 'Keteke | Marketplace';
             $this->data['load'] = 'marketplace/seller_add_product';
             $this->form_validation->set_rules('frm[category]', 'Product Category', 'required');
@@ -270,13 +283,14 @@ class Shop extends AI_Controller
                 if (empty($slug) || $slug == '') {
                     $slug = $frm['productName'];
                 }
-                $slug = strtolower(url_title($slug));
-                $frm['slug'] = $this->Cms_model->get_unique_url($slug, $id);
+                $frm['slug'] = strtolower(url_title($slug));
+                //$frm['slug'] = $this->Cms_model->get_unique_url($slug, $id);
+                //echo "<pre>"; print_r($frm);
                 $res = $this->db->insert('products', $frm);
                 //echo $this->db->last_query(); die();
                 $productId = $this->db->insert_id();
                 //print_r($_FILES['files']['size']); die();
-                if (!empty($_FILES['files']['size'])) {
+                if ($_FILES['files']['size'][0] > 0) {
                     $filesCount = count($_FILES['files']['name']);
                     for ($i = 0; $i < $filesCount; $i++) {
                         $src = $_FILES['files']['tmp_name'][$i];
@@ -295,11 +309,14 @@ class Shop extends AI_Controller
                     }
                     if (!empty($uploadData)) {
                         $this->session->set_flashdata('success', 'Product Submitted successfully!');
-                        redirect(site_url('add-product'));
+                        redirect(site_url('view-products'));
                     } else {
                         $this->session->set_flashdata('error', 'Some error has occured');
                         redirect(site_url('add-product'));
                     }
+                } else {
+                    $this->session->set_flashdata('success', 'Product Submitted successfully!');
+                    redirect(site_url('view-products'));
                 }
             }
         }
@@ -323,8 +340,7 @@ class Shop extends AI_Controller
         }
         $this->load->front_view('marketplace/mdefault', $this->data);
     }
-    public function seller_editproduct($prodId = false)
-    {
+    public function seller_editproduct($prodId = false) {
         $userrol = userrole();
         if ($userrol != 3) {
             $this->session->set_flashdata('error', 'Login or Sign up to list your business');
@@ -351,8 +367,8 @@ class Shop extends AI_Controller
                 if (empty($slug) || $slug == '') {
                     $slug = $frm['productName'];
                 }
-                $slug = strtolower(url_title($slug));
-                $frm['slug'] = $this->Cms_model->get_unique_url($slug, $id);
+                $frm['slug'] = strtolower(url_title($slug));
+                //$frm['slug'] = $this->Cms_model->get_unique_url($slug, $id);
                 $res = $this->db->update('products', $frm, array('productId' => $prodId));
                 //echo $this->db->last_query();die;
                 if (!empty($_FILES['files']['name']) && count(array_filter($_FILES['files']['name'])) > 0) {

@@ -119,7 +119,7 @@ class Master_model extends CI_Model
         $data['total'] = $this->db->get($this->table)->num_rows();
         return $data;
     }
-    
+
     function getAllrvw($offset = 0, $limit = 40, $table = false,$id=false)
     {
         if ($table) {
@@ -138,13 +138,13 @@ class Master_model extends CI_Model
         $data['total'] = $this->db->get($this->table)->num_rows();
         //echo $this->db->last_query();die;
         return $data;
-    } 
+    }
     function getAllsearchdata($offset = 0, $limit = 40, $table = false,$search_keuword = false)
     {
         if ($table) {
             $this->table = $table;
         }
-        
+
         $ser= "id!=''".$search_keuword;
         $this->db->limit($limit, $offset);
         $this->db->where($ser);
@@ -156,7 +156,7 @@ class Master_model extends CI_Model
         $this->db->where('status', 1);
         $data['total'] = $this->db->get($this->table)->num_rows();
         return $data;
-    } 
+    }
 function getAlllist($table = false)
     {
         if ($table) {
@@ -213,7 +213,7 @@ function getAlllist($table = false)
         $rest = $this->db->get();
         $data['results'] = $rest->result();
         $data['total'] = $this->db->query($sql)->num_rows();
-       
+
         return $data;
     }
 
@@ -363,7 +363,7 @@ function deletecoupon($id, $table = false)
     {
         $this->db->select_avg('rating');
         $this->db->where("product_id=$productId");
-        $result = $this->db->get('product_review')->row();  
+        $result = $this->db->get('product_review')->row();
         return FLOOR($result->rating);
 
     }
@@ -371,7 +371,7 @@ function deletecoupon($id, $table = false)
     {
         $this->db->select_avg('rating');
         $this->db->where("business_id=$businessId");
-        $result = $this->db->get('user_listreview')->row();  
+        $result = $this->db->get('user_listreview')->row();
         return FLOOR($result->rating);
 
     }
@@ -382,7 +382,7 @@ function deletecoupon($id, $table = false)
         $query= $this->db->get();
         return $query->row();
     }
-    
+
     // public function searchproducts(){
     //    $data['productslist']= $this->db->query('SELECT * FROM products AS pd JOIN mrkt_category AS mk ON mk.id=pd.category WHERE (mk.name LIKE "%'.$prname.'%" OR pd.productName LIKE "%'.$prname.'%")')->result();
     // }

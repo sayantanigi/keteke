@@ -28,13 +28,13 @@
                         <?php if ($this->session->flashdata('success')) { ?>
                         <div class="alert alert-success alert-dismissible">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <?php echo $this->session->flashdata('success'); unset($_SESSION['success']); ?>
+                            <?php echo $this->session->flashdata('success'); $this->session->unset_flashdata('success'); ?>
                         </div>
                         <?php }
                         if ($this->session->flashdata('error')) { ?>
                         <div class="alert alert-danger alert-dismissible">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <?php echo $this->session->flashdata('error'); unset($_SESSION['error']);?>
+                            <?php echo $this->session->flashdata('error'); $this->session->unset_flashdata('error'); ?>
                         </div>
                         <?php
                         }
@@ -89,9 +89,20 @@
                                                     <input placeholder="Product Type" name="frm[product_type]"
                                                         type="text">
                                                 </div>
-                                                <div class="col-lg-6 col-12 mb-30">
+                                                <!-- <div class="col-lg-6 col-12 mb-30">
                                                     <label>Brand/Vendor Name</label>
                                                     <input placeholder="Brand Name" name="frm[brand_name]" type="text">
+                                                </div> -->
+                                                <div class="col-lg-6 col-12 mb-30">
+                                                    <label>Product Brand/Vendor Name<span class="red">*</span></label>
+                                                    <select class="form-control" name="frm[brand_name]" required>
+                                                        <option value="">Select Product Brand/Vendor</option>
+                                                        <?php
+                                                        if (is_array($productBrand) && count($productBrand) > 0) {
+                                                        foreach ($productBrand as $brand) { ?>
+                                                        <option value="<?= $brand->id ?>"><?= $brand->brand_name ?></option>
+                                                        <?php } } ?>
+                                                    </select>
                                                 </div>
                                                 <div class="col-lg-6 col-12 mb-30">
                                                     <label>Regular Price($)<span class="red">&nbsp; *</span></label>
@@ -185,9 +196,9 @@ $('#maxPrice').keyup(function() {
     if($('#disc_percent').val() != "") {
         var offprc = (regPrice * dprcnt) / 100;
         var discprc = regPrice - offprc;
-        $("#offedprice").val(discprc.toFixed(1));
+        $("#offedprice").val(discprc.toFixed(2));
     } else {
-        $("#offedprice").val(regPrice.toFixed(1));
+        $("#offedprice").val(regPrice);
     }
 })
 $('#disc_percent').keyup(function() {
@@ -196,9 +207,9 @@ $('#disc_percent').keyup(function() {
     if($('#disc_percent').val() != "") {
         var offprc = (regPrice * dprcnt) / 100;
         var discprc = regPrice - offprc;
-        $("#offedprice").val(discprc.toFixed(1));
+        $("#offedprice").val(discprc.toFixed(2));
     } else {
-        $("#offedprice").val(regPrice.toFixed(1));
+        $("#offedprice").val(regPrice);
     }
 })
 
