@@ -1,0 +1,1009 @@
+{
+  "version": 6,
+  "entities": [
+    {
+      "entity": {
+        "type": "Project",
+        "id": "375b7fcb-f9b1-4245-a1a9-08fead4b1377",
+        "name": "Ketkee"
+      },
+      "children": [
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": [
+                  {
+                    "type": "Text",
+                    "name": "user_fname",
+                    "value": "Iglobal"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "user_lname",
+                    "value": "Impact"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "email",
+                    "value": "igi203@goigi.in"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "con_password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "u_type",
+                    "value": "2"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/addReview"
+            },
+            "id": "18fa15d7-eade-449a-ba72-d9339c5c079d",
+            "name": "Add Review",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              },
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": [
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "slug",
+                    "value": "ball-ring"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "user_lname",
+                    "value": "Impact"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "email",
+                    "value": "igi203@goigi.in"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "con_password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "u_type",
+                    "value": "2"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/bannerList"
+            },
+            "id": "9500201b-90ed-4745-b25d-f04693e1c2f0",
+            "name": "Banner List",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": [
+                  {
+                    "type": "Text",
+                    "name": "user_fname",
+                    "value": "Iglobal"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "user_lname",
+                    "value": "Impact"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "email",
+                    "value": "igi203@goigi.in"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "con_password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "u_type",
+                    "value": "2"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/categoryList"
+            },
+            "id": "cc6eb9d0-f784-472b-b3c4-91b5fe4330b5",
+            "name": "Category List",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "multipart/form-data",
+                "items": [
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "userId",
+                    "value": "11"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "fname",
+                    "value": "Impact"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "lname",
+                    "value": "items"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "email",
+                    "value": "igi203@goigi.in"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "utype",
+                    "value": "1"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "File",
+                    "name": "image"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "messageType",
+                    "value": "Hello Message"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/editProfile"
+            },
+            "id": "f5dcbe84-156c-4056-a746-784207627ebb",
+            "name": "Edit Profile",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              },
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": [
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "userId",
+                    "value": "11"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "user_lname",
+                    "value": "Impact"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "email",
+                    "value": "igi203@goigi.in"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "con_password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "u_type",
+                    "value": "2"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/profile"
+            },
+            "id": "884499b7-7be0-4dc5-814a-287629a5784d",
+            "name": "Get Profile",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              },
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": [
+                  {
+                    "type": "Text",
+                    "name": "user_fname",
+                    "value": "Iglobal"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "user_lname",
+                    "value": "Impact"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "email",
+                    "value": "test@gmail.com"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "con_password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "u_type",
+                    "value": "2"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/login"
+            },
+            "id": "dca92205-ab4b-431b-b6e5-294e0d1c6f7c",
+            "name": "Login",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              },
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": [
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "slug",
+                    "value": "ball-ring"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "user_lname",
+                    "value": "Impact"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "email",
+                    "value": "igi203@goigi.in"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "con_password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "u_type",
+                    "value": "2"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/productDetail"
+            },
+            "id": "3892779d-7361-4925-b712-243171ceb3cd",
+            "name": "Product Detail",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              },
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": [
+                  {
+                    "type": "Text",
+                    "name": "user_fname",
+                    "value": "Iglobal"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "user_lname",
+                    "value": "Impact"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "email",
+                    "value": "igi203@goigi.in"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "con_password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "u_type",
+                    "value": "2"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/productList"
+            },
+            "id": "c88e36bb-53a6-486c-862f-d7e315c49ce2",
+            "name": "Product List",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": [
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "keyword",
+                    "value": "ball"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "user_lname",
+                    "value": "Impact"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "email",
+                    "value": "igi203@goigi.in"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "con_password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "u_type",
+                    "value": "2"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/searchProductList"
+            },
+            "id": "b47435df-af5f-416c-8906-738d0747acef",
+            "name": "Search Product",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              },
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": [
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "user_fname",
+                    "value": "Test"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "user_lname",
+                    "value": "test"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "user_emailid",
+                    "value": "test@gmail.com"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "user_password",
+                    "value": "123456"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "con_password",
+                    "value": "123456"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "u_type",
+                    "value": "2"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/signup"
+            },
+            "id": "7abe983d-3fe9-415f-ad40-c1a494ac32b2",
+            "name": "Sign Up",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": [
+                  {
+                    "type": "Text",
+                    "name": "user_fname",
+                    "value": "Iglobal"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "user_lname",
+                    "value": "Impact"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "email",
+                    "value": "igi203@goigi.in"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "con_password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "u_type",
+                    "value": "2"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/subcategoryList"
+            },
+            "id": "55d2f360-3f5c-4e0c-9e87-5cef915ee06d",
+            "name": "Subcategory List",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "multipart/form-data",
+                "items": [
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "userId",
+                    "value": "11"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "oldPassword",
+                    "value": "123456"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "newPassword",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "email",
+                    "value": "igi203@goigi.in"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "utype",
+                    "value": "1"
+                  },
+                  {
+                    "type": "File",
+                    "name": "image"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "messageType",
+                    "value": "Hello Message"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/changePassword"
+            },
+            "id": "db17d229-11b2-4777-a0cb-e6fec78ff273",
+            "name": "change password",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              },
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "multipart/form-data",
+                "items": [
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "userId",
+                    "value": "11"
+                  },
+                  {
+                    "enabled": true,
+                    "type": "File",
+                    "name": "profileImage"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "email",
+                    "value": "pravat@vopmail.com"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "password",
+                    "value": "igi123"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "con_password",
+                    "value": "123456"
+                  },
+                  {
+                    "type": "Text",
+                    "name": "u_type",
+                    "value": "2"
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "keteke.net",
+              "path": "/restapi/api/updateProfileImage"
+            },
+            "id": "9d0b6a37-d157-4dc2-a4de-6c799d2d5c35",
+            "name": "update profile Image",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "x-api-key",
+                "value": "ca1c2864f4fed155f8cdbe9c551b2b3a"
+              },
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+@font-face {font-family: "Nirmala UI Semilight";
+  src:url("../fonts/b5eae9bab2129f4acd5fcd349dc804fe.eot"); 
+  src: url("../fonts/b5eae9bab2129f4acd5fcd349dc804fe.eot?#iefix") format("embedded-opentype"), 
+    url("../fonts/b5eae9bab2129f4acd5fcd349dc804fe.woff2") format("woff2"), 
+    url("../fonts/b5eae9bab2129f4acd5fcd349dc804fe.woff") format("woff"), 
+    url("../fonts/b5eae9bab2129f4acd5fcd349dc804fe.ttf") format("truetype"), 
+    url("../fonts/b5eae9bab2129f4acd5fcd349dc804fe.svg#Nirmala UI Semilight") format("svg"); 
+}
+/*.nirmala-semilight{
+    font-family:"Nirmala UI Semilight" !important;
+   	font-style:normal;
+	font-weight: 200;
+	-webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+.nirmala-light{
+    font-family:"Nirmala UI Semilight" !important;
+   	font-style:normal;
+	font-weight: 300;
+	-webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.4px;
+    -moz-osx-font-smoothing: grayscale;
+}
+.nirmala-regular{
+    font-family:"Nirmala UI Semilight" !important;
+    font-style:normal;
+	font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.8px;
+    -moz-osx-font-smoothing: grayscale;}
+.nirmala-regular-lt{
+    font-family:"Nirmala UI Semilight" !important;
+    font-style:normal;
+	font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0px;
+    -moz-osx-font-smoothing: grayscale;}
+.nirmala-bold{
+    font-family:"Nirmala UI Semilight" !important;
+    font-style:normal;
+	font-weight: 900;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0px;
+    -moz-osx-font-smoothing: grayscale;
+}
+.nirmala-bold-50{
+    font-family:"Nirmala UI Semilight" !important;
+    font-style:normal;
+	font-weight: 1000;
+	font-size: 50px;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}*/
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+/*.nirmala{
+	font-family:"Nirmala UI Semilight" !important;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.8px;
+    -moz-osx-font-smoothing: grayscale;
+}*/
